@@ -1,0 +1,58 @@
+lab_id: diag-001
+task_variant: batch-report-windows-v1
+task_type: debugging
+mode: independent_diagnostic
+curriculum_version: 1.1.0
+primary_competency_ids: [os.processes]
+secondary_competency_ids: []
+target_axes: [concept, debugging]
+prerequisites: []
+recommended_preparation: []
+selection_rationale: Entry fundamental without prerequisite gate; no earlier evidence. Native Windows avoids introducing Linux signals or external services.
+suggested_minutes: 25
+session_budget_minutes: 45
+closing_reserve_minutes: 5
+difficulty: 1
+initial_hint: H0
+prior_exposure: Unknown for this variant; learner reports prior Go syntax learning only.
+environment:
+  required: [Windows native, PowerShell, Go]
+  optional: [VS Code]
+  external_dependencies: []
+  build: go build -o lab.exe .
+  test: go test -count=1 -v ./...
+  execution: Use built executable for exit-status experiments.
+learner_area: main.go
+instructor_fixture: job.go
+constraints:
+  - Preserve separate batch and job processes.
+  - Do not modify job fixture or weaken contract tests.
+  - Learner chooses hypothesis and experiment before core fix.
+success_criteria:
+  - Normal input creates report, prints completion, and exits zero.
+  - Rejected input preserves rejection message, omits completion, and exits nonzero.
+  - Explain observations causally and support diagnosis with a discriminating experiment.
+verification_plan:
+  - axis: concept
+    check_type: prediction
+    observable_evidence: Predict output and shell-visible status before running rejected input; explain which process executes each step.
+    assistance_boundary: H0 prompt provides business contract and source only; syntax help classified by actual content.
+    limitation: Narrow exit/lifecycle sample; does not establish PID, signals, environment, or full process competency.
+  - axis: debugging
+    check_type: discriminating_experiment
+    observable_evidence: Learner proposes a falsifiable hypothesis, expected observation, and experiment distinguishing alternatives before patching.
+    assistance_boundary: Do not reveal ignored Run result or suggest direct child invocation until learner attempt or authorized hint.
+    limitation: One deterministic fault; no instrumentation or cross-stack transfer scored.
+  - axis: concept
+    check_type: causal_explanation
+    observable_evidence: After investigation, explain why observed outcomes follow and whether the same conclusion follows from an exit code alone.
+    assistance_boundary: Ask only after initial attempt; record any intervening hints.
+    limitation: No crash/kill or signal experiment in this Windows variant.
+difficulty_context:
+  concept_novelty: Process lifecycle and status propagation unassessed.
+  integration_scope: One executable with batch and job roles; two process instances, no services.
+  failure_complexity: One deterministic reporting fault; two fixture inputs.
+  scaffolding: Instructor supplies launcher with fault, job fixture, contract tests, commands; learner owns diagnosis and core fix.
+  constraints: Keep separate job and business success/failure semantics.
+  tooling_familiarity: Go syntax previously studied; instructor run/test verified; learner terminal and API familiarity not yet observed.
+instructor_notes: Parent ignores job.Run return and reports success after child rejects input. Do not expose this note in learner prompt.

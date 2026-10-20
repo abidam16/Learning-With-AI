@@ -1,0 +1,792 @@
+# Competency State V1 — data learner, bukan definisi kurikulum.
+# Outline: metadata -> pointer pekerjaan -> 38 competency -> evidence -> assessment history -> review plan.
+# Seluruh state awal belum dinilai. Tidak ada sesi, attempt, atau evidence nyata yang diisi.
+# Aturan skor/proficiency/hint: curriculum/competency-map.yaml.
+# Prosedur: docs/learning-system.md, docs/evaluation-rubric.md, docs/adaptive-learning.md.
+#
+# KONTRAK FIELD (komentar ini bukan record learner):
+# - schema_version adalah versi struktur file ini; berbeda dari curriculum_version.
+# - initialized_on/updated_on adalah tanggal administrasi file, bukan tanggal assessment.
+# - last_session_id menunjuk sesi nyata terakhir yang tercatat, atau null.
+# - last_applied_checkpoint menunjuk checkpoint yang sudah diterapkan pada state ini,
+#   bukan jaminan seluruh file history/artefak sudah tersimpan konsisten.
+# - active_work: null, atau object lab_id, task_variant, attempt_id, session_id,
+#   checkpoint_id, checkpoint_reference, next_step. ID aktif harus berasal dari task nyata.
+# - competencies: key persis sama dengan ID dalam map; jangan mengganti atau menambah ID sendiri.
+# - scores: lima axis; hanya null atau integer 0–4. Tidak ada evidence berarti null.
+# - confidence/proficiency mengikuti map; tidak diturunkan hanya dari rata-rata skor.
+# - weighted_score: derived dari bobot map; null jika masih ada axis null.
+# - last_assessed_on: tanggal assessment valid terbaru, atau null.
+# - evidence: append-only daftar observasi. Evidence ID unik pada seluruh file.
+# - assessment_history: append-only alasan dan before/after perubahan state penilaian.
+# - review_plan: daftar review per target axes; satu review tidak mereset review axis lain.
+# - review_due: derived; true jika ada review berstatus planned dengan scheduled_date
+#   <= tanggal saat ini di Asia/Jakarta. Hitung ulang saat membuka/menyimpan sesi.
+#   Tidak ada review terjadwal berarti false. Due tidak otomatis menurunkan proficiency.
+#
+# BENTUK SETIAP RECORD evidence (buat hanya dari observasi nyata):
+#   evidence_id: ID unik YYYY-MM-DD-sNN-eNN
+#   session_id: ID sesi asal
+#   date: tanggal lokal YYYY-MM-DD (string)
+#   lab_id: ID lab nyata (membuat attempt_id yang lokal per lab tidak ambigu)
+#   attempt_id: ID attempt dalam lab
+#   competency_id: sama dengan competency induk record ini
+#   axis: concept | implementation | debugging | judgment | transfer
+#   task_variant: ID varian yang sesuai metadata lab
+#   assessment_status: assessed | not_observed | blocked
+#   artifact_or_observation: ringkasan spesifik dengan path relatif/anchor atau snapshot nyata
+#   result: fakta hasil yang teramati, bukan sekadar 'paham' atau 'lulus'
+#   max_hint: H0..H6 untuk bagian/axis record ini; null hanya jika tidak dapat ditentukan
+#   prompt_context: bantuan/exposure yang relevan, atau null jika tidak diketahui
+#   reasoning_check: null, atau object:
+#     check_type: prediction | causal_explanation | discriminating_experiment |
+#                 constraint_change | boundary_case | transfer | delayed_retrieval
+#     prompt: pertanyaan/tugas yang benar-benar diberikan
+#     learner_response: jawaban atau ringkasan setia respons aktual
+#     observation_reference: lokasi trace/output/notes, atau null jika tidak ada artefak terpisah
+#     interpretation: kesimpulan terbatas instructor dari observasi
+#     limitations: daftar keterbatasan, bukan asumsi bahwa semua axis sudah terbukti
+#   retest_of: evidence_id asal, atau null untuk observasi yang bukan retest
+#   correction_of: evidence_id yang dikoreksi, atau null; record asli tetap dipertahankan
+#
+# Evidence blocked/not_observed tidak boleh mengubah skor; catat hambatan dan pertahankan nilai lama.
+# Jika suatu record tidak memuat hint yang dapat diketahui, jangan klaim independence.
+# Untuk bantuan yang datang setelah observasi independen, buat record terpisah dengan scope jelas;
+# jangan melabeli seluruh attempt sebagai H0. Gunakan reference ke notes untuk urutan kejadian.
+#
+# BENTUK SETIAP RECORD assessment_history:
+#   assessment_id, session_id, checkpoint_id, date, evidence_ids, before, after, rationale
+# - before/after berisi field penilaian yang berubah (scores, confidence, proficiency).
+# - Perubahan scores dapat memuat hanya axis terdampak. Field lain tidak disentuh.
+# - evidence_ids harus menunjuk evidence nyata yang sudah tercatat; koreksi memakai ID baru.
+# - Jika skor tidak berubah, evidence tetap disimpan; jangan membuat perubahan buatan.
+# - History ini bukan rata-rata nilai attempt dan bukan daftar highest score.
+#
+# BENTUK SETIAP RECORD review_plan:
+#   review_id, anchor_evidence_ids, anchor_date, target_axes, task_type,
+#   target_date, scheduled_date, scheduling_reason, status,
+#   completed_at, result_evidence_ids, schedule_history
+# - Semua ID review unik; anchor mengacu pada evidence belajar/retest nyata.
+# - target_date: tanggal acuan interval; scheduled_date: tanggal pelaksanaan yang direncanakan.
+# - status: planned | completed | cancelled. Tanggal/hasil aktual awalnya null atau [].
+# - schedule_history: daftar perubahan jadwal (changed_on, before, after, reason), awalnya [].
+# - Simpan actual completed_at memakai timestamp offset +07:00 ketika review benar-benar terjadi.
+# - planned dengan scheduled_date null adalah draft, belum jatuh tempo; lengkapi sebelum menutup sesi.
+# - Jangan menandai completed hanya karena learner membuka kembali catatan atau sesi telah berakhir.
+#
+# Feedback bosan/frustrasi dan calibration_decision berada di notes/session-history,
+# bukan pada scores atau confidence. Data contoh dari dokumen tidak boleh dimasukkan ke evidence.
+# Jangan menyalin definisi outcome, prerequisite graph, atau bobot map ke setiap node state.
+schema_version: 1
+curriculum_id: software-engineering-learning-lab-v1
+curriculum_version: 1.1.0
+curriculum_file: curriculum/competency-map.yaml
+learner_profile: learner/profile.md
+timezone: Asia/Jakarta
+initialized_on: '2026-10-06'
+updated_on: '2026-10-20'
+last_session_id: 2026-10-20-s01
+last_applied_checkpoint: 2026-10-20-s01-cp03
+active_work:
+  lab_id: diag-001
+  task_variant: batch-report-windows-v1
+  attempt_id: a001
+  session_id: 2026-10-20-s01
+  checkpoint_id: 2026-10-20-s01-cp03
+  checkpoint_reference: labs/diag-001/attempts/a001/notes.md
+  next_step: Reconstruct the two invocations from memory, then choose evidence explaining batch status before learner
+    changes main.go; rebuild and test both cases after a learner patch.
+competencies:
+  os.processes:
+    scores:
+      concept: 2
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: low
+    proficiency: learning
+    last_assessed_on: '2026-10-20'
+    review_due: false
+    evidence:
+    - session_id: 2026-10-20-s01
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: batch-report-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-20-s01-e01
+      axis: concept
+      assessment_status: not_observed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o01/o02
+      result: 'Learner correctly traced mode/args and rejection branch but predicted no Batch: selesai because os.Exit(2)
+        stops execution. Shell-visible status not separately identified.'
+      max_hint: H4
+      prompt_context: Args/Executable API clarified. Exit-status definition supplied (H4 on that concept subpart);
+        no process-boundary mechanism or remedy supplied before learner revision. Neutral follow-up prompts H1.
+      reasoning_check:
+        check_type: prediction
+        prompt: 'Predict output and LASTEXITCODE for lab.exe ditolak; does Batch: selesai print and why?'
+        learner_response: 'Args length 2 skips first branch, mode becomes ditolak, command invokes lab.exe --job ditolak,
+          runJob rejects and exits 2; Batch: selesai will not print.'
+        observation_reference: labs/diag-001/attempts/a001/notes.md — o01/o02
+        interpretation: Useful partial trace; uncertainty about termination scope. Insufficient initial evidence for
+          a numerical score; later revision preserved separately.
+        limitations:
+        - One attempt; not a repeated mistake.
+        - Definition/API support precedes response; not wholly H0.
+    - session_id: 2026-10-20-s01
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: batch-report-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-20-s01-e02
+      axis: debugging
+      assessment_status: not_observed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o03
+      result: Learner chose to run the command and inspect LASTEXITCODE, stated completion output would falsify prediction,
+        reported both messages and 0, and rejected original prediction.
+      max_hint: H1
+      prompt_context: H1 workflow prompts and command confirmation. Shell/API definitions supplied earlier; no fault
+        location or fix supplied.
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: Choose an experiment and an observation that would refute your prediction.
+        learner_response: 'Run lab.exe ditolak, inspect LASTEXITCODE; Batch: selesai would disprove prediction. Reported
+          Job: input ditolak, Batch: selesai, and 0; acknowledged prediction was wrong.'
+        observation_reference: labs/diag-001/attempts/a001/notes.md — o03
+        interpretation: Evidence of falsifiable checking and revision. Root-cause investigation of batch contract
+          remains incomplete; crash/kill/startup distinctions in the map were not tested. Keep debugging score null.
+        limitations:
+        - Command already present in task, so not an experiment designed from scratch.
+        - Terminal output is learner-reported; reference artifacts/learner-output.txt.
+        - No completed repair or independent contrast experiment.
+    - session_id: 2026-10-20-s01
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: batch-report-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-20-s01-e03
+      axis: concept
+      assessment_status: assessed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o04
+      result: 'Learner distinguished exit of lab.exe --job ditolak from the original lab.exe ditolak and explained
+        continuation to Batch: selesai. Used LASTEXITCODE imprecisely for job status.'
+      max_hint: H4
+      prompt_context: Args/Executable API clarified. Exit-status definition supplied (H4 on that concept subpart);
+        no process-boundary mechanism or remedy supplied before learner revision. Neutral follow-up prompts H1.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: Which part of the original explanation needs revision to explain both messages and exit code 0?
+        learner_response: 'os.Exit(2) applies to command lab.exe --job ditolak run by job.Run(), not the initial lab.exe
+          ditolak; the initial command continues to print Batch: selesai. Described 2 as LASTEXITCODE of job.Run().'
+        observation_reference: labs/diag-001/attempts/a001/notes.md — o04
+        interpretation: Supports concept 2 for this narrow lifecycle/exit-status case with definition support and
+          staged prompts. Process-boundary revision was learner-generated before instructor confirmation. No claim
+          of complete process knowledge or independent command/API knowledge.
+        limitations:
+        - Only one case and date; no delayed retrieval or transfer.
+        - PID, environment, signals, and explicit explanation of normal parent termination remain untested.
+        - H4 is scoped to exit-status definition; the process-boundary inference followed only H1 prompts.
+        - Post-response instructor clarification is teaching, not learner evidence.
+    assessment_history:
+    - assessment_id: 2026-10-20-s01-as01
+      session_id: 2026-10-20-s01
+      checkpoint_id: 2026-10-20-s01-cp03
+      date: '2026-10-20'
+      evidence_ids:
+      - 2026-10-20-s01-e01
+      - 2026-10-20-s01-e03
+      before:
+        scores:
+          concept: null
+        confidence: none
+        proficiency: unseen
+      after:
+        scores:
+          concept: 2
+        confidence: low
+        proficiency: learning
+      rationale: 'Narrow guided baseline: learner traced code, tested prediction, and revised process termination
+        scope; definitions/API supplied. Debugging outcome insufficiently sampled, other axes unobserved. Do not treat
+        this as full node mastery or a score ceiling.'
+    review_plan:
+    - review_id: 2026-10-20-s01-r01
+      anchor_evidence_ids:
+      - 2026-10-20-s01-e03
+      anchor_date: '2026-10-20'
+      target_axes:
+      - concept
+      task_type: delayed_retrieval
+      target_date: '2026-10-22'
+      scheduled_date: '2026-10-24'
+      scheduling_reason: 'D2 target adapted to Saturday availability: actual planned interval D4. Fresh H0/H1 variant
+        on process lifetime and exit status; continuing original attempt is not this retest.'
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
+  os.threads:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  os.memory:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  os.files-and-descriptors:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  network.sockets:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  network.tcp:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  network.dns:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  concurrency.shared-state:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  concurrency.synchronization:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  concurrency.worker-pools:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  concurrency.cancellation:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  web.http-semantics:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  web.timeouts:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.relational-integrity:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.query-plans:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.transactions:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.isolation:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.locking-and-deadlocks:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.optimistic-concurrency:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  database.pooling-and-batching:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.fundamentals:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.kafka.partitions:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.kafka.consumer-groups:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.kafka.offset-management:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.kafka.rebalancing:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.delivery-and-recovery:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  messaging.schema-and-poison-messages:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.idempotency:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.retries:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.consistency:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.outbox:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.caching:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  distributed.failure-recovery:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  infra.containers:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  infra.container-networking:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  infra.resource-limits:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  infra.kubernetes-service-lifecycle:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []
+  observability.incident-reasoning:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    weighted_score: null
+    confidence: none
+    proficiency: unseen
+    last_assessed_on: null
+    review_due: false
+    evidence: []
+    assessment_history: []
+    review_plan: []

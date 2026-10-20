@@ -1,0 +1,1161 @@
+# Outline: fundamentals -> concurrency/HTTP -> database/messaging -> distributed systems.
+# Infrastructure and observability join through their explicit prerequisites.
+# This is curriculum definition; learner scores and evidence live separately.
+schema_version: 1
+curriculum_version: 1.1.0
+id: software-engineering-learning-lab-v1
+title: Backend & Distributed Systems Fundamentals
+language: id-ID
+created_on: '2026-10-06'
+timezone: Asia/Jakarta
+revision_notes:
+- V1.1 memperjelas assessment dan contoh diagnostic; 38 competency, ID, outcome axes, serta graph prerequisite dipertahankan.
+- Proficiency memakai aturan operasional awal, bukan standar empiris; evaluasi kembali setelah ada evidence learner.
+competency_count: 38
+purpose: Mengembangkan kemampuan engineering independen melalui evidence praktis, debugging, trade-off, dan transfer
+  ke sistem baru.
+outline:
+- order: 1
+  block: fundamentals
+  focus: Process, thread, memory, filesystem, dan jaringan.
+- order: 2
+  block: concurrency
+  focus: Shared state, synchronization, bounded work, dan cancellation.
+- order: 3
+  block: web
+  focus: HTTP contract dan latency budget.
+- order: 4
+  block: database
+  focus: Integrity, execution, transaction, dan concurrency data.
+- order: 5
+  block: messaging
+  focus: Async lifecycle, Kafka, offset, dan failure recovery.
+- order: 6
+  block: distributed
+  focus: Duplicate, retry, consistency, reliable intent, dan partial failure.
+- order: 7
+  block: infrastructure-and-observability
+  focus: Runtime, container/cluster, dan pembuktian root cause; dapat dipelajari paralel setelah prerequisite siap.
+scope:
+  learner_context:
+  - Backend Kotlin/Spring, JDBC/JPA, Kafka, SQL Server, dan OpenShift sebagai konteks transfer, bukan bukti mastery.
+  - Go micro-lab digunakan untuk menampakkan mekanisme; hasil harus bisa ditransfer ke stack kerja.
+  entry_assumptions:
+  - Mampu membaca program kecil, menjalankan command, dan menulis fungsi sederhana. Jika belum terbukti, lakukan
+    mini-diagnostic dengan scaffold.
+  language_policy: Kesulitan sintaks/tooling dicatat terpisah dari competency mekanisme. Boleh menyediakan scaffold
+    bahasa tanpa mengerjakan inti lab.
+  database_policy: PostgreSQL cocok untuk lab lokal. Perilaku isolation, locking, dan execution plan harus diverifikasi
+    lagi pada SQL Server.
+  lab_environment: Instructor boleh menyiapkan dependency, fixture, dan harness. Kompetensi Docker tidak menjadi
+    prerequisite wajib semua lab broker/database.
+  excluded_v1:
+  - Bahasa/algoritma sebagai kurikulum tersendiri.
+  - TLS, security/auth, frontend, dan CI/CD mendalam.
+  - Advanced Kafka internals, consensus implementation, dan Kubernetes administration.
+schema_contract:
+  competency_id: Key stabil berupa domain.subdomain; gunakan ID yang sama pada lab.yaml dan competency-state.yaml.
+  prerequisites: Edge langsung wajib untuk lab mandiri normal; prerequisite transitif diturunkan dari graph. Bukan
+    urutan waktu atau tuntutan mastery penuh.
+  recommended_preparation: Pengetahuan pendukung, tidak memblokir sesi dan tidak menjadi edge pada wajib DAG.
+  diagnostic_delivery: Metadata instructor. Sajikan gejala, constraint, dan success criteria; jangan menampilkan
+    competency ID/title, outcomes, stack hint, atau fokus pemeriksaan yang membocorkan mekanisme target pada blind
+    diagnostic. Nama stack boleh diberikan bila diperlukan untuk menjalankan task.
+  stage: Kisaran kompleksitas integrasi 1-5; bukan skor learner dan bukan urutan wajib.
+  goal_relevance: Bobot editorial 1-3. Semua node V1 dipilih relevan tinggi; override di learner/goals bila prioritas
+    berubah.
+  outcomes: Target perilaku yang dapat diamati pada lima axis; bukan skor dan bukan pertanyaan beserta solusi.
+  diagnostic: Contoh task adaptif, bukan lab/environment yang sudah dibuat. Durasi perkiraan disesuaikan scope dan
+    kondisi learner.
+assessment_policy:
+  state_file: learner/competency-state.yaml
+  axes:
+  - concept
+  - implementation
+  - debugging
+  - judgment
+  - transfer
+  initial_state:
+    scores:
+      concept: null
+      implementation: null
+      debugging: null
+      judgment: null
+      transfer: null
+    confidence: none
+    proficiency: unseen
+    review_due: false
+    evidence: []
+  scale:
+    '0': Sudah diuji, mekanisme dasar belum dapat didemonstrasikan.
+    '1': Dapat mengenali atau menjelaskan fragmen dengan bantuan signifikan.
+    '2': Dapat menerapkan pada kasus standar dengan guidance.
+    '3': Dapat melakukan secara independen pada kasus representatif.
+    '4': Evidence independen yang beragam, termasuk transfer dan retest tertunda.
+    unassessed: 'null: belum diuji; jangan diasumsikan lemah atau kuat.'
+  hint_policy:
+    levels:
+      H0: Tanpa hint.
+      H1: Pertanyaan klarifikasi netral yang tidak mengarahkan ke konsep, lokasi fault, atau solusi.
+      H2: Hint konsep.
+      H3: Arah lokasi/subsystem.
+      H4: Penjelasan konsep yang hilang.
+      H5: Pseudocode atau sebagian approach.
+      H6: Solusi penuh.
+    record: Catat bantuan per axis; scaffold environment terpisah dari hint penyelesaian.
+    prompt_assistance: Petunjuk dalam prompt, scaffold yang mengerjakan mekanisme target, dan penjelasan sebelum
+      attempt termasuk bantuan pada axis terdampak. H0 bukan sekadar belum meminta hint tambahan; nilai bantuan
+      menurut isinya. Penamaan teknik boleh untuk latihan implementasi terarah, tetapi bukan bukti bahwa learner
+      memilih teknik atau menemukan root cause sendiri.
+    independence: Bukti yang memerlukan hint konsep H2 atau lebih tidak membuktikan aplikasi independen pada bagian
+      yang dibantu. Jadwalkan retest H0/H1.
+  evidence_fields:
+  - session_id
+  - date
+  - competency_id
+  - axis
+  - task_variant
+  - artifact_or_observation
+  - result
+  - max_hint
+  - reasoning_check
+  optional_evidence_fields:
+  - assessment_status
+  - prompt_context
+  - retest_of
+  observation_policy:
+    statuses:
+      assessed: Ada observasi yang cukup untuk menilai axis tertentu, termasuk attempt yang gagal.
+      not_observed: Axis tidak diuji atau bukti belum cukup.
+      blocked: Tooling, environment, waktu, atau prerequisite menghalangi observasi yang valid.
+    score_updates: Hanya assessed dapat memperbarui skor. not_observed/blocked mempertahankan skor sebelumnya;
+      jika belum ada skor, tetap null. Skor 0 perlu bukti ketidakmampuan pada axis yang diuji, bukan sekadar timeout
+      sesi, error setup, atau test merah. Keberhasilan kode hasil solusi penuh juga tidak membuktikan kemampuan learner.
+    attribution: Nilai hanya perilaku learner yang teramati; pisahkan correctness artefak, reasoning, dan bantuan.
+      Satu perubahan constraint belum otomatis membuktikan transfer bila hanya mengganti angka atau nama.
+    history: Append evidence dan catat alasan perubahan skor beserta reference evidence; jangan menimpa observasi lama.
+      Skor saat ini ditinjau dari bukti relevan, bukan nilai maksimum historis atau rata-rata otomatis semua attempt.
+  proficiency_rules:
+    status: Aturan operasional V1.1 yang perlu dikalibrasi setelah diagnostic; bukan ukuran ilmiah tervalidasi.
+    evaluation: Pilih tingkat tertinggi yang seluruh syaratnya terpenuhi. null tidak memenuhi ambang numerik;
+      weighted_ranking tidak digunakan untuk promosi dan prerequisite_gate tetap memakai axis yang relevan.
+    unseen: Semua axis null; belum ada observasi yang dapat dinilai.
+    learning: Minimal satu axis telah dinilai, tetapi syarat functional belum terpenuhi.
+    functional: Concept, implementation, dan debugging masing-masing minimal 2 dengan evidence relevan;
+      judgment dan transfer boleh belum diuji. Label ini belum menyatakan kemandirian penuh.
+    proficient: Seluruh lima axis minimal 3, confidence medium atau high, serta bukti independen pada lebih dari
+      satu task_variant dan tanggal. Terapkan hint_policy pada setiap axis.
+    mastered: Seluruh lima axis 4, confidence high, dan evidence independen lintas variasi/tanggal yang mencakup
+      successful delayed retrieval serta transfer ke situasi baru. Satu keberhasilan tidak cukup.
+    reassessment: Saat ada evidence valid baru, tinjau ulang skor dan proficiency dengan alasan tercatat;
+      review_due sendiri tidak menurunkan proficiency atau menghapus history.
+  promotion: Satu lab menghasilkan observasi, bukan mastery. Kenaikan ke 3 membutuhkan bukti independen; 4 membutuhkan
+    variasi problem dan successful delayed transfer/retrieval.
+  confidence:
+    none: Belum ada evidence.
+    low: Evidence sedikit atau terbatas pada satu jenis tugas.
+    medium: Beberapa evidence pada lebih dari satu jenis tugas dan tanggal.
+    high: Evidence independen lintas jenis/tanggal, termasuk retest tertunda dan transfer.
+  weighted_ranking:
+    weights:
+      concept: 0.2
+      implementation: 0.25
+      debugging: 0.25
+      judgment: 0.2
+      transfer: 0.1
+    rule: Hitung hanya ketika seluruh axis sudah diuji. Jika ada null, skor agregat tetap null; prioritaskan diagnosis
+      axis kosong. Angka agregat untuk ranking, bukan klaim persentase kemampuan.
+  review_policy: Proficiency dan review_due disimpan terpisah. Melewati tanggal review tidak menghapus evidence
+    mastery; kegagalan retest menghasilkan evidence baru.
+  spaced_retrieval:
+    suggested_days_after_success:
+    - 2
+    - 7
+    - 21
+    - 60
+    rule: Interval merupakan default operasional, bukan formula ilmiah atau jadwal otomatis. Pendekkan setelah bantuan
+      besar/gagal; sesuaikan ketersediaan dan hasil retest.
+selection_policy:
+  first_session: Lakukan initial diagnostic secara sampling pada beberapa target bernilai tinggi, bukan seluruh
+    38 node sekaligus. Jangan mengisi skor berdasarkan pengalaman kerja atau riwayat tanya jawab.
+  diagnostic_timebox: suggested_minutes adalah timebox probe pada environment siap, bukan janji menyelesaikan
+    seluruh outcome atau lima axis. Pilih satu atau dua axis utama; pecah task integrasi bila scope terlalu besar.
+    Catat waktu setup terpisah dan gunakan not_observed/blocked jika observasi belum memadai.
+  reasoning_from_first_lab: Hipotesis sebelum perubahan, evidence pembeda, dan satu variabel eksperimen diterapkan
+    sejak lab awal. Gate observability.incident-reasoning berlaku untuk lab instrumentasi/integrasi mandiri penuh,
+    bukan untuk kebiasaan debugging dasar. Gunakan stdout, exit status, timing, atau fixture sederhana sesuai task;
+    nilai hanya axis/node yang benar-benar teramati.
+  prerequisite_gate:
+    default_axes:
+      concept: 2
+      implementation: 2
+    evidence_required: Minimal satu evidence relevan untuk tiap prerequisite langsung; lab.yaml boleh menyempitkan
+      axis yang relevan.
+    unknown: 'Prerequisite belum diuji: lakukan probe singkat sebelum memutuskan remediation.'
+    not_ready: Pilih mini-lab prerequisite atau guided preview; jangan memaksa lab integrasi mandiri.
+    diagnostic_exception: Diagnostic boleh menguji lintas node tanpa gate, tetapi hasil per axis harus diatribusikan
+      ke evidence aktual.
+  priority_order:
+  - Selesaikan lab aktif atau recovery environment yang menghambat.
+  - Probe prerequisite yang belum diketahui atau remediasi gap yang benar-benar menghambat target.
+  - Retrieval yang jatuh tempo, terutama competency relevan dengan evidence rapuh.
+  - Mistake pattern berulang dan axis debugging/implementation yang lemah.
+  - Competency penting yang belum memiliki evidence.
+  - Transfer atau integrasi setelah dasar terbukti.
+  difficulty: Naikkan atau turunkan satu tingkat berdasarkan beberapa evidence. Jangan memperlakukan estimasi peluang
+    sukses 70-85% sebagai angka terukur tanpa data.
+  task_sampling: Variasikan implementasi, debugging, desain, dan retrieval. Satu task boleh menguji beberapa node
+    tetapi tidak semua axis harus diberi skor.
+  maintenance: Pertahankan ID. Bila node dipecah pada V2, migrasikan evidence secara eksplisit; jangan menyalin
+    mastery parent ke semua child.
+competencies:
+  os.processes:
+    title: Proses, lifecycle, dan exit status
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites: []
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan PID, parent process, environment, signal, dan exit status.
+      implementation: Menjalankan proses, mengirim signal, menangkap exit status, dan membuat shutdown terkontrol.
+      debugging: Menggunakan bukti runtime untuk membedakan crash, kill, dan kegagalan startup.
+      judgment: Memilih graceful shutdown atau force termination berdasarkan pekerjaan yang sedang berjalan.
+      transfer: Menghubungkan penghentian proses dengan shutdown service JVM tanpa menyimpulkan penyebab hanya dari
+        exit code.
+    diagnostic:
+      task: Service berhenti tiba-tiba; tentukan apakah selesai normal, menerima signal, atau gagal saat startup.
+      stack: Linux CLI + program kecil Go
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  os.threads:
+    title: Thread, goroutine, dan scheduling
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan proses, OS thread, goroutine, concurrency, dan parallelism.
+      implementation: Membuat beberapa task concurrent dan mengukur waktu wall-clock serta CPU.
+      debugging: Mengidentifikasi blocking atau antrean task dengan bukti, bukan hanya jumlah thread.
+      judgment: Memilih execution model untuk beban CPU-bound dan I/O-bound.
+      transfer: Menjelaskan mengapa goroutine tidak identik dengan thread atau virtual thread JVM.
+    diagnostic:
+      task: Bandingkan task yang menunggu I/O dengan task yang menghitung; amati concurrency dan penggunaan CPU.
+      stack: Go; transfer ke Java executor
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  os.memory:
+    title: Heap, stack, allocation, dan lifetime
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan lifetime objek, stack, heap, garbage collection, dan memori proses.
+      implementation: Mengukur allocation dan penggunaan memori pada program kecil.
+      debugging: Membedakan allocation tinggi dari retention menggunakan profil atau eksperimen.
+      judgment: Menimbang reuse objek, keterbacaan, dan optimasi berdasarkan hasil pengukuran.
+      transfer: Menggunakan reasoning lifetime pada service JVM dengan model runtime yang berbeda.
+    diagnostic:
+      task: Program memori bertumbuh walau request selesai; ukur allocation dan objek yang masih direferensikan.
+      stack: Go benchmark/profiling; transfer ke JVM
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  os.files-and-descriptors:
+    title: File, path, permission, dan descriptor
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan path relatif, working directory, permission, dan file descriptor.
+      implementation: Membuka dan menutup file dengan aman serta mengatur permission minimum.
+      debugging: Mendiagnosis file-not-found, permission-denied, atau descriptor exhaustion dari bukti.
+      judgment: Menimbang buffering, flush, dan kebutuhan durability tanpa menganggap write selalu sudah persisten.
+      transfer: Menghubungkan resource leak file dengan lifecycle socket atau koneksi database.
+    diagnostic:
+      task: Service gagal menulis file atau membuka koneksi baru. Reproduksi gejala, ajukan hipotesis, dan
+        buktikan penyebab sebelum memperbaikinya.
+      stack: Linux CLI + Go
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  network.sockets:
+    title: Socket, bind, listen, dan address
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    - os.files-and-descriptors
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan socket, local/remote endpoint, bind, listen, dan accept.
+      implementation: Membuat server-client kecil serta memilih bind address secara sengaja.
+      debugging: Membedakan tidak ada listener, address keliru, port bentrok, dan jalur akses terblokir.
+      judgment: Menentukan exposure service berdasarkan kebutuhan akses.
+      transfer: Menerapkan reasoning endpoint pada koneksi service di dalam container.
+    diagnostic:
+      task: Server dilaporkan hidup tetapi tidak dapat diakses dari host lain. Tentukan penyebab menggunakan
+        eksperimen pembeda dan pulihkan akses sesuai constraint.
+      stack: Go TCP server + CLI jaringan
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  network.tcp:
+    title: TCP stream, framing, dan connection lifecycle
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - network.sockets
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan reliable byte stream, handshake, close, dan ketiadaan batas pesan aplikasi.
+      implementation: Menerapkan framing dan menangani partial read/write serta EOF.
+      debugging: Mereproduksi bug yang menganggap satu read sama dengan satu pesan.
+      judgment: Memilih framing length-prefix atau delimiter sesuai payload dan batas ukuran.
+      transfer: Menghubungkan timeout atau connection reset dengan bukti pada lifecycle koneksi.
+    diagnostic:
+      task: Client menerima pesan terpotong atau dua pesan sekaligus; rancang pembacaan stream yang benar.
+      stack: Go TCP client/server
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  network.dns:
+    title: DNS dan resolusi nama service
+    domain: fundamentals
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - network.sockets
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan resolusi nama, koneksi transport, dan routing HTTP.
+      implementation: Menguji lookup hostname dan menghubungkannya dengan endpoint tujuan.
+      debugging: Membedakan kegagalan DNS dari kegagalan koneksi atau service tujuan.
+      judgment: Menimbang caching DNS, TTL, dan perubahan alamat service.
+      transfer: Mendiagnosis hostname service yang berbeda antara host, container, dan cluster.
+    diagnostic:
+      task: Akses memakai IP berhasil tetapi hostname gagal. Jelaskan kemungkinan penyebab dan buktikan mana
+        yang sesuai observasi.
+      stack: Linux resolver tools + HTTP client
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  concurrency.shared-state:
+    title: Shared state dan race condition
+    domain: concurrency
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - os.threads
+    - os.memory
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan data race dan logical race melalui contoh interleaving.
+      implementation: Membuat reproduksi concurrent yang memperlihatkan invariant rusak.
+      debugging: Menggunakan detector dan stress test sebagai evidence dengan memahami batasnya.
+      judgment: Membedakan shared mutable state dari state yang dimiliki satu worker.
+      transfer: Mendeteksi check-then-act race yang bisa terjadi walau akses individual tersinkronisasi.
+    diagnostic:
+      task: Counter request memberikan hasil berbeda setiap run; buat reproduksi dan identifikasi interleaving.
+      stack: Go race detector; transfer ke Kotlin singleton
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  concurrency.synchronization:
+    title: Synchronization dan invariant
+    domain: concurrency
+    stage: 1
+    goal_relevance: 3
+    prerequisites:
+    - concurrency.shared-state
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan critical section, visibility, dan invariant yang harus dijaga.
+      implementation: Menggunakan lock atau ownership message untuk menjaga invariant.
+      debugging: Mendiagnosis lock scope salah atau interleaving yang masih merusak state.
+      judgment: Memilih mutex, atomic operation, atau ownership berdasarkan invariant.
+      transfer: Menerapkan reasoning yang sama pada struktur data atau alur request baru.
+    diagnostic:
+      task: Lindungi operasi multi-step tanpa membuat seluruh service terserialisasi.
+      stack: Go mutex/channel; transfer ke Java
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  concurrency.worker-pools:
+    title: Worker pool, bounded queue, dan backpressure
+    domain: concurrency
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - concurrency.synchronization
+    recommended_preparation:
+    - os.memory
+    outcomes:
+      concept: Menjelaskan hubungan arrival rate, throughput, queue growth, dan batas concurrency.
+      implementation: Membuat worker pool dengan antrean terbatas serta overload policy.
+      debugging: Mengidentifikasi bottleneck melalui queue depth, latency, dan utilization.
+      judgment: Menimbang blocking, rejection, dan load shedding saat kapasitas penuh.
+      transfer: Menghubungkan worker limit dengan ukuran DB pool dan beban downstream.
+    diagnostic:
+      task: Saat request burst, latency dan memori terus meningkat. Tentukan bottleneck dan perbaiki
+        perilaku overload dengan resource yang dibatasi.
+      stack: Go worker pool
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  concurrency.cancellation:
+    title: Cancellation, deadline, dan cleanup
+    domain: concurrency
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - os.threads
+    - os.files-and-descriptors
+    recommended_preparation:
+    - concurrency.worker-pools
+    outcomes:
+      concept: Membedakan cancellation kooperatif, deadline, dan penghentian paksa.
+      implementation: Meneruskan cancellation dan menutup resource pada jalur sukses maupun gagal.
+      debugging: Mendeteksi worker yang tertinggal atau cleanup yang tidak terjadi.
+      judgment: Menetapkan ownership cancellation dan batas waktu operasi.
+      transfer: Menerapkan cancellation pada request yang memanggil beberapa dependency.
+    diagnostic:
+      task: Pemanggil membatalkan pekerjaan tetapi penggunaan resource tidak kembali seperti semula.
+        Reproduksi, buktikan penyebab, dan perbaiki lifecycle pekerjaan.
+      stack: Go context; transfer ke JVM cancellation
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  web.http-semantics:
+    title: HTTP request, response, dan contract
+    domain: web
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - network.tcp
+    recommended_preparation:
+    - network.dns
+    outcomes:
+      concept: Menjelaskan method, status, header, body, dan idempotency pada contract HTTP.
+      implementation: Membuat endpoint dengan validasi, error contract, dan body-size limit.
+      debugging: Mendiagnosis request salah, status menyesatkan, atau serialisasi bermasalah.
+      judgment: Memilih status dan method sesuai operasi serta kebutuhan client.
+      transfer: Mengevaluasi contract yang sama saat request melalui proxy atau gateway.
+    diagnostic:
+      task: API mengembalikan sukses saat validasi gagal; rancang contract dan uji request-response.
+      stack: Go net/http; transfer ke Spring MVC
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  web.timeouts:
+    title: HTTP client, connection reuse, dan timeout budget
+    domain: web
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - web.http-semantics
+    - concurrency.cancellation
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan connection timeout, read/response timeout, dan deadline total.
+      implementation: Mengonfigurasi client reuse, timeout, dan penutupan response body.
+      debugging: Menentukan fase timeout atau connection leak dari eksperimen.
+      judgment: Mengalokasikan latency budget antardependency dengan mempertimbangkan antrean.
+      transfer: Menerapkan budget pada chain service tanpa memberi tiap hop seluruh budget awal.
+    diagnostic:
+      task: Satu downstream lambat membuat request menumpuk. Tentukan penyebab dan pulihkan perilaku service
+        dalam batas latency serta resource yang diberikan.
+      stack: Go HTTP client; transfer ke Spring client
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.relational-integrity:
+    title: Relational model, key, dan constraint
+    domain: database
+    stage: 2
+    goal_relevance: 3
+    prerequisites: []
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan primary key, foreign key, unique constraint, NULL, dan cardinality join.
+      implementation: Membuat schema dan query dengan invariant yang dijaga database.
+      debugging: Mendiagnosis row multiplication, orphan, dan duplikasi dari data konkret.
+      judgment: Memilih enforcement database atau aplikasi serta menjelaskan failure mode.
+      transfer: Menerjemahkan invariant bisnis baru menjadi constraint dan query yang tepat.
+    diagnostic:
+      task: Data transaksi punya orphan dan duplikasi; tulis schema serta operasi yang menjaga invariant.
+      stack: PostgreSQL SQL; transfer ke SQL Server
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.query-plans:
+    title: Index, execution plan, dan query cost
+    domain: database
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - database.relational-integrity
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan scan, index access, selectivity, dan estimasi cardinality.
+      implementation: Membandingkan alternatif query dan index memakai dataset representatif.
+      debugging: Menghubungkan plan, row count, dan pengukuran dengan bottleneck.
+      judgment: Menimbang manfaat index terhadap biaya write serta constraint tidak boleh menambah index.
+      transfer: Menguji rewrite query ketika perubahan index tidak diizinkan.
+    diagnostic:
+      task: Query pada dataset besar lambat; bandingkan execution plan dan waktu dengan hipotesis yang terukur.
+      stack: PostgreSQL EXPLAIN; transfer ke SQL Server plan
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.transactions:
+    title: Atomicity dan transaction boundaries
+    domain: database
+    stage: 2
+    goal_relevance: 3
+    prerequisites:
+    - database.relational-integrity
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan commit, rollback, atomicity, dan cakupan koneksi transaksi.
+      implementation: Menjaga beberapa perubahan database sebagai satu unit atomik.
+      debugging: Mereproduksi partial update atau rollback yang tidak mencakup operasi tertentu.
+      judgment: Memilih batas transaksi yang menjaga invariant tanpa menahan resource terlalu lama.
+      transfer: Menjelaskan mengapa transaksi lokal tidak otomatis mencakup API atau broker eksternal.
+    diagnostic:
+      task: Update header terlihat berhasil tetapi detail tidak lengkap setelah satu operasi gagal.
+        Reproduksi dan jaga invariant hasil bisnis pada jalur sukses maupun gagal.
+      stack: PostgreSQL + JDBC/Kotlin atau Go driver
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.isolation:
+    title: Isolation dan anomaly concurrent transaction
+    domain: database
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - database.transactions
+    - concurrency.shared-state
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan anomaly lewat interleaving dan perilaku isolation engine yang diuji.
+      implementation: Mereproduksi anomaly serta memilih constraint atau kontrol concurrency.
+      debugging: Membedakan batas transaksi benar dari jaminan isolation yang belum memadai.
+      judgment: Menimbang isolation lebih ketat, contention, dan retry.
+      transfer: Menguji asumsi isolation kembali saat berpindah database engine.
+    diagnostic:
+      task: Dua transaksi reservasi lolos validasi lalu melanggar invariant; rekonstruksi interleaving.
+      stack: PostgreSQL dua session; transfer ke SQL Server
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.locking-and-deadlocks:
+    title: Lock, blocking, dan deadlock
+    domain: database
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - database.isolation
+    recommended_preparation:
+    - database.query-plans
+    outcomes:
+      concept: Membedakan blocking, lock timeout, dan deadlock melalui wait relationship.
+      implementation: Membuat reproduksi dua transaksi dengan urutan lock yang terkontrol.
+      debugging: Mengumpulkan holder/waiter evidence dan menemukan cycle bila ada.
+      judgment: Menimbang lock order, transaksi lebih singkat, dan retry seluruh transaksi.
+      transfer: Mendiagnosis locking incident tanpa menganggap SELECT selalu bebas lock.
+    diagnostic:
+      task: Dua transaksi berhenti menunggu atau satu menjadi deadlock victim; identifikasi urutan resource.
+      stack: PostgreSQL lock views; transfer ke SQL Server
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.optimistic-concurrency:
+    title: Optimistic concurrency dan lost update
+    domain: database
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - database.isolation
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan version check dan perbedaan optimistic dengan pessimistic control.
+      implementation: Membuat update bersyarat dengan version serta mendeteksi conflict.
+      debugging: Mendiagnosis lost update dan penanganan affected-row count yang salah.
+      judgment: Memilih pendekatan berdasarkan contention dan cara menyelesaikan conflict.
+      transfer: Menerapkan versioning pada state machine dengan transisi bersyarat.
+    diagnostic:
+      task: Dua pengguna menyimpan edit dan salah satu perubahan hilang tanpa pemberitahuan. Reproduksi
+        masalah dan pilih perbaikan berdasarkan contention serta kebutuhan pengguna.
+      stack: PostgreSQL + Kotlin/JPA atau SQL eksplisit
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  database.pooling-and-batching:
+    title: Connection pool, batch, dan resource lifetime
+    domain: database
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - database.transactions
+    - concurrency.worker-pools
+    recommended_preparation:
+    - database.query-plans
+    - web.timeouts
+    outcomes:
+      concept: Menjelaskan pool sebagai batas concurrency dan hubungan batch dengan round trip.
+      implementation: Menerapkan batch terukur dengan transaction boundary dan cleanup yang benar.
+      debugging: Membedakan connection leak, pool saturation, dan query lambat dari evidence.
+      judgment: Memilih pool/batch size berdasarkan kapasitas database dan kebutuhan rollback.
+      transfer: Merancang batch job yang hidup bersama traffic API tanpa mengambil seluruh kapasitas.
+    diagnostic:
+      task: Saat job besar berjalan, durasi job meningkat dan sebagian request gagal memperoleh koneksi. Uji
+        hipotesis, tentukan bottleneck, dan ukur dampak perbaikan.
+      stack: JDBC/HikariCP; PostgreSQL atau SQL Server
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.fundamentals:
+    title: Async messaging, queue, dan log
+    domain: messaging
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    recommended_preparation:
+    - concurrency.worker-pools
+    - web.http-semantics
+    outcomes:
+      concept: Membedakan accepted, persisted, delivered, processed, dan business-complete.
+      implementation: Membuat contract job asynchronous dengan correlation ID dan status eksplisit.
+      debugging: Mendiagnosis gap antara respons API dan hasil pekerjaan.
+      judgment: Memilih queue atau event log berdasarkan ordering, replay, dan consumer.
+      transfer: Menganalisis job PDF/Excel tanpa menyamakan HTTP sukses dengan pekerjaan selesai.
+    diagnostic:
+      task: Pekerjaan berat dipindah ke messaging; definisikan acceptance, completion, failure, dan status user.
+      stack: Trace/simulasi ringan; broker sebagai tahap lanjutan
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.kafka.partitions:
+    title: Kafka topic, partition, key, dan ordering
+    domain: messaging
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - messaging.fundamentals
+    recommended_preparation: []
+    outcomes:
+      concept: Menjelaskan topic, partition, broker, key routing, dan batas ordering per partition.
+      implementation: Mengirim event ber-key dan mengamati partition serta offset.
+      debugging: Mendiagnosis skew, hot partition, atau asumsi ordering lintas partition.
+      judgment: Memilih key dan jumlah partition berdasarkan ordering serta throughput.
+      transfer: Mengevaluasi perubahan partition count terhadap routing dan asumsi aplikasi.
+    diagnostic:
+      task: Event satu entity menghasilkan urutan pemrosesan yang tidak sesuai kebutuhan bisnis. Buktikan
+        lokasi penyimpangan dan pilih perbaikan yang menjaga kebutuhan ordering.
+      stack: Kafka disediakan + Kotlin/Java producer
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.kafka.consumer-groups:
+    title: Consumer group, ownership, dan parallelism
+    domain: messaging
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - messaging.kafka.partitions
+    recommended_preparation:
+    - os.threads
+    outcomes:
+      concept: Menjelaskan ownership partition dalam group dan pembacaan oleh group berbeda.
+      implementation: Menjalankan beberapa consumer dan memeriksa assignment.
+      debugging: Mendiagnosis idle consumer, group salah, atau bottleneck di luar consumer count.
+      judgment: Memilih group dan concurrency sesuai ordering serta kapasitas downstream.
+      transfer: Merancang dua aplikasi yang membutuhkan event sama dengan tujuan berbeda.
+    diagnostic:
+      task: Penambahan consumer tidak menaikkan throughput. Susun hipotesis dan eksperimen untuk menemukan
+        pembatasnya sebelum mengubah konfigurasi.
+      stack: Kafka + Kotlin/Spring Kafka
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.kafka.offset-management:
+    title: Offset, commit, dan processing boundary
+    domain: messaging
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - messaging.kafka.consumer-groups
+    - database.transactions
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan current position, committed offset, dan hasil bisnis yang sudah persisten.
+      implementation: Menerapkan commit boundary yang sesuai hasil pemrosesan dan failure path.
+      debugging: Mereproduksi duplicate atau skipped work melalui crash injection.
+      judgment: Menimbang commit-before dan commit-after processing berdasarkan failure window.
+      transfer: Menjelaskan batas atomisitas antara offset Kafka dan database eksternal.
+    diagnostic:
+      task: Crash antara update database dan commit offset; prediksi lalu uji replay dan kemungkinan kehilangan
+        pekerjaan.
+      stack: Kafka + PostgreSQL + Kotlin/Spring Kafka
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.kafka.rebalancing:
+    title: Rebalance dan consumer liveness
+    domain: messaging
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - messaging.kafka.consumer-groups
+    - messaging.kafka.offset-management
+    recommended_preparation:
+    - web.timeouts
+    - concurrency.worker-pools
+    outcomes:
+      concept: Menjelaskan group membership, poll progress, dan perpindahan assignment.
+      implementation: Mereproduksi gangguan processing/assignment dengan config dan workload terukur.
+      debugging: Menghubungkan log rebalance atau commit failure dengan timeline dan assignment.
+      judgment: Menimbang tuning polling, pembatasan batch, dan offloading dengan risiko commit-order.
+      transfer: Mendesain pemrosesan lama yang menjaga ownership serta hasil bisnis saat rebalance.
+    diagnostic:
+      task: Consumer kehilangan assignment saat pekerjaan lama berlangsung dan sebagian pekerjaan diproses
+        ulang. Rekonstruksi kejadian, buktikan penyebab, dan evaluasi perbaikan.
+      stack: Kafka + Kotlin/Spring Kafka
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.delivery-and-recovery:
+    title: Delivery semantics, replay, dan recovery
+    domain: messaging
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - messaging.kafka.offset-management
+    recommended_preparation:
+    - messaging.kafka.rebalancing
+    outcomes:
+      concept: Menjelaskan at-most-once, at-least-once, dan batas klaim exactly-once.
+      implementation: Membuat fault-injection matrix dan prosedur recovery consumer.
+      debugging: Mendiagnosis duplicate atau kehilangan hasil berdasarkan failure window.
+      judgment: Memilih jaminan per operasi dan cakupan sistem, termasuk side effect eksternal.
+      transfer: Mengevaluasi klaim exactly-once ketika sistem melibatkan database atau API pihak ketiga.
+    diagnostic:
+      task: Uji consumer pada crash sebelum dan sesudah side effect; dokumentasikan jaminan yang benar-benar dicapai.
+      stack: Kafka + PostgreSQL + fault injection
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  messaging.schema-and-poison-messages:
+    title: Schema evolution dan poison message
+    domain: messaging
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - messaging.kafka.offset-management
+    recommended_preparation:
+    - messaging.delivery-and-recovery
+    outcomes:
+      concept: Menjelaskan compatibility payload, deserialization failure, dan poison-message behavior.
+      implementation: Menguji perubahan schema serta jalur quarantine/recovery dengan metadata original.
+      debugging: Membedakan kegagalan sebelum handler dari error business processing.
+      judgment: Menimbang retry, quarantine, skip, dan kebutuhan audit serta replay.
+      transfer: Mendesain replay setelah perbaikan schema tanpa mengulangi side effect secara tidak terkendali.
+    diagnostic:
+      task: Consumer berhenti membuat kemajuan; sebagian record tidak mencapai business handler. Tentukan
+        penyebab dan pulihkan processing tanpa membuang data diam-diam.
+      stack: Kafka + Kotlin/Spring Kafka
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.idempotency:
+    title: Idempotency dan duplicate side effects
+    domain: distributed
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - database.transactions
+    - database.relational-integrity
+    - concurrency.shared-state
+    recommended_preparation:
+    - messaging.delivery-and-recovery
+    - web.http-semantics
+    outcomes:
+      concept: Membedakan idempotency, deduplication, dan sekadar mengecek data sebelum insert.
+      implementation: Menerapkan idempotency key dengan constraint/operasi atomik serta result handling.
+      debugging: Mereproduksi check-then-act race dan failure antara pencatatan key serta hasil bisnis.
+      judgment: Memilih scope key, retention, dan penanganan in-progress/failed operation.
+      transfer: Menerapkan idempotency saat side effect melibatkan provider eksternal.
+    diagnostic:
+      task: Request identik datang concurrent dan setelah retry; cegah duplicate side effect secara atomik.
+      stack: PostgreSQL + HTTP atau Kafka consumer
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.retries:
+    title: Retry, backoff, dan overload protection
+    domain: distributed
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - web.timeouts
+    - distributed.idempotency
+    recommended_preparation:
+    - concurrency.worker-pools
+    outcomes:
+      concept: Membedakan transient, permanent, dan ambiguous failure setelah timeout.
+      implementation: Menerapkan retry limit, backoff/jitter, dan budget total dengan operasi aman diulang.
+      debugging: Mendeteksi retry amplification dan duplicate side effect dari trace.
+      judgment: Memilih retry, circuit breaker, atau load shedding sesuai failure mode.
+      transfer: Mengevaluasi retry berlapis pada client, gateway, dan consumer.
+    diagnostic:
+      task: Dependency mengalami timeout sementara; uji retry terbatas tanpa memperparah overload.
+      stack: HTTP fault stub + Go atau Kotlin
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.consistency:
+    title: Consistency, stale reads, dan concurrent decisions
+    domain: distributed
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - database.isolation
+    - web.http-semantics
+    recommended_preparation:
+    - messaging.fundamentals
+    outcomes:
+      concept: Membedakan consistency antar-node, isolation transaksi, dan durability.
+      implementation: Membangun demonstrasi delayed projection atau stale read dengan invariant eksplisit.
+      debugging: Mengidentifikasi jalur read/write dan lag yang menjelaskan observasi.
+      judgment: Memilih jaminan seperti read-your-writes berdasarkan kebutuhan bisnis.
+      transfer: Menganalisis partition/latency trade-off tanpa memakai CAP sebagai label semua masalah.
+    diagnostic:
+      task: Write sukses tetapi read berikutnya menampilkan state lama; petakan read path dan jaminan user.
+      stack: Simulasi service dengan delayed projection
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.outbox:
+    title: Transactional outbox dan reliable publication
+    domain: distributed
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - database.transactions
+    - messaging.fundamentals
+    - distributed.idempotency
+    recommended_preparation:
+    - database.locking-and-deadlocks
+    outcomes:
+      concept: Menjelaskan dual-write failure window dan cara outbox menyimpan intent atomik.
+      implementation: Menyimpan data bisnis dan outbox dalam satu transaksi lalu membuat publisher terpisah.
+      debugging: Menguji crash sesudah publish sebelum mark-sent dan memeriksa duplicate handling.
+      judgment: Menimbang polling/CDC, ordering, cleanup, dan kebutuhan consumer idempotent.
+      transfer: Merancang reliable file-delete event tanpa menganggap outbox menjamin side effect hanya sekali.
+    diagnostic:
+      task: Database sudah commit tetapi publish event gagal; pertahankan intent lalu pulihkan pengiriman.
+      stack: PostgreSQL + broker + Kotlin atau Go
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.caching:
+    title: Cache placement, invalidation, dan stampede
+    domain: distributed
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - web.http-semantics
+    - distributed.consistency
+    - concurrency.shared-state
+    recommended_preparation:
+    - database.query-plans
+    outcomes:
+      concept: Menjelaskan cache key, TTL, invalidation, stale data, dan cache stampede.
+      implementation: Membuat cache policy dengan namespace key, expiry, dan miss handling.
+      debugging: Mendiagnosis stale result atau miss storm dari read/write path.
+      judgment: Memilih browser, proxy, atau aplikasi cache sesuai data, authorization, dan tolerance stale.
+      transfer: Mendesain policy untuk data per-user tanpa kebocoran antar-user.
+    diagnostic:
+      task: Pengguna melihat nilai lama setelah update, dan pada waktu tertentu beban database melonjak.
+        Buktikan penyebab tiap gejala dan uji perbaikan sesuai toleransi stale data.
+      stack: In-memory/Redis; contoh browser/proxy secara terpisah
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  distributed.failure-recovery:
+    title: Partial failure, compensation, dan reconciliation
+    domain: distributed
+    stage: 5
+    goal_relevance: 3
+    prerequisites:
+    - distributed.consistency
+    - distributed.retries
+    - distributed.outbox
+    recommended_preparation:
+    - messaging.delivery-and-recovery
+    outcomes:
+      concept: Menjelaskan partial failure, ambiguous outcome, compensation, dan reconciliation.
+      implementation: Membuat state machine workflow dengan retry/recovery yang dapat dilanjutkan.
+      debugging: Merekonstruksi hasil parsial menggunakan durable state serta correlation.
+      judgment: Memilih local transaction, outbox, compensation, atau pemeriksaan manual sesuai invariant.
+      transfer: Menguji recovery ketika proses berulang kali crash pada tahap berbeda.
+    diagnostic:
+      task: Workflow lintas service berhenti di tengah; tentukan state, recovery, dan hasil yang bisa diaudit.
+      stack: Integrasi HTTP + PostgreSQL + messaging
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  infra.containers:
+    title: Image, container, namespace, dan filesystem
+    domain: infrastructure
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    - os.files-and-descriptors
+    recommended_preparation:
+    - os.memory
+    outcomes:
+      concept: Membedakan image, container process, namespace, writable layer, volume, dan tmpfs;
+        membedakan restart container yang sama dari remove/recreate.
+      implementation: Membangun serta menjalankan image dengan konfigurasi dan mount eksplisit;
+        membandingkan persistence file saat restart dan remove/recreate.
+      debugging: Mendiagnosis exit, missing-file, atau permission dari process dan mount evidence.
+      judgment: Memilih ephemeral layer atau persistent volume berdasarkan kebutuhan data.
+      transfer: Menghubungkan process isolation container dengan kernel host tanpa menyamakan container dengan VM.
+    diagnostic:
+      task: File yang sebelumnya ada tidak ditemukan setelah container dihapus lalu dibuat ulang dari image
+        yang sama. Jelaskan hasil observasi dan buat data bertahan sesuai kebutuhan.
+      stack: Docker CLI + image kecil
+      instructor_notes: Restart container yang sama tidak dengan sendirinya menghapus writable layer;
+        remove/recreate tidak membawa writable layer container lama. tmpfs hilang saat stop/restart;
+        volume atau bind mount bertahan sepanjang storage dasarnya tidak dihapus atau diganti.
+      technical_reference: https://docs.docker.com/engine/storage/
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  infra.container-networking:
+    title: Container networking dan port publishing
+    domain: infrastructure
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - infra.containers
+    - network.sockets
+    - network.dns
+    recommended_preparation: []
+    outcomes:
+      concept: Membedakan container address, service DNS, bind address, dan published port.
+      implementation: Menghubungkan service melalui network serta endpoint yang benar.
+      debugging: Mendiagnosis localhost yang menunjuk konteks salah atau advertised endpoint yang tak terjangkau.
+      judgment: Menentukan port yang perlu dipublish dan port yang cukup internal.
+      transfer: Mendiagnosis Kafka listener untuk client internal dan host memakai reasoning endpoint.
+    diagnostic:
+      task: Service di container bisa diakses dari host tetapi gagal dari container lain; telusuri endpoint.
+      stack: Docker/Compose + dua service kecil
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  infra.resource-limits:
+    title: CPU/memory limit dan runtime pressure
+    domain: infrastructure
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - infra.containers
+    - os.memory
+    - os.threads
+    recommended_preparation:
+    - concurrency.worker-pools
+    outcomes:
+      concept: Membedakan CPU throttling, memory limit, allocation, dan memory exhaustion.
+      implementation: Menerapkan limit dan mengukur perilaku service saat mendekati kapasitas.
+      debugging: Menggunakan termination evidence dan metrik tanpa menganggap exit 137 selalu OOM.
+      judgment: Menimbang limit, concurrency, queue bound, dan kapasitas runtime.
+      transfer: Menghubungkan JVM heap dengan total container memory dan resource non-heap.
+    diagnostic:
+      task: Latency meningkat atau container berhenti ketika load naik. Gunakan evidence runtime untuk
+        membedakan penyebab dan ukur dampak perbaikan.
+      stack: Docker resource stats/limits + load generator
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  infra.kubernetes-service-lifecycle:
+    title: Pod, Service, probe, dan rollout
+    domain: infrastructure
+    stage: 4
+    goal_relevance: 3
+    prerequisites:
+    - infra.container-networking
+    - infra.resource-limits
+    - web.http-semantics
+    recommended_preparation:
+    - concurrency.cancellation
+    outcomes:
+      concept: Menjelaskan Pod, Deployment, Service, selector, readiness, liveness, dan resource request/limit.
+      implementation: Mendeploy service kecil dengan port mapping serta probe yang sesuai.
+      debugging: Mendiagnosis targetPort, selector, endpoint readiness, atau restart loop dari evidence.
+      judgment: Menimbang probe, rollout, dan shutdown budget agar traffic berhenti dengan benar.
+      transfer: Menerapkan diagnosis pada OpenShift dengan memisahkan Service dari Route/ingress.
+    diagnostic:
+      task: Pod berstatus Running tetapi traffic gagal, atau request terputus saat rollout. Pilih salah satu
+        skenario, buktikan penyebab, dan uji perbaikan.
+      stack: Manifest + cluster lokal bila tersedia; transfer ke OpenShift
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30
+  observability.incident-reasoning:
+    title: Metrics, logs, traces, dan hypothesis-driven debugging
+    domain: observability
+    stage: 3
+    goal_relevance: 3
+    prerequisites:
+    - os.processes
+    - web.http-semantics
+    recommended_preparation:
+    - web.timeouts
+    - database.pooling-and-batching
+    - messaging.kafka.consumer-groups
+    outcomes:
+      concept: Membedakan metrics, logs, traces, correlation, dan signal yang menjawab pertanyaan berbeda.
+      implementation: Menambah observasi terstruktur untuk latency, error, queue, dan dependency tanpa data sensitif.
+      debugging: Membuat hipotesis falsifiable lalu mengubah satu variabel untuk menemukan root cause.
+      judgment: Memilih instrumentasi bernilai tinggi dengan memperhitungkan cardinality dan overhead.
+      transfer: Mendiagnosis sistem yang belum dikenal tanpa diberi label topik kegagalannya.
+    diagnostic:
+      task: P95 latency meningkat sementara log tidak menunjukkan error; buat timeline, hipotesis, dan eksperimen
+        pembeda.
+      stack: Service kecil berinstrumentasi; log/metrics/trace fixtures
+      initial_hint: H0
+      evidence:
+      - Hipotesis atau prediksi sebelum eksperimen.
+      - Perintah, kode, hasil observasi, dan penjelasan hubungan sebab-akibat.
+      - Satu perubahan constraint untuk memeriksa transfer.
+      suggested_minutes: 30

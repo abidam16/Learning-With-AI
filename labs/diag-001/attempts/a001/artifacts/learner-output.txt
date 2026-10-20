@@ -1,0 +1,9 @@
+Source: learner report in chat, recorded 2026-10-20T07:12:19+07:00.
+This is not a captured terminal log or a new instructor execution.
+
+Command: .\lab.exe ditolak
+Job: input ditolak
+Batch: selesai
+
+Command: $LASTEXITCODE
+0
