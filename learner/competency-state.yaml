@@ -84,22 +84,22 @@ curriculum_file: curriculum/competency-map.yaml
 learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
-updated_on: '2026-10-20'
-last_session_id: 2026-10-20-s02
-last_applied_checkpoint: 2026-10-20-s02-cp01
+updated_on: '2026-10-21'
+last_session_id: 2026-10-21-s01
+last_applied_checkpoint: 2026-10-21-s01-cp01
 active_work: null
 competencies:
   os.processes:
     scores:
-      concept: 2
-      implementation: 2
+      concept: 3
+      implementation: 3
       debugging: null
       judgment: null
       transfer: null
     weighted_score: null
     confidence: low
     proficiency: learning
-    last_assessed_on: '2026-10-20'
+    last_assessed_on: '2026-10-21'
     review_due: false
     evidence:
     - session_id: 2026-10-20-s01
@@ -283,6 +283,103 @@ competencies:
         - PID, environment, signals, meaningful transfer and delayed retrieval untested.
       retest_of: null
       correction_of: null
+    - evidence_id: 2026-10-21-s01-e01
+      session_id: 2026-10-21-s01
+      date: '2026-10-21'
+      lab_id: diag-002
+      attempt_id: a001
+      competency_id: os.processes
+      axis: concept
+      task_variant: document-delivery-windows-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05, s01-o07
+      result: Correctly predicted starter messages/status 0, explained worker status 4 versus deliver completion/return
+        0, then predicted patched parent silent/status 2 for a silent worker exiting 7.
+      max_hint: H1
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
+      reasoning_check:
+        check_type: boundary_case
+        prompt: If worker prints nothing then calls os.Exit(7), what output and LASTEXITCODE follow with your current
+          code, and why?
+        learner_response: No output; LASTEXITCODE 2 because err != nil reaches os.Exit(2), preventing execution
+          after the if block.
+        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05, s01-o07
+        interpretation: Independent causal reasoning on this representative lifecycle/status slice supports concept
+          3. Earlier ambiguous referent resolved by subsequent explanation; no unsupported score reduction.
+        limitations:
+        - One attempt and near variant; familiar API.
+        - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
+        - Silent worker exit-7 boundary is hypothetical, not executed.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
+      retest_of: null
+      correction_of: null
+    - evidence_id: 2026-10-21-s01-e02
+      session_id: 2026-10-21-s01
+      date: '2026-10-21'
+      lab_id: diag-002
+      attempt_id: a001
+      competency_id: os.processes
+      axis: implementation
+      task_variant: document-delivery-windows-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt; labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt;
+        labs/diag-002/attempts/a001/notes.md — s01-o06, s01-o07
+      result: Learner added err := worker.Run() and nonzero parent exit on error. All three contract cases and three
+        fixture cases pass on fresh instructor run, exit 0; no hardcoded scenario or text, worker runs once.
+      max_hint: H0
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: Complete deliver for the three business contracts, then predict the silent worker/nonzero boundary
+          with your implementation.
+        learner_response: Learner-authored error check exits parent with 2, otherwise prints completion and returns
+          0. Explained why the error branch prevents later output for silent worker exit 7.
+        observation_reference: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt; labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt;
+          labs/diag-002/attempts/a001/notes.md — s01-o06, s01-o07
+        interpretation: Independent implementation and relevant boundary explanation support implementation 3 within
+          result handling. Not evidence of implementing launcher, signal handling or controlled shutdown.
+        limitations:
+        - One attempt and near variant; familiar API.
+        - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
+        - Silent worker exit-7 boundary is hypothetical, not executed.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
+      retest_of: null
+      correction_of: null
+    - evidence_id: 2026-10-21-s01-e03
+      session_id: 2026-10-21-s01
+      date: '2026-10-21'
+      lab_id: diag-002
+      attempt_id: a001
+      competency_id: os.processes
+      axis: debugging
+      task_variant: document-delivery-windows-v1
+      assessment_status: not_observed
+      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o02 through s01-o05
+      result: Learner chose direct --worker kirim invocation, predicted two messages/status 4 and falsifier, reported
+        matching result, then contrasted parent completion/status 0 and identified missing result check.
+      max_hint: H1
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: Which experiment tests your explanation of the two statuses, and what observation would refute it?
+        learner_response: Invoke lab.exe --worker kirim and inspect LASTEXITCODE. Expect only the two worker messages
+          and 4; completion with 0 would contradict prediction. Reported matching result and later parent completion/0.
+        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o02 through s01-o05
+        interpretation: Useful partial diagnostic evidence. Full debugging score remains null because mapped crash/kill/startup
+          differentiation was not tested. Similar experiment used yesterday; not novel transfer.
+        limitations:
+        - One attempt and near variant; familiar API.
+        - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
+        - Silent worker exit-7 boundary is hypothetical, not executed.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
+      retest_of: null
+      correction_of: null
     assessment_history:
     - assessment_id: 2026-10-20-s01-as01
       session_id: 2026-10-20-s01
@@ -321,6 +418,26 @@ competencies:
         Narrow implementation baseline, not signal/shutdown mastery. Concept remains 2 after immediate assisted
         explanation; debugging remains unassessed for crash/kill/startup despite useful partial evidence. Confidence
         low and proficiency learning remain appropriate; all other scores unchanged.
+    - assessment_id: 2026-10-21-s01-as01
+      session_id: 2026-10-21-s01
+      checkpoint_id: 2026-10-21-s01-cp01
+      date: '2026-10-21'
+      evidence_ids:
+      - 2026-10-21-s01-e01
+      - 2026-10-21-s01-e02
+      before:
+        scores:
+          concept: 2
+          implementation: 2
+      after:
+        scores:
+          concept: 3
+          implementation: 3
+      rationale: Independent prediction, learner-designed comparison, learner-authored passing patch and correct
+        boundary reasoning on a fresh near variant support 3 for the same narrow lifecycle/status slice previously
+        assessed at 2. New assistance concept H1/implementation H0, prior H4 retained. No claim of full process
+        outcome coverage. Debugging/judgment/transfer stay null, confidence low and proficiency learning remain;
+        one familiar mechanism family is insufficient for broader confidence or proficiency.
     review_plan:
     - review_id: 2026-10-20-s01-r01
       anchor_evidence_ids:
