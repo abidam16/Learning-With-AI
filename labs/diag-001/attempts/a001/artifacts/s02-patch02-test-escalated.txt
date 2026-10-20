@@ -1,0 +1,4 @@
+# learning.local/diag-001 [learning.local/diag-001.test]
+.\main.go:29:11: assignment mismatch: 2 variables but job.Run returns 1 value
+FAIL	learning.local/diag-001 [build failed]
+FAIL

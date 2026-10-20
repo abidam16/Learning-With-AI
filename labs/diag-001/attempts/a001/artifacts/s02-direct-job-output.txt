@@ -1,0 +1,10 @@
+Source: learner-reported terminal output in chat, 2026-10-20-s02-o06.
+This is not a new instructor execution.
+
+.\lab.exe --job ditolak
+Job: input ditolak
+
+$LASTEXITCODE
+2
+
+Learner interpretation: displayed message and exit status match the prediction.

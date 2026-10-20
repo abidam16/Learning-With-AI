@@ -85,22 +85,14 @@ learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
 updated_on: '2026-10-20'
-last_session_id: 2026-10-20-s01
-last_applied_checkpoint: 2026-10-20-s01-cp03
-active_work:
-  lab_id: diag-001
-  task_variant: batch-report-windows-v1
-  attempt_id: a001
-  session_id: 2026-10-20-s01
-  checkpoint_id: 2026-10-20-s01-cp03
-  checkpoint_reference: labs/diag-001/attempts/a001/notes.md
-  next_step: Reconstruct the two invocations from memory, then choose evidence explaining batch status before learner
-    changes main.go; rebuild and test both cases after a learner patch.
+last_session_id: 2026-10-20-s02
+last_applied_checkpoint: 2026-10-20-s02-cp01
+active_work: null
 competencies:
   os.processes:
     scores:
       concept: 2
-      implementation: null
+      implementation: 2
       debugging: null
       judgment: null
       transfer: null
@@ -130,11 +122,11 @@ competencies:
       reasoning_check:
         check_type: prediction
         prompt: 'Predict output and LASTEXITCODE for lab.exe ditolak; does Batch: selesai print and why?'
-        learner_response: 'Args length 2 skips first branch, mode becomes ditolak, command invokes lab.exe --job ditolak,
-          runJob rejects and exits 2; Batch: selesai will not print.'
+        learner_response: 'Args length 2 skips first branch, mode becomes ditolak, command invokes lab.exe --job
+          ditolak, runJob rejects and exits 2; Batch: selesai will not print.'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o01/o02
-        interpretation: Useful partial trace; uncertainty about termination scope. Insufficient initial evidence for
-          a numerical score; later revision preserved separately.
+        interpretation: Useful partial trace; uncertainty about termination scope. Insufficient initial evidence
+          for a numerical score; later revision preserved separately.
         limitations:
         - One attempt; not a repeated mistake.
         - Definition/API support precedes response; not wholly H0.
@@ -150,16 +142,16 @@ competencies:
       axis: debugging
       assessment_status: not_observed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o03
-      result: Learner chose to run the command and inspect LASTEXITCODE, stated completion output would falsify prediction,
-        reported both messages and 0, and rejected original prediction.
+      result: Learner chose to run the command and inspect LASTEXITCODE, stated completion output would falsify
+        prediction, reported both messages and 0, and rejected original prediction.
       max_hint: H1
       prompt_context: H1 workflow prompts and command confirmation. Shell/API definitions supplied earlier; no fault
         location or fix supplied.
       reasoning_check:
         check_type: discriminating_experiment
         prompt: Choose an experiment and an observation that would refute your prediction.
-        learner_response: 'Run lab.exe ditolak, inspect LASTEXITCODE; Batch: selesai would disprove prediction. Reported
-          Job: input ditolak, Batch: selesai, and 0; acknowledged prediction was wrong.'
+        learner_response: 'Run lab.exe ditolak, inspect LASTEXITCODE; Batch: selesai would disprove prediction.
+          Reported Job: input ditolak, Batch: selesai, and 0; acknowledged prediction was wrong.'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o03
         interpretation: Evidence of falsifiable checking and revision. Root-cause investigation of batch contract
           remains incomplete; crash/kill/startup distinctions in the map were not tested. Keep debugging score null.
@@ -187,8 +179,9 @@ competencies:
       reasoning_check:
         check_type: causal_explanation
         prompt: Which part of the original explanation needs revision to explain both messages and exit code 0?
-        learner_response: 'os.Exit(2) applies to command lab.exe --job ditolak run by job.Run(), not the initial lab.exe
-          ditolak; the initial command continues to print Batch: selesai. Described 2 as LASTEXITCODE of job.Run().'
+        learner_response: 'os.Exit(2) applies to command lab.exe --job ditolak run by job.Run(), not the initial
+          lab.exe ditolak; the initial command continues to print Batch: selesai. Described 2 as LASTEXITCODE of
+          job.Run().'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o04
         interpretation: Supports concept 2 for this narrow lifecycle/exit-status case with definition support and
           staged prompts. Process-boundary revision was learner-generated before instructor confirmation. No claim
@@ -198,6 +191,98 @@ competencies:
         - PID, environment, signals, and explicit explanation of normal parent termination remain untested.
         - H4 is scoped to exit-status definition; the process-boundary inference followed only H1 prompts.
         - Post-response instructor clarification is teaching, not learner evidence.
+    - evidence_id: 2026-10-20-s02-e01
+      session_id: 2026-10-20-s02
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      axis: debugging
+      task_variant: batch-report-windows-v1
+      assessment_status: not_observed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md
+      result: Learner identified unconditional batch completion, chose direct job invocation, predicted rejection/2
+        and reported that result (o03-o06). Contrasts with earlier batch completion/0.
+      max_hint: H1
+      prompt_context: Neutral workflow prompts before the Stdout/Run teaching. Prior process-concept exposure H4
+        is retained; direct invocation experiment was selected by learner. Later API assistance does not retroactively
+        relabel this observation.
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: Pilih eksperimen, pengamatan, dan prediksi untuk menguji dugaan sebelum perbaikan.
+        learner_response: Run lab.exe --job ditolak, inspect output and LASTEXITCODE; predict only rejection and
+          2 because os.Exit(2); reported both as predicted.
+        observation_reference: labs/diag-001/attempts/a001/artifacts/s02-direct-job-output.txt
+        interpretation: Useful learner-selected comparison and source-based diagnosis. Insufficient coverage to
+          score the map outcome distinguishing crash, kill and startup failure.
+        limitations:
+        - Same resumed attempt, not a fresh or delayed retest.
+        - Execution output reported by learner, not observed directly.
+        - No crash, kill or startup experiment.
+      retest_of: null
+      correction_of: null
+    - evidence_id: 2026-10-20-s02-e02
+      session_id: 2026-10-20-s02
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      axis: implementation
+      task_variant: batch-report-windows-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md
+      result: Learner wrote all patches. Patch01 confused Stdout with outcome and failed rejection test; patch02
+        adopted Run error/exit handling but failed compilation; patch03 uses one error return and exits batch 1
+        on error. Instructor build and both contract tests passed.
+      max_hint: H4
+      prompt_context: Instructor explained Stdout destination versus exit status and Run's error return, then clarified
+        one return value. No instructor patch or pseudocode. Scaffold launching and stream wiring are instructor-provided.
+      reasoning_check:
+        check_type: prediction
+        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap, apa pesan dan LASTEXITCODE
+          untuk lab.exe ditolak? Mengapa?
+        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai normal tanpa perintah
+          exit nonzero seperti os.Exit(1).'
+        observation_reference: labs/diag-001/attempts/a001/notes.md
+        interpretation: Passing learner-authored guided repair plus correct final explanation supports implementation
+          2 for result handling and batch exit status in this narrow task.
+        limitations:
+        - Assisted implementation; not independent score 3.
+        - Launching/wiring supplied by scaffold; signals and controlled shutdown untested.
+        - Same final reasoning response also supports e03, not an additional independent task.
+        - Hypothetical edit was discussed only; passing tests apply to retained final source.
+      retest_of: null
+      correction_of: null
+    - evidence_id: 2026-10-20-s02-e03
+      session_id: 2026-10-20-s02
+      date: '2026-10-20'
+      lab_id: diag-001
+      attempt_id: a001
+      competency_id: os.processes
+      axis: concept
+      task_variant: batch-report-windows-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/diag-001/attempts/a001/notes.md
+      result: Correctly predicted rejection message with batch status 0 if only batch os.Exit(1) were removed while
+        if/else stayed; explained normal batch termination without nonzero exit.
+      max_hint: H4
+      prompt_context: After process/exit teaching in s01 and Stdout/Run explanation in s02. Final question supplies
+        a hypothetical change but no answer before response.
+      reasoning_check:
+        check_type: prediction
+        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap, apa pesan dan LASTEXITCODE
+          untuk lab.exe ditolak? Mengapa?
+        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai normal tanpa perintah
+          exit nonzero seperti os.Exit(1).'
+        observation_reference: labs/diag-001/attempts/a001/notes.md
+        interpretation: Reinforces concept 2 for distinction between job failure and batch termination. No independent
+          promotion from immediate post-teaching reasoning.
+        limitations:
+        - One familiar task/date, after assistance.
+        - No execution of hypothetical variant.
+        - PID, environment, signals, meaningful transfer and delayed retrieval untested.
+      retest_of: null
+      correction_of: null
     assessment_history:
     - assessment_id: 2026-10-20-s01-as01
       session_id: 2026-10-20-s01
@@ -217,8 +302,25 @@ competencies:
         confidence: low
         proficiency: learning
       rationale: 'Narrow guided baseline: learner traced code, tested prediction, and revised process termination
-        scope; definitions/API supplied. Debugging outcome insufficiently sampled, other axes unobserved. Do not treat
-        this as full node mastery or a score ceiling.'
+        scope; definitions/API supplied. Debugging outcome insufficiently sampled, other axes unobserved. Do not
+        treat this as full node mastery or a score ceiling.'
+    - assessment_id: 2026-10-20-s02-as01
+      session_id: 2026-10-20-s02
+      checkpoint_id: 2026-10-20-s02-cp01
+      date: '2026-10-20'
+      evidence_ids:
+      - 2026-10-20-s02-e02
+      - 2026-10-20-s02-e03
+      before:
+        scores:
+          implementation: null
+      after:
+        scores:
+          implementation: 2
+      rationale: Guided learner-authored standard-case result handling passed both tests and final reasoning check.
+        Narrow implementation baseline, not signal/shutdown mastery. Concept remains 2 after immediate assisted
+        explanation; debugging remains unassessed for crash/kill/startup despite useful partial evidence. Confidence
+        low and proficiency learning remain appropriate; all other scores unchanged.
     review_plan:
     - review_id: 2026-10-20-s01-r01
       anchor_evidence_ids:
@@ -231,6 +333,21 @@ competencies:
       scheduled_date: '2026-10-24'
       scheduling_reason: 'D2 target adapted to Saturday availability: actual planned interval D4. Fresh H0/H1 variant
         on process lifetime and exit status; continuing original attempt is not this retest.'
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
+    - review_id: 2026-10-20-s02-r01
+      anchor_evidence_ids:
+      - 2026-10-20-s02-e02
+      anchor_date: '2026-10-20'
+      target_axes:
+      - implementation
+      task_type: delayed_retrieval
+      target_date: '2026-10-22'
+      scheduled_date: '2026-10-24'
+      scheduling_reason: Fresh H0/H1 variant after H4 API help; D2 target moved to Saturday availability D4. Can
+        accompany existing concept review without replacing it.
       status: planned
       completed_at: null
       result_evidence_ids: []

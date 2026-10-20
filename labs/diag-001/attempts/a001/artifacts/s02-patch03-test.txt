@@ -1,0 +1,8 @@
+=== RUN   TestContract
+=== RUN   TestContract/case01
+=== RUN   TestContract/case02
+--- PASS: TestContract (8.65s)
+    --- PASS: TestContract/case01 (2.34s)
+    --- PASS: TestContract/case02 (1.07s)
+PASS
+ok  	learning.local/diag-001	9.960s

@@ -1,0 +1,10 @@
+=== RUN   TestContract
+=== RUN   TestContract/case01
+=== RUN   TestContract/case02
+    main_test.go:35: mode=ditolak code=0 output="Job: input ditolak\nBatch: selesai\n"; kontrak jalur penolakan tidak terpenuhi
+--- FAIL: TestContract (5.48s)
+    --- PASS: TestContract/case01 (0.85s)
+    --- FAIL: TestContract/case02 (0.26s)
+FAIL
+FAIL	learning.local/diag-001	6.217s
+FAIL

@@ -26,6 +26,10 @@ func main() {
 	job := exec.Command(executable, "--job", mode)
 	job.Stdout = os.Stdout
 	job.Stderr = os.Stderr
-	job.Run()
-	fmt.Println("Batch: selesai")
+	err = job.Run()
+	if err != nil {
+		os.Exit(1)
+	} else {
+		fmt.Println("Batch: selesai")
+	}
 }

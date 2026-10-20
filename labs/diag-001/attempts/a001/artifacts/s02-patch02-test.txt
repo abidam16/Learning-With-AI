@@ -1,0 +1,4 @@
+# runtime
+open C:\Users\abid.mahdy\AppData\Local\Temp\learning-lab-go-1.26.0\go\src\runtime\proc.go: Access is denied.
+FAIL	learning.local/diag-001 [build failed]
+FAIL
