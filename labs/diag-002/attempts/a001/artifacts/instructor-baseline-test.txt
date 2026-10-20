@@ -1,0 +1,20 @@
+=== RUN   TestFixture
+=== RUN   TestFixture/arsip
+=== RUN   TestFixture/kirim
+=== RUN   TestFixture/kosong
+--- PASS: TestFixture (1.86s)
+    --- PASS: TestFixture/arsip (0.41s)
+    --- PASS: TestFixture/kirim (0.03s)
+    --- PASS: TestFixture/kosong (0.03s)
+=== RUN   TestContract
+=== RUN   TestContract/arsip
+=== RUN   TestContract/kirim
+    main_test.go:64: kontrak kirim belum terpenuhi: stdout="Worker: 2 dokumen diterima\nWorker: dokumen terakhir ditolak\nPengiriman: selesai\n" stderr="" code=0
+=== RUN   TestContract/kosong
+--- FAIL: TestContract (2.07s)
+    --- PASS: TestContract/arsip (0.47s)
+    --- FAIL: TestContract/kirim (0.08s)
+    --- PASS: TestContract/kosong (0.07s)
+FAIL
+FAIL	learninglab/diag002	4.565s
+FAIL

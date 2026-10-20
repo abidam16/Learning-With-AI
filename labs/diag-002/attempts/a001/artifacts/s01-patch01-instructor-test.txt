@@ -1,0 +1,21 @@
+Instructor verification on 2026-10-21, after source read at 06:36:22+07:00.
+Command: go test -count=1 -v ./...
+Exit code: 0
+=== RUN   TestFixture
+=== RUN   TestFixture/arsip
+=== RUN   TestFixture/kirim
+=== RUN   TestFixture/kosong
+--- PASS: TestFixture (1.67s)
+    --- PASS: TestFixture/arsip (0.36s)
+    --- PASS: TestFixture/kirim (0.03s)
+    --- PASS: TestFixture/kosong (0.03s)
+=== RUN   TestContract
+=== RUN   TestContract/arsip
+=== RUN   TestContract/kirim
+=== RUN   TestContract/kosong
+--- PASS: TestContract (2.06s)
+    --- PASS: TestContract/arsip (0.44s)
+    --- PASS: TestContract/kirim (0.07s)
+    --- PASS: TestContract/kosong (0.08s)
+PASS
+ok  learninglab/diag002  4.369s

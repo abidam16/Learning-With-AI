@@ -1,0 +1,54 @@
+lab_id: diag-002
+task_variant: document-delivery-windows-v1
+task_type: implementation
+mode: independent_attempt
+curriculum_version: 1.1.0
+primary_competency_ids: [os.processes]
+secondary_competency_ids: []
+target_axes: [concept, implementation]
+prerequisites: []
+selection_rationale: Previous attempt completed with H4 implementation support; fresh near variant probes independence before adding integration.
+suggested_minutes: 30
+session_budget_minutes: 45
+closing_reserve_minutes: 5
+difficulty: 1
+initial_hint: H0
+prior_exposure: Learner completed diag-001 on 2026-10-20 with H4 concept/API assistance. This is near practice after one calendar day, not distant transfer or completion of the scheduled October 24 review.
+environment:
+  required: [Windows native, PowerShell, Go]
+  external_dependencies: []
+  build: go build -o lab.exe .
+  test: go test -count=1 -v ./...
+learner_area: main.go deliver function
+instructor_fixture: worker.go and main_test.go
+constraints:
+  - Preserve separate worker, execute once, preserve both message streams.
+  - Do not hardcode mode names or infer outcome from message text.
+  - Learner supplies prediction and experiment before core edit.
+success_criteria:
+  - arsip and kosong produce completion and status zero with original worker streams preserved.
+  - kirim preserves worker messages, omits completion, and produces nonzero status.
+  - Learner explains causality and predicts one relevant boundary change after implementation.
+verification_plan:
+  - axis: concept
+    check_type: prediction
+    observable_evidence: Predict current kirim messages and shell-visible status before execution, with causal explanation.
+    assistance_boundary: No solution explanation before response. Prior H4 exposure is documented; H0 refers to new attempt assistance only.
+    limitation: Narrow lifecycle/status scope; no PID, environment, signals, or full node mastery.
+  - axis: implementation
+    check_type: causal_explanation
+    observable_evidence: Learner patch, three contract results, and explanation of why it applies to all modes.
+    assistance_boundary: Launcher wiring is supplied; core outcome decision belongs to learner. Prompt explicitly scopes function, so no independent fault localization claim.
+    limitation: Near variant using familiar API; no claim of transfer, delayed retention, or signal/shutdown implementation.
+  - axis: concept
+    check_type: boundary_case
+    observable_evidence: After core attempt, predict outcome if a worker emits no text but ends nonzero; do not supply before initial attempt.
+    assistance_boundary: Record any intervening hints per axis.
+    limitation: Hypothetical answer is not execution evidence.
+difficulty_context:
+  concept_novelty: Same lifecycle/status mechanism, fresh contrast between message streams and task results.
+  integration_scope: Two process instances using one executable; no additional service.
+  failure_complexity: One incomplete outcome decision, three deterministic fixtures.
+  scaffolding: Launcher, streams, fixture and tests supplied; learner completes deliver outcome decision.
+  constraints: Preserve messages, single execution, business completion semantics.
+  tooling_familiarity: Go previously used with API assistance; native runtime rechecked during startup.

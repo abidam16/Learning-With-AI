@@ -1,0 +1,34 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+)
+
+func main() {
+	if len(os.Args) == 3 && os.Args[1] == "--worker" {
+		runWorker(os.Args[2])
+		return
+	}
+	mode := "arsip"
+	if len(os.Args) > 1 {
+		mode = os.Args[1]
+	}
+	executable, err := os.Executable()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	worker := exec.Command(executable, "--worker", mode)
+	worker.Stdout = os.Stdout
+	worker.Stderr = os.Stderr
+	os.Exit(deliver(worker))
+}
+
+// Area kerja learner: lengkapi perilaku fungsi ini sesuai kontrak README.
+func deliver(worker *exec.Cmd) int {
+	worker.Run()
+	fmt.Println("Pengiriman: selesai")
+	return 0
+}
