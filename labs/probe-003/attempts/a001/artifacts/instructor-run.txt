@@ -1,0 +1,3 @@
+Worker: ditolak
+Runner: hasil 9
+LASTEXITCODE=0

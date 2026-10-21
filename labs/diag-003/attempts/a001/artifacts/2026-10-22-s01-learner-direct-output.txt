@@ -1,0 +1,27 @@
+Source: learner-reported PowerShell output in chat, 22 October 2026.
+Not an instructor rerun or a complete terminal transcript.
+
+Experiment 1, submitted commands:
+Set-Location D:\learning\Learning-With-AI\labs\diag-003
+.\lab.exe --worker
+$LASTEXITCODE
+
+Reported output:
+6
+
+Learner observation: no program output before the displayed LASTEXITCODE.
+
+Experiment 2, requested in the same PowerShell session:
+.\bundle\processor.exe --worker
+$LASTEXITCODE
+
+Reported output excerpt (learner supplied only this trailing portion of the error):
+correct and try again.
+At line:1 char:1
++ .\bundle\processor.exe --worker
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.\bundle\processor.exe:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+6
+
+Learner interpretation: command reports a system error; 6 is the prior LASTEXITCODE.

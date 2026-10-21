@@ -1,0 +1,6 @@
+Case A
+Runner: gagal
+LASTEXITCODE=2
+Case B
+Runner: gagal
+LASTEXITCODE=2

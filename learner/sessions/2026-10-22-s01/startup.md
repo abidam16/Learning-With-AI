@@ -1,0 +1,13 @@
+# Startup 2026-10-22-s01
+
+- Tanggal Asia/Jakarta: 22 Oktober 2026. Learner mengonfirmasi waktu 45 menit. Pemeriksaan source/environment tercatat 05:50:01 WIB; waktu pesan pertama/kerja aktif tidak diukur.
+- Melanjutkan checkpoint 2026-10-21-s02-cp01. Lab diag-003 / report-runner-two-reports-windows-v1 / a001 tetap attempt yang sama. Probe-003 completed; tidak diulang dan tidak dihitung sebagai retest.
+- Acuan AGENTS.md, profile/goals, competency map aktual 1.1.0, state/history, mistake-patterns, rubric dan adaptive-learning dibaca. Tidak ada pekerjaan lain lebih prioritas atau review due; dua review tetap 24 Oktober. Concept/implementation os.processes 3, confidence low, proficiency learning; axis lain null. Unknown bukan weak. Tidak ada recurring pattern terkonfirmasi.
+- Source main.go identik SHA256 dengan starter snapshot. Executable lama masih tersedia; instructor rerun A/B pada sesi ini masing-masing menghasilkan Runner: gagal dan status 2. Log: labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-instructor-baseline.txt. Ini setup verification, bukan evidence learner.
+- Runtime portable pada path checkpoint tidak ditemukan dari sandbox saat pemeriksaan. Kemampuan rebuild belum diverifikasi; executable yang tersedia cukup untuk memulai pembacaan/pengamatan. Bila eksperimen learner membutuhkan rebuild, pulihkan tooling sebelum menilai hasil, jangan menyimpulkan kegagalan kemampuan dari setup. Tidak mengunduh ulang runtime pada startup ini.
+- Mode: investigasi mandiri, H0 baru pada target concept/debugging diag-003. Prior exposure H4 tanggal 20 Oktober serta latihan status/return pada 21 Oktober tetap diketahui. Soal sama sudah diberikan sebelum pause; learner belum menjawab, berhipotesis atau bereksperimen.
+- Anggaran: sekitar 5 menit pemulihan konteks/setup, 25 menit hipotesis/eksperimen, 10 menit penjelasan dan verifikasi, 5 menit pencatatan. Ini rencana, bukan durasi terukur.
+- Tujuan dan success criteria tetap sesuai lab.yaml: diagnosis tiap pilihan ditopang bukti runtime, prediksi sebelum eksperimen, jelaskan batas kesimpulan. Patch bukan kewajiban awal. Hindari memperlihatkan baseline instructor yang menjelaskan mekanisme.
+- Prompt pertama: baca main.go, ajukan satu hipotesis tentang dua laporan kegagalan A/B serta satu eksperimen pembeda, dengan hasil yang diprediksi sebelum dijalankan.
+- learner_feedback: 45 menit tersedia; tantangan/frustrasi belum disampaikan. calibration_decision: maintain difficulty 1 dan lanjut unfinished work. Next check: hipotesis, prediksi dan eksperimen learner; bukan menambah lab baru.
+- Tidak ada evidence/score baru. State tetap pada checkpoint penutupan sebelumnya, sementara aktivitas resume dicatat di startup dan notes attempt. Tidak ada commit/push atau automation.

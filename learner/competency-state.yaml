@@ -84,9 +84,9 @@ curriculum_file: curriculum/competency-map.yaml
 learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
-updated_on: '2026-10-21'
-last_session_id: 2026-10-21-s01
-last_applied_checkpoint: 2026-10-21-s01-cp01
+updated_on: '2026-10-22'
+last_session_id: 2026-10-22-s01
+last_applied_checkpoint: 2026-10-22-s01-cp01
 active_work: null
 competencies:
   os.processes:
@@ -99,7 +99,7 @@ competencies:
     weighted_score: null
     confidence: low
     proficiency: learning
-    last_assessed_on: '2026-10-21'
+    last_assessed_on: '2026-10-22'
     review_due: false
     evidence:
     - session_id: 2026-10-20-s01
@@ -380,6 +380,116 @@ competencies:
         - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
       retest_of: null
       correction_of: null
+    - evidence_id: 2026-10-21-s02-e01
+      session_id: 2026-10-21-s02
+      date: '2026-10-21'
+      lab_id: probe-003
+      attempt_id: a001
+      competency_id: os.processes
+      axis: concept
+      task_variant: report-runner-return-windows-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/probe-003/attempts/a001/notes.md — o01–o04; labs/probe-003/attempts/a001/artifacts/prediction-source.go.txt;
+        labs/probe-003/attempts/a001/artifacts/instructor-run.txt
+      result: 'Initial prediction incorrectly skipped the worker argument branch and predicted recursion.
+        After neutral Args clarification, learner corrected the trace and predicted Worker: ditolak, Runner:
+        hasil 9, and shell status 0. Instructor execution matched the final prediction.'
+      max_hint: H1
+      prompt_context: Full source supplied for a reading probe. Neutral request to evaluate worker Args prompted
+        learner correction; no Args rule or process-status answer supplied before response. Prior H4 teaching
+        on October 20 retained. Explanatory confirmation after the final response is not additional independent
+        evidence.
+      reasoning_check:
+        check_type: prediction
+        prompt: 'Predict messages and LASTEXITCODE for lab.exe without arguments. Follow-ups: evaluate Args
+          for lab.exe --worker; then state runner shell status and why.'
+        learner_response: 'Revised initial recursion prediction: worker enters if, prints Worker: ditolak
+          and exits 6. Run returns error and execute returns 9 rather than exiting the runner. Runner prints
+          Runner: hasil 9. LASTEXITCODE is 0 because the original lab.exe finishes normally.'
+        observation_reference: labs/probe-003/attempts/a001/notes.md — o01–o04; labs/probe-003/attempts/a001/artifacts/instructor-run.txt
+        interpretation: Supports maintaining concept 3 for the previously assessed narrow distinction between
+          worker exit, function return, and parent completion. Initial reading error corrected after H1 does
+          not warrant an automatic decrease. No promotion warranted.
+        limitations:
+        - Same-day familiar mechanism; not delayed retrieval or transfer.
+        - Execution performed by instructor; no learner implementation or runtime diagnostic assessed.
+        - PID, environment, signals, shutdown and startup/crash/kill distinctions not assessed in this probe.
+      retest_of: null
+      correction_of: null
+    - session_id: 2026-10-22-s01
+      date: '2026-10-22'
+      lab_id: diag-003
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: report-runner-two-reports-windows-v1
+      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01 through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
+        labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-instructor-baseline.txt
+      max_hint: H1
+      prompt_context: Learner independently selected direct commands and hypothesized distinct causes before
+        new hints. Neutral H1 questions corrected initial conflation of direct and wrapper invocation output/status.
+        Learner predicted stale LASTEXITCODE before instructor confirmation. Prior H4 teaching on October
+        20 remains documented. Executable and source supplied; no instructor solution patch.
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-22-s01-e01
+      axis: concept
+      assessment_status: assessed
+      result: Learner explained intentional worker exit 6 versus missing executable, corrected direct invocation
+        predictions after H1, independently predicted that shell lookup failure preserves previous LASTEXITCODE
+        6, and reported matching observations. Parent error mapping explains status 2 for both cases.
+      reasoning_check:
+        check_type: prediction
+        prompt: Before direct invocation of bundle/processor.exe --worker, predict messages and LASTEXITCODE
+          and explain why.
+        learner_response: Executable is absent, so main is never reached and only a system error appears.
+          LASTEXITCODE remains 6 from the previous direct worker command. Wrapper B separately returns/exits
+          2 on Run error.
+        observation_reference: labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt
+        interpretation: Maintains concept 3 for lifecycle and exit-status scope. Correct prediction distinguishes
+          lookup failure from a process exit and from the wrapper result. No promotion or automatic decrease
+          from initial corrected reading/prediction error.
+        limitations:
+        - Reported terminal output rather than instructor rerun of learner commands.
+        - Same previously presented attempt, not delayed retrieval or transfer.
+        - No PID, signals, controlled shutdown or full process-domain assessment.
+    - session_id: 2026-10-22-s01
+      date: '2026-10-22'
+      lab_id: diag-003
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: report-runner-two-reports-windows-v1
+      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01 through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
+        labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-instructor-baseline.txt
+      max_hint: H1
+      prompt_context: Learner independently selected direct commands and hypothesized distinct causes before
+        new hints. Neutral H1 questions corrected initial conflation of direct and wrapper invocation output/status.
+        Learner predicted stale LASTEXITCODE before instructor confirmation. Prior H4 teaching on October
+        20 remains documented. Executable and source supplied; no instructor solution patch.
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-22-s01-e02
+      axis: debugging
+      assessment_status: not_observed
+      result: 'Partial diagnostic evidence: learner chose direct A/B command comparisons, revised predictions
+        with H1, reported silent exit 6 for direct worker and shell CommandNotFoundException plus stale 6
+        for absent target, and proposed adding err to generic failure output.'
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: 'Choose an experiment and predict distinct results for the two possible causes; after results,
+          choose one additional item in Runner: gagal for the operator and explain why.'
+        learner_response: Run lab.exe --worker and bundle/processor.exe --worker directly. After neutral clarification,
+          predicted silent 6 for the first, lookup error and previous 6 for the second, reported both, and
+          selected err details so the failure cause is visible.
+        observation_reference: labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt
+        interpretation: 'Valid partial debugging evidence distinguishes intentional nonzero exit from launch
+          failure. Full-node score remains null consistently with prior assessment scope: crash and force
+          termination discrimination remain untested. not_observed refers to insufficient coverage for that
+          numeric score, not absence of all diagnostic skill.'
+        limitations:
+        - No crash/kill experiment; exit 6 is intentional and must not be labeled a crash.
+        - Direct B error comes from PowerShell, not captured Go Run error; runtime instrumentation not implemented.
+        - Two commands belong to one attempt, not two independent task variants.
+        - Operator-information choice is not evidence for graceful versus force-termination judgment.
     assessment_history:
     - assessment_id: 2026-10-20-s01-as01
       session_id: 2026-10-20-s01

@@ -1,0 +1,43 @@
+lab_id: probe-003
+task_variant: report-runner-return-windows-v1
+task_type: concept
+mode: independent_prediction
+curriculum_version: 1.1.0
+primary_competency_ids: [os.processes]
+secondary_competency_ids: []
+target_axes: [concept]
+prerequisites: []
+difficulty: 1
+initial_hint: H0
+suggested_minutes: 5
+session_budget_minutes: 45
+closing_reserve_minutes: 5
+selection_rationale: Fresh brief prediction per latest checkpoint; avoid another full implementation task on an already demonstrated near variant. Runtime recovery precedes subsequent executable diagnostic.
+prior_exposure: diag-001 taught process and Run semantics at H4 on October 20; diag-002 independently applied a near variant on October 21. Same-day practice is not delayed retrieval or transfer.
+environment:
+  required_for_prediction: [Source reader]
+  required_for_execution: [Windows, PowerShell, Go]
+  execution_verified: true
+  blocker: null
+  verification_reference: labs/probe-003/attempts/a001/artifacts/instructor-run.txt
+  setup_history: Go initially absent; portable runtime restored and build/run verified after learner prediction on October 21 at approximately 09:19 WIB.
+  build: go build -o lab.exe .
+constraints:
+  - Predict before running or editing.
+  - Assume executable lookup and launch succeed for this initial question.
+success_criteria:
+  - Learner predicts ordered messages and shell-visible status with causal reasoning.
+  - Compare prediction against execution when environment is restored; distinguish predicted from observed results.
+verification_plan:
+  - axis: concept
+    check_type: prediction
+    observable_evidence: Explanation distinguishing a function return value, worker exit, and shell-visible parent status.
+    assistance_boundary: No mechanism explanation before answer; full source is the task stimulus, not implementation evidence.
+    limitation: Narrow familiar mechanism, no delayed retention, transfer, signals or PID assessment. Runtime currently unverified.
+difficulty_context:
+  concept_novelty: Fresh arrangement of familiar return and process status semantics.
+  integration_scope: Two process instances, one helper function, no service dependencies.
+  failure_complexity: One deterministic reading probe, not a fault repair exercise.
+  scaffolding: Complete source supplied for prediction; no learner implementation assessed.
+  constraints: Predict before execution under explicit successful launch assumption.
+  tooling_familiarity: Prior Go exposure; current runtime unavailable independently of learner capability.

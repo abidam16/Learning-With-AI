@@ -1,0 +1,50 @@
+{
+  "lab_id": "diag-003",
+  "task_variant": "report-runner-two-reports-windows-v1",
+  "task_type": "debugging",
+  "mode": "independent_diagnostic",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.processes"],
+  "secondary_competency_ids": [],
+  "target_axes": ["debugging", "concept"],
+  "prerequisites": [],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 20,
+  "session_budget_minutes": 45,
+  "closing_reserve_minutes": 5,
+  "selection_rationale": "Latest checkpoint recommends a small startup-failure probe after fresh prediction. Debugging of startup versus completed execution is unobserved, not established weak.",
+  "prior_exposure": "H4 Run/exit teaching October 20, near independent application October 21, probe-003 prediction immediately before this task. No new startup-error explanation given before task.",
+  "environment": {
+    "required": ["Windows native", "PowerShell", "Go 1.26.0"],
+    "external_services": [],
+    "build": "go build -o lab.exe .",
+    "fixture": "A runs this executable as worker and exits 6 silently; B points to an absent bundle/processor.exe. Both runners map error to 2. Absence of B is intentional fixture, distinct from missing Go setup."
+  },
+  "constraints": ["Predict before experiment", "Preserve worker behavior and A/B targets", "Instrumentation allowed; no replacement executable", "Do not change tests or expected outcomes"],
+  "success_criteria": ["Hypothesis, predicted distinguishing observation, experiment, and actual result for A/B", "Runtime evidence distinguishes started child with nonzero completion from failure to launch", "Explain limits of parent status and choose a relevant next action"],
+  "verification_plan": [
+    {
+      "axis": "debugging",
+      "check_type": "discriminating_experiment",
+      "observable_evidence": "Learner chooses and performs inspection or instrumentation exposing original command failure, connects observations to lifecycle stage and separates alternatives.",
+      "assistance_boundary": "Do not preselect API fields or reveal error types. Source is available for investigation; log any hints. Source reading alone does not count as runtime evidence.",
+      "limitation": "Narrow startup/nonzero completion scope. A is deliberate exit, not a crash; no force kill, signals or full node mastery claims."
+    },
+    {
+      "axis": "concept",
+      "check_type": "causal_explanation",
+      "observable_evidence": "Learner explains why equal parent statuses can accompany distinct child lifecycle outcomes.",
+      "assistance_boundary": "Ask for explanation after learner observation. Preserve unassisted evidence before teaching.",
+      "limitation": "Familiar Go subprocess context, not transfer or delayed retrieval."
+    }
+  ],
+  "difficulty_context": {
+    "concept_novelty": "One new lifecycle distinction: launch failure versus child nonzero completion.",
+    "integration_scope": "Runner plus one local child, no network or database.",
+    "failure_complexity": "Two deterministic cases sharing one parent message/status; one new failure stage.",
+    "scaffolding": "Runnable fixture and launcher supplied. Learner owns hypothesis, observation selection and diagnosis.",
+    "constraints": "Collect evidence before proposing repair; no mandatory patch.",
+    "tooling_familiarity": "Go used in earlier labs; runtime recovery is instructor support."
+  }
+}
