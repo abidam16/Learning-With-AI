@@ -1,0 +1,61 @@
+{
+  "lab_id": "diag-004",
+  "task_variant": "batch-two-stops-windows-v1",
+  "task_type": "debugging",
+  "mode": "independent_diagnostic_with_prior_exposure",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.processes"],
+  "secondary_competency_ids": [],
+  "target_axes": ["debugging", "concept"],
+  "prerequisites": [],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 25,
+  "session_budget_minutes": 45,
+  "closing_reserve_minutes": 5,
+  "selection_rationale": "No active work or due review. Last checkpoint recommends a small termination probe to fill unknown debugging coverage. Retain level; do not repeat completed implementation.",
+  "prior_exposure": [
+    "2026-10-22-s01 followup01 taught crash versus launch failure at concept H4 after assessment. This fresh fixture is immediate application, not delayed retention evidence.",
+    "Earlier tasks covered intentional exit, wrapper status, and launch failure. Preserve their assistance records."
+  ],
+  "environment": {
+    "required": ["Windows", "PowerShell"],
+    "build_tool": "Go 1.26.0 restored from existing archive into .local-tools/go; GOCACHE .local-tools/go-build-cache; GOTOOLCHAIN local",
+    "build": "go build -o lab.exe .",
+    "run": [".\\lab.exe A", ".\\lab.exe B"],
+    "external_services": [],
+    "fixture": "A starts then ends through an unrecovered Go runtime bounds panic, code 2. B starts, writes readiness, and is terminated by its own supervisor using Windows TerminateProcess with code 2. Runner maps both to 2. Output, stderr, PID-correlated supervisor actions and results are recorded.",
+    "limits": "Crash here means unrecovered runtime panic, not a native access violation or every OS crash. Force termination is Windows-specific, not Unix signal behavior. Numeric status deliberately collides; no universal code-to-cause mapping. Only the fixture's own child can be terminated."
+  },
+  "constraints": ["Predict before opening detailed reports or rerunning", "Use runtime evidence for diagnosis", "No mandatory patch", "Preserve fixture behavior", "Save relevant output before rerun overwrites reports"],
+  "success_criteria": [
+    "State a hypothesis and alternative consistent with initial summaries.",
+    "Choose a discriminating inspection or experiment and predict its observable result before execution.",
+    "Connect actual runtime evidence with each worker's lifecycle and distinguish causes without inferring them solely from an exit code.",
+    "Explain a limitation of the conclusion in one targeted closing check."
+  ],
+  "verification_plan": [
+    {
+      "axis": "debugging",
+      "check_type": "discriminating_experiment",
+      "observable_evidence": "Learner chooses logs or a controlled repeat, predicts a distinguishing observation, and correlates actual stderr/supervisor records and worker identity with cause.",
+      "assistance_boundary": "Provide available filenames without choosing the diagnostic file or naming A/B causes. Source reading is available but its clue exposure must be recorded.",
+      "limitations": "Instrumented fixture supplied; instrumentation implementation and blind discovery of which tools to install are not assessed. Prior H4 concept exposure limits claims."
+    },
+    {
+      "axis": "concept",
+      "check_type": "boundary_case",
+      "observable_evidence": "After investigation, learner explains what can be concluded if the detail logs are missing and only the shared numeric status remains.",
+      "assistance_boundary": "Ask after actual diagnosis. Do not provide the exit-code interpretation before the initial attempt.",
+      "limitations": "No delayed retrieval, transfer, signal handling or graceful-shutdown mastery claim."
+    }
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Extend prior launch/intentional-exit work to runtime panic versus external termination; broad distinction taught at H4 earlier today but not experimentally assessed.",
+    "integration_scope": "One runner and one local child per case, no services.",
+    "failure_complexity": "Two deterministic stops with identical summary status. Dominant challenge is evidence selection and causal attribution.",
+    "scaffolding": "All source, build, lifecycle control, logs and runnable fixture supplied by instructor. Learner owns reasoning and inspection choices.",
+    "constraints": "One hypothesis/experiment at a time; no code repair needed.",
+    "tooling_familiarity": "Continue familiar Go/PowerShell. Runtime restoration is separate environment support."
+  }
+}

@@ -1,0 +1,157 @@
+"""Instructor administration: persist this observed session, idempotently."""
+from pathlib import Path
+import sys
+import textwrap
+import copy
+
+sys.path.insert(0, r"C:/Users/abid.mahdy/AppData/Local/Temp/learning-lab-yaml-validation")
+import yaml
+
+root = Path(__file__).resolve().parents[3]
+sid = "2026-10-22-s03"
+cpid = sid + "-cp01"
+notes = "labs/diag-004/attempts/a001/notes.md"
+artifact = "labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt"
+checkpoint = "learner/sessions/2026-10-22-s03/checkpoint.md"
+path = root / "learner/competency-state.yaml"
+original = path.read_text(encoding="utf-8")
+before = yaml.safe_load(original)
+curriculum = yaml.safe_load((root / "curriculum/competency-map.yaml").read_text(encoding="utf-8"))
+assert curriculum["curriculum_version"] == "1.1.0"
+assert set(before["competencies"]) == set(curriculum["competencies"])
+for ref in (notes, artifact, checkpoint, "labs/diag-004/lab.yaml"):
+    assert (root / ref).is_file(), ref
+
+common = dict(
+    session_id=sid, date="2026-10-22", lab_id="diag-004", attempt_id="a001",
+    competency_id="os.processes", task_variant="batch-two-stops-windows-v1",
+    max_hint="H4", retest_of=None, correction_of=None,
+    artifact_or_observation=f"{notes} — {sid}-o01 through o11; {artifact}",
+    prompt_context="Prior H4 A explanation retained. B readiness focus H3; runner panic, ProcessState and TerminateProcess explained H4 after attempts. JSON selected by learner; supervisor log selected by instructor. H1 clarified output/source referent; that ambiguity is not scored as failure. All fixture code/log instrumentation supplied.",
+)
+concept = dict(common, evidence_id=sid + "-e01", axis="concept", assessment_status="assessed")
+concept["result"] = (
+    "Learner correctly recognized B's loop after H1 and traced supervisor termination after guidance. "
+    "Predicted worker 0/runner 2, observed 2/2, then attributed worker status to old shell LASTEXITCODE (o06). "
+    "After ProcessState teaching, correctly guessed TerminateProcess parameter 2. In closing boundary check "
+    "said status alone is insufficient but attributed an alternative worker status to runner return/os.Exit (o11). "
+    "Current provenance reasoning remains guidance-dependent; concept revised 3 to 2, not a score for API memorization."
+)
+concept["reasoning_check"] = dict(
+    check_type="boundary_case",
+    prompt="Jika hanya result.json dengan worker_exit_code: 2 tersedia, apakah itu cukup memastikan worker dihentikan supervisor? Mengapa?",
+    learner_response="Tidak cukup; worker bisa menghasilkan 2 karena mencapai akhir run(), return 2 diteruskan ke os.Exit(run()) pada main, sehingga sebab belum jelas.",
+    observation_reference=notes,
+    interpretation="Conclusion of insufficient cause evidence is correct, but cited alternative belongs to the runner. Together with explicit shell-status attribution in o06, this supports revising independence estimate on the same exit-status provenance scope to 2. Successful prior independent records remain intact; no automatic score floor from history.",
+    limitations=[
+        "One guided attempt, not delayed retrieval or multiple independent failures.",
+        "No response after final teaching; remediation success not established.",
+        "Earlier narrow independent successes remain valid; current low-confidence estimate needs a fresh targeted check.",
+        "No whole-domain inference about environment, signals, or graceful shutdown; implementation not reassessed.",
+    ],
+)
+debug = dict(common, evidence_id=sid + "-e02", axis="debugging", assessment_status="not_observed")
+debug["result"] = (
+    "Partial assisted diagnosis: learner chose JSON, predicted worker 0/runner 2, and reported actual worker 2/runner 2 "
+    "for PID 23324. With instructor-selected supervisor log, identified start/final status and then matching "
+    "TerminateProcess control_request. No verified learner rerun, no learner runtime inspection of crash A. "
+    "Preserve partial evidence; insufficient coverage for the full-node debugging score, which stays null."
+)
+debug["reasoning_check"] = dict(
+    check_type="discriminating_experiment",
+    prompt="Pilih berkas runtime untuk menguji penjelasan B dan prediksi isinya sebelum inspeksi; kemudian pada guided supervisor-log inspection identifikasi tindakan terhadap PID 23324.",
+    learner_response="Chose result.json for structured fields and predicted worker 0/runner 2; sent actual 2/2. Later sent full supervisor log, identified PID and completion, and after referent clarification selected the TerminateProcess target_pid=23324 requested_exit_code=2 record.",
+    observation_reference=artifact,
+    interpretation="Evidence links the same PID to the termination request and outcome with H4 explanation/H3 file selection. JSON choice alone did not discriminate cause. Do not count instructor's synthesized success/Wait explanation as independent learner diagnosis.",
+    limitations=[
+        "Logs generated by instructor fixture at 10:45 and inspected by learner; not a new execution.",
+        "API and causal distinction taught before successful log correlation.",
+        "A runtime comparison and status provenance remain unfinished.",
+        "not_observed means insufficient evidence for the full numeric axis, not absence of useful diagnostic observations.",
+    ],
+)
+assessment = dict(
+    assessment_id=sid + "-as01", session_id=sid, checkpoint_id=cpid,
+    date="2026-10-22", evidence_ids=[concept["evidence_id"]],
+    before={"scores": {"concept": 3}}, after={"scores": {"concept": 2}},
+    rationale="Two explicit attributions within the same attempt (o06 to stale shell status, o11 to runner return) show worker-status provenance is not consistently independent despite H4 teaching and successful guided tracing. Revise concept estimate on the previously assessed lifecycle/status scope from 3 to 2. This is not based on one short answer, unfamiliar API, timing, asking for help, or instructor's ambiguous referent in o09. Preserve earlier successful evidence and seek a fresh targeted check. Other axes, low confidence and learning proficiency remain unchanged.",
+)
+node = before["competencies"]["os.processes"]
+ids = {e["evidence_id"] for e in node["evidence"]}
+if concept["evidence_id"] not in ids:
+    assert debug["evidence_id"] not in ids
+    assert node["scores"]["concept"] == 3
+    assert before["last_applied_checkpoint"] == "2026-10-22-s02-cp01"
+    start = original.index("  os.processes:\n")
+    end = original.index("  os.threads:\n", start)
+    block = original[start:end]
+    block = block.replace("      concept: 3\n", "      concept: 2\n", 1)
+    records = textwrap.indent(yaml.safe_dump([concept, debug], sort_keys=False, allow_unicode=True), "    ")
+    block = block.replace("    assessment_history:\n", records + "    assessment_history:\n", 1)
+    record = textwrap.indent(yaml.safe_dump([assessment], sort_keys=False, allow_unicode=True), "    ")
+    block = block.replace("    review_plan:\n", record + "    review_plan:\n", 1)
+    candidate = original[:start] + block + original[end:]
+    candidate = candidate.replace("last_session_id: 2026-10-22-s02\n", f"last_session_id: {sid}\n", 1)
+    candidate = candidate.replace("last_applied_checkpoint: 2026-10-22-s02-cp01\n", f"last_applied_checkpoint: {cpid}\n", 1)
+    active = dict(lab_id="diag-004", task_variant="batch-two-stops-windows-v1", attempt_id="a001",
+        session_id=sid, checkpoint_id=cpid, checkpoint_reference=checkpoint,
+        next_step="Identify source/owner of worker and runner status in main.go, then predict a hypothetical runner return 7 with TerminateProcess unchanged at 2 before any execution; inspect A runtime after provenance is clear.")
+    a = candidate.index("\nactive_work:") + 1
+    b = candidate.index("\ncompetencies:", a) + 1
+    candidate = candidate[:a] + yaml.safe_dump({"active_work": active}, sort_keys=False) + candidate[b:]
+    after = yaml.safe_load(candidate)
+    for key in before["competencies"]:
+        if key != "os.processes":
+            assert after["competencies"][key] == before["competencies"][key]
+    expected = copy.deepcopy(node)
+    expected["scores"]["concept"] = 2
+    expected["evidence"].extend([concept, debug])
+    expected["assessment_history"].append(assessment)
+    assert after["competencies"]["os.processes"] == expected
+    temp = path.with_suffix(".yaml.tmp")
+    temp.write_text(candidate, encoding="utf-8")
+    temp.replace(path)
+else:
+    assert debug["evidence_id"] in ids and before["last_applied_checkpoint"] == cpid
+
+history = root / "learner/session-history.md"
+entry = f"""
+
+### {cpid}
+
+- Session {sid}; paused, diag-004 / batch-two-stops-windows-v1 / a001 masih aktif. Penutupan dimulai 14:22:42 WIB setelah pemeriksaan awal 13:36:51, rentang 45 menit 51 detik termasuk interaksi/jeda, bukan waktu kerja aktif. Anggaran 45 menit; tidak menambah eksperimen setelah penutupan.
+- Learner mengenali loop B, menelusuri penghentian sesudah arahan readiness/panic, memilih JSON dan memprediksi worker 0/runner 2. Membaca hasil 2/2 dan supervisor log baseline, lalu menghubungkan PID 23324 dengan TerminateProcess. Tidak ada rerun learner terverifikasi, patch, atau runtime inspection A.
+- Evidence {sid}-e01 concept dan e02 debugging parsial; detail {notes}, s03-o01–o11; artefak {artifact}. Log berasal dari baseline instructor 10:45, diinspeksi learner pada sesi ini. Satu attempt, bukan dua task independen.
+- Assessment {sid}-as01: concept os.processes 3 -> 2. Dua atribusi eksplisit masih keliru: worker status dianggap mengikuti LASTEXITCODE lama (o06), kemudian return runner (o11) setelah pengajaran. Guided tracing berhasil, tetapi provenance belum konsisten mandiri. Bukan penurunan karena API unfamiliarity, satu jawaban singkat, meminta bantuan, waktu, atau referen source/output yang ambigu pada o09. Evidence sukses sebelumnya dipertahankan; estimasi saat ini perlu fresh targeted check.
+- Implementation tetap 3 tanpa observasi ulang; debugging/judgment/transfer null, confidence low, proficiency learning; 37 competency lain tetap. Debugging parsial bernilai, belum cukup cakupan crash/kill/startup node penuh. Tidak ada klaim mastery/transfer/delayed retrieval.
+- Hint maksimum concept H4/debugging H4; loop setelah H1, JSON dipilih learner, supervisor log dipilih instructor H3. Penjelasan API, ProcessState, panic dan koreksi provenance H4. Tidak ada implementation learner/instructor baru.
+- Gap aktual: asal status worker/runner/shell. Belum menetapkan recurring pattern; observasi masih satu attempt dan referen pertanyaan sempat ambigu. Feedback emosi tidak diberikan. Kalibrasi maintain level 1; immediate remediation dipersempit ke pemilik status sebelum runtime A, berdasarkan o06/o11.
+- Next step: tandai pemilik/sumber dua status pada main.go, lalu prediksi hipotetis return runner 7 dengan TerminateProcess tetap 2, sebelum output/penjelasan. Setelah jelas, lanjutkan prediksi dan inspeksi runtime A. Tidak mengubah source secara diam-diam. Tidak ada blocker environment.
+- Checkpoint {checkpoint}; active_work menunjuknya. Review concept/implementation tetap 24 Oktober 2026; provenance status diprioritaskan pada fresh concept review. State/history disimpan, validasi akhir dicatat di checkpoint. Tidak ada automation, commit/push.
+"""
+history_text = history.read_text(encoding="utf-8")
+if f"### {cpid}\n" not in history_text:
+    with history.open("a", encoding="utf-8") as f:
+        f.write(entry)
+
+saved = yaml.safe_load(path.read_text(encoding="utf-8"))
+all_evidence = [e for c in saved["competencies"].values() for e in c["evidence"]]
+assert len(all_evidence) == len({e["evidence_id"] for e in all_evidence})
+assert saved["active_work"]["checkpoint_id"] == saved["last_applied_checkpoint"] == cpid
+assert saved["last_session_id"] == sid
+assert history.read_text(encoding="utf-8").count(f"### {cpid}\n") == 1
+assert saved["competencies"]["os.processes"]["scores"] == dict(concept=2, implementation=3, debugging=None, judgment=None, transfer=None)
+assert (root / "labs/diag-004/main.go").read_bytes() == (root / "labs/diag-004/attempts/a001/artifacts/starter-main.go.txt").read_bytes()
+for e in (concept, debug):
+    assert all(field in e for field in curriculum["assessment_policy"]["evidence_fields"])
+    assert e["competency_id"] in curriculum["competencies"]
+    assert (root / e["reasoning_check"]["observation_reference"]).exists()
+assert all(r["scheduled_date"] == "2026-10-24" and r["status"] == "planned" for r in saved["competencies"]["os.processes"]["review_plan"])
+marker = "Validasi akhir s03 PASS"
+message = "\n\n" + marker + ": YAML/ID/required evidence fields valid; referensi baru resolve; evidence IDs unik; state/history/checkpoint konsisten. Hanya concept 3->2 dan dua evidence/assessment serta pointer sesi yang berubah; seluruh evidence historis, axis lain dan review plan terjaga. Source identik snapshot. Penyimpanan lengkap, tanpa commit/push.\n"
+for ref in (checkpoint, notes):
+    p = root / ref
+    if marker not in p.read_text(encoding="utf-8"):
+        with p.open("a", encoding="utf-8") as f:
+            f.write(message)
+print("PASS: s03 checkpoint persisted and validated; concept 3->2; other scores and review plan unchanged.")

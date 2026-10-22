@@ -1,0 +1,24 @@
+Learner-reported inspection during session 2026-10-22-s03.
+These are reports produced by the instructor fixture at 10:45, read by the learner during this session; not a learner rerun.
+
+Prediction before reading JSON (o05):
+{"mode": "B", "worker_started": true, "worker_exit_code": 0, "runner_exit_code": 2}
+
+Actual JSON sent by learner (o06):
+{
+  "case": "B",
+  "runner_exit_code": 2,
+  "worker_exit_code": 2,
+  "worker_pid": 23324,
+  "worker_started": true
+}
+
+Actual supervisor log sent by learner (o08):
+2026-10-22T10:45:10.6610505+07:00 launch_requested case=B
+2026-10-22T10:45:10.7061737+07:00 started worker_pid=23324
+2026-10-22T10:45:10.7699026+07:00 control_request actor=supervisor operation=TerminateProcess target_pid=23324 requested_exit_code=2
+2026-10-22T10:45:10.7699026+07:00 control_result error=<nil>
+2026-10-22T10:45:10.7753841+07:00 wait_completed worker_pid=23324 exit_code=2 error=exit status 2
+
+Learner identified lines 2 and 5 as PID and final status/error; following referent clarification, identified line 3 as supervisor action against PID 23324 (o10).
+Actual reasoning responses and assistance chronology: ../notes.md, 2026-10-22-s03-o01 through o11.

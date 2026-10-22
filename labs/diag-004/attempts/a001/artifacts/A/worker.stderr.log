@@ -1,0 +1,7 @@
+panic: runtime error: index out of range [1] with length 1
+
+goroutine 1 [running]:
+main.worker({0x7ff6406d7788, 0x1}, {0x121f2e80280, 0x3e})
+	D:/learning/Learning-With-AI/labs/diag-004/main.go:34 +0xda
+main.main()
+	D:/learning/Learning-With-AI/labs/diag-004/main.go:16 +0x5a

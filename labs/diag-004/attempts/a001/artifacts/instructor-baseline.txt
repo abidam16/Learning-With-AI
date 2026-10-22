@@ -1,0 +1,19 @@
+case=A
+stdout:
+Laporan A: worker_started=true worker_exit_code=2
+Runner: gagal
+Berkas laporan: reports/A
+
+stderr:
+
+runner_status=2
+
+case=B
+stdout:
+Laporan B: worker_started=true worker_exit_code=2
+Runner: gagal
+Berkas laporan: reports/B
+
+stderr:
+
+runner_status=2

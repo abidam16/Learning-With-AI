@@ -1,0 +1,3 @@
+2026-10-22T10:45:10.4431131+07:00 launch_requested case=A
+2026-10-22T10:45:10.4908862+07:00 started worker_pid=49312
+2026-10-22T10:45:10.5425541+07:00 wait_completed worker_pid=49312 exit_code=2 error=exit status 2

@@ -173,3 +173,59 @@ Untuk koreksi, append entri berisi ID koreksi, waktu, checkpoint/evidence yang d
 #### 2026-10-22-s01-followup01 — setelah checkpoint completed
 
 Learner meminta penjelasan apakah crash tidak menghasilkan exit status seperti kegagalan menemukan executable. Instructor mengajarkan perbedaan lookup/launch failure versus termination setelah proses berjalan, berdasarkan dokumentasi resmi PowerShell/Win32. Catatan: labs/diag-003/attempts/a001/notes.md, followup01. Bantuan H4 concept khusus subtopik crash; bantuan H1 pada evidence lab terdahulu tidak ditulis ulang. Tidak ada eksperimen atau assessment crash baru, tidak ada perubahan skor/pattern/review. Pertanyaan ini mengungkap asumsi pada scope crash yang memang belum diuji, bukan membatalkan diagnosis command-not-found. Probe berikutnya harus memperhitungkan exposure H4 dan memakai varian segar. Sesi/lab tetap completed.
+
+### 2026-10-22-s02-cp01
+
+- Session 2026-10-22-s02; paused karena timebox 45 menit terlewati. Pemeriksaan penutupan 11:27:19 WIB; sedikitnya 46 menit 33 detik sejak timestamp persiapan 10:40:46, termasuk membaca/interaksi/jeda, bukan kerja aktif. Learner tidak meminta pause; instructor tidak menambah eksperimen setelah anggaran habis.
+- Lab aktif diag-004 / batch-two-stops-windows-v1 / a001. Checkpoint sebelumnya completed; task baru mengikuti arah probe yang disimpan. Runtime Go dipulihkan dari arsip lama tanpa download; build dan dua fixture terverifikasi. Bukti instructor di labs/diag-004/attempts/a001/artifacts; bukan evidence learner.
+- Learner membaca source, menemukan akses di luar batas A, menelusuri runner return 2 ke os.Exit, dan memilih dua direct invocations. Salah menganggap len(rows) panjang string, mengaitkan bounds panic dengan panic(err) file-write, dan menyebut worker B return normal. Belum ada runtime output learner. Batas proses dalam uraian kelanjutan sesudah panic ambigu, belum ditetapkan sebagai misconception pasti.
+- Catatan aktual dan feedback: labs/diag-004/attempts/a001/notes.md o01/feedback01. Bantuan baru sebelum attempt H0; source exposure tercatat. Setelah attempt H4 concept/debugging khusus A (slice length, runtime panic, proses worker versus runner). Prior H4 followup01 juga tetap diketahui. Tidak memberi solusi B atau patch kode.
+- Semua skor, confidence, proficiency, evidence assessment dan review plan tidak berubah. Penelusuran parsial belum cukup untuk skor debugging atau revisi scope concept sebelumnya. Observasi mentah tersimpan, tanpa evidence mastery baru atau pola berulang yang ditetapkan. Review tetap 24 Oktober 2026; sesi ini bukan delayed retrieval.
+- Kalibrasi maintain level 1, pause untuk anggaran; learner tidak melaporkan bosan/frustrasi. Next check: apakah worker B mencapai return di main, lalu prediksi direct invocation dan eksperimen terbatas sebelum eksekusi. Environment siap, tidak ada patch learner tertunda.
+- Checkpoint learner/sessions/2026-10-22-s02/checkpoint.md; active_work menunjuk diag-004. State hanya berubah pada pointer administratif. Validasi akhir dicatat di checkpoint. Tidak ada commit/push atau automation.
+
+
+### 2026-10-22-s03-cp01
+
+- Session 2026-10-22-s03; paused, diag-004 / batch-two-stops-windows-v1 / a001 masih aktif. Penutupan dimulai 14:22:42 WIB setelah pemeriksaan awal 13:36:51, rentang 45 menit 51 detik termasuk interaksi/jeda, bukan waktu kerja aktif. Anggaran 45 menit; tidak menambah eksperimen setelah penutupan.
+- Learner mengenali loop B, menelusuri penghentian sesudah arahan readiness/panic, memilih JSON dan memprediksi worker 0/runner 2. Membaca hasil 2/2 dan supervisor log baseline, lalu menghubungkan PID 23324 dengan TerminateProcess. Tidak ada rerun learner terverifikasi, patch, atau runtime inspection A.
+- Evidence 2026-10-22-s03-e01 concept dan e02 debugging parsial; detail labs/diag-004/attempts/a001/notes.md, s03-o01–o11; artefak labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt. Log berasal dari baseline instructor 10:45, diinspeksi learner pada sesi ini. Satu attempt, bukan dua task independen.
+- Assessment 2026-10-22-s03-as01: concept os.processes 3 -> 2. Dua atribusi eksplisit masih keliru: worker status dianggap mengikuti LASTEXITCODE lama (o06), kemudian return runner (o11) setelah pengajaran. Guided tracing berhasil, tetapi provenance belum konsisten mandiri. Bukan penurunan karena API unfamiliarity, satu jawaban singkat, meminta bantuan, waktu, atau referen source/output yang ambigu pada o09. Evidence sukses sebelumnya dipertahankan; estimasi saat ini perlu fresh targeted check.
+- Implementation tetap 3 tanpa observasi ulang; debugging/judgment/transfer null, confidence low, proficiency learning; 37 competency lain tetap. Debugging parsial bernilai, belum cukup cakupan crash/kill/startup node penuh. Tidak ada klaim mastery/transfer/delayed retrieval.
+- Hint maksimum concept H4/debugging H4; loop setelah H1, JSON dipilih learner, supervisor log dipilih instructor H3. Penjelasan API, ProcessState, panic dan koreksi provenance H4. Tidak ada implementation learner/instructor baru.
+- Gap aktual: asal status worker/runner/shell. Belum menetapkan recurring pattern; observasi masih satu attempt dan referen pertanyaan sempat ambigu. Feedback emosi tidak diberikan. Kalibrasi maintain level 1; immediate remediation dipersempit ke pemilik status sebelum runtime A, berdasarkan o06/o11.
+- Next step: tandai pemilik/sumber dua status pada main.go, lalu prediksi hipotetis return runner 7 dengan TerminateProcess tetap 2, sebelum output/penjelasan. Setelah jelas, lanjutkan prediksi dan inspeksi runtime A. Tidak mengubah source secara diam-diam. Tidak ada blocker environment.
+- Checkpoint learner/sessions/2026-10-22-s03/checkpoint.md; active_work menunjuknya. Review concept/implementation tetap 24 Oktober 2026; provenance status diprioritaskan pada fresh concept review. State/history disimpan, validasi akhir dicatat di checkpoint. Tidak ada automation, commit/push.
+
+
+### 2026-10-22-s04-cp01
+
+Status **paused**, atas permintaan eksplisit learner: "Pause sesi ini dulu". Penutupan mulai 2026-10-22T15:28:17+07:00; startup pertama bertimestamp 15:26:17. Rentang sekitar dua menit mencakup persiapan/interaksi, bukan pengukuran kerja aktif. Anggaran awal 45 menit tidak habis.
+
+Melanjutkan diag-004 / batch-two-stops-windows-v1 / a001 dari s03-cp01. Prompt pemilik/sumber worker_exit_code dan $LASTEXITCODE setelah .\lab.exe B sudah diberikan. Belum ada respons reasoning, hipotesis baru, eksperimen, inspeksi laporan, atau patch learner dalam sesi ini. Pertanyaan hipotetis perubahan return menjadi 7 belum diberikan. Tidak menganggap pause sebagai kegagalan.
+
+Seluruh skor/evidence/assessment/review tetap: os.processes concept 2, implementation 3, debugging/judgment/transfer null; confidence low, proficiency learning. Tidak ada bukti baru untuk mengubah penilaian atau menetapkan misconception/pattern baru. Gap dari s03 tentang asal status belum diperiksa ulang. Tidak ada klaim kemampuan mandiri baru.
+
+Bantuan: prompt menunjuk main.go (H3 concept untuk lokasi); maksimum bantuan historis attempt tetap concept H4/debugging H4. Tidak ada penjelasan solusi atau bantuan implementation baru. Dukungan environment: go1.26.0 windows/amd64 berhasil diperiksa, lab.exe ada, hash source sama dengan snapshot; tidak menjalankan ulang fixture. Laporan terdahulu tetap baseline instructor.
+
+learner_feedback: permintaan pause eksplisit; alasan/emosi tidak disebutkan. calibration_decision: pause, difficulty tetap 1, tidak ada perubahan tingkat atau scope tambahan berdasarkan kemampuan. Next check tetap pemisahan pemilik/sumber status. Blocker environment tidak ditemukan pada startup.
+
+Next step: buka labs/diag-004/main.go tanpa menjalankan atau mengubah kode. Jawab proses pemilik dan baris sumber untuk (1) worker_exit_code dalam laporan, (2) $LASTEXITCODE setelah .\lab.exe B. Tunggu jawaban sebelum memberi prediksi hipotetis hanya return runner berubah 7 sementara TerminateProcess tetap 2. Jika sumber status jelas, lanjutkan prediksi dan inspeksi runtime A sesuai waktu sesi berikut. Ini lanjutan terbimbing dari attempt sama, bukan delayed retest.
+
+Review concept/implementation tetap 24 Oktober 2026. Notes: labs/diag-004/attempts/a001/notes.md. Tidak ada commit/push atau automation.
+
+Checkpoint pusat: learner/sessions/2026-10-22-s04/checkpoint.md
+
+
+### 2026-10-22-s04-cp02
+
+- Session 2026-10-22-s04; **completed**, diag-004 / batch-two-stops-windows-v1 / a001. Melanjutkan cp01 yang paused; cp01 tetap dipertahankan. Penutupan mulai 16:04:07 WIB setelah resume 15:47:39. Tidak memakai sisa waktu untuk task baru setelah target selesai.
+- Learner memisahkan pemilik worker/runner, memprediksi worker 2/runner 7 dengan benar, memilih dua log A dan memprediksi bounds error, lalu mengidentifikasi panic stderr sebagai bukti sebab. Jawaban penutup menyatakan status saja tidak menentukan penyebab. Detail o01-o05: labs/diag-004/attempts/a001/notes.md. Tidak ada rerun atau patch; log berasal dari baseline instructor 10:45.
+- Evidence 2026-10-22-s04-e01 concept, e02 debugging, e03 concept; satu attempt yang sama, bukan tiga task independen. A logs: labs/diag-004/attempts/a001/artifacts/A/supervisor.log dan worker.stderr.log. Evidence B terdahulu s03-e02 dan startup s01-e02 dipakai bersama tanpa menulis ulang observasi lama.
+- Bantuan maksimum concept H4/debugging H4; pemilihan dua log A dibuat learner, tetapi sebab A dan mekanisme B telah diajarkan. Prediksi status berhasil setelah penjelasan ProcessState. Tidak ada bantuan implementation baru atau evidence implementasi sesi ini. Kemandirian/retensi pada varian baru belum teruji.
+- Assessment 2026-10-22-s04-as01: debugging null -> 2 karena cakupan guided diagnosis crash/termination/startup kini cukup; concept tetap 2 (immediate guided application), implementation tetap 3, judgment/transfer null, confidence low. Proficiency learning -> functional sesuai ambang map, berarti capability standar dengan guidance, bukan mastery atau seluruh outcome process. 37 competency lain tetap.
+- Terminologi error diperjelas menjadi nonzero termination; tidak otomatis bug internal. Tidak menetapkan misconception/pattern berulang baru. Bukti perbaikan provenance segera ada, tetapi perlu fresh check. Mistake-patterns tidak berubah.
+- calibration_decision maintain difficulty 1: reasoning membaik dan runtime A selesai dalam scope yang sama; tidak ada dasar menaikkan kompleksitas dari hasil terbantu. Learner meminta pause/resume tanpa laporan bosan/frustrasi. Next check: fresh H0/H1 status ownership dan diagnosis dari runtime.
+- Review concept/implementation tetap 24 Oktober 2026; debugging review 2026-10-22-s04-r01 ditambahkan pada tanggal sama (D2). Koordinasikan probe kecil sesuai waktu, bukan tiga sesi penuh wajib. Belum ada review completed atau automation.
+- Checkpoint learner/sessions/2026-10-22-s04/checkpoint-cp02.md; active_work null. Source sama dengan starter, tidak ada blocker atau implementasi tertunda. Next direction: review segar 24 Oktober, atau jika belajar sebelum itu pilih target kecil sesuai selection policy tanpa mengulang latihan selesai sebagai retest. Tidak ada commit/push. Validasi akhir dicatat sesudah pemeriksaan.
+
