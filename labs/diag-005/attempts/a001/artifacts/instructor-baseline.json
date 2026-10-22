@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-10-23T05:47:17.025110+07:00",
+  "build_exit": 0,
+  "runs": [
+    {
+      "case": "A",
+      "cwd": "D:\\Learning\\Learning-With-AI\\labs\\diag-005",
+      "stdout": "Impor: mulai\nImpor: selesai, 3 pesanan\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "case": "B",
+      "cwd": "D:\\Learning\\Learning-With-AI",
+      "stdout": "Impor: mulai\nImpor: gagal\n",
+      "stderr": "Detail: open data/orders.txt: The system cannot find the path specified.\n",
+      "exit_code": 1
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "lab_id": "diag-005",
+  "task_variant": "order-import-two-launches-windows-v1",
+  "task_type": "debugging",
+  "mode": "independent_diagnostic",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.files-and-descriptors"],
+  "secondary_competency_ids": [],
+  "target_axes": ["debugging", "concept"],
+  "prerequisites": ["os.processes"],
+  "prerequisite_decision": "Gate satisfied: os.processes concept 2 and implementation 3. Current scope concerns process launch and file access, not signals. Relevant evidence includes s04-e01/e03 and earlier independent delivery implementation; see state.",
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 30,
+  "session_budget_minutes": 60,
+  "closing_reserve_minutes": 5,
+  "selection_rationale": "Latest checkpoint s04-cp02 completed; active_work null. All planned reviews are October 24, after today's October 23 session. No established mistake pattern. Probe an unassessed fundamental aligned with execution/resource goals. Do not repeat completed process lab as retrieval.",
+  "prior_exposure": ["Go/PowerShell launch and process outcomes practiced. No recorded assessment of file resolution. Broader exposure unknown."],
+  "environment": {
+    "required": ["Windows", "PowerShell", "Go 1.26.0"],
+    "build": "go build -o lab.exe .",
+    "fixture": "Three order IDs. ReadFile uses a relative path; launch A has lab CWD, launch B has repository CWD. Expected baseline A succeeds, B fails because target path is absent at repository root.",
+    "external_services": [],
+    "limits": "Only path resolution sampled. Not permission, descriptor exhaustion, durability, or complete node mastery. Missing input is intentional; build failure is not."
+  },
+  "constraints": ["Same binary and fixture for A/B", "No data duplication", "No machine-specific absolute path", "Preserve data", "Learner owns diagnosis and fix"],
+  "success_criteria": ["Hypothesis before experiment", "Predict a distinguishing observation", "Connect actual output to path resolution", "Both launches succeed after learner repair", "Explain behavior when package location changes"],
+  "verification_plan": [
+    {"axis": "debugging", "check_type": "discriminating_experiment", "observable_evidence": "Learner chooses inspection or controlled experiment, predicts outcome, and identifies cause using actual evidence.", "assistance_boundary": "Provide symptoms and invocation facts only before initial hypothesis. Do not name CWD mechanism or choose source line.", "limitations": "One file-not-found incident; full debugging outcome not covered."},
+    {"axis": "concept", "check_type": "constraint_change", "observable_evidence": "After diagnosis learner predicts behavior under package relocation and explains which location governs the chosen strategy.", "assistance_boundary": "Wait for initial reasoning before API guidance; record mechanism-bearing guidance per axis.", "limitations": "No file-handle or permission concept assessment. Implementation may be observed but is not a primary axis."}
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Path resolution unassessed; unknown is not weak.",
+    "integration_scope": "One process and one local text file.",
+    "failure_complexity": "One reproducible fault; dominant new challenge is explaining different behavior under two invocations.",
+    "scaffolding": "Instructor provides faulty starter, fixture, executable and reproducible commands. No solution provided.",
+    "constraints": "Read package data independent of launcher location; movable package.",
+    "tooling_familiarity": "Familiar Go/PowerShell; Go confirmed. API unfamiliarity handled separately."
+  }
+}

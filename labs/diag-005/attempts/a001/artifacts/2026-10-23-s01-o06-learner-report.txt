@@ -1,0 +1,8 @@
+Learner-reported probe output, recorded 2026-10-23T06:14:31+07:00.
+This is not a captured terminal log or a new instructor execution.
+
+Working directory: D:\Learning\Learning-With-AI
+Input path: /data/orders.txt
+Absolute representation: D:\data\orders.txt
+
+Learner interpretation: adding the leading slash makes the full path start from the local disk followed directly by the input path.

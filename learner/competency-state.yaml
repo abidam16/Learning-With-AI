@@ -84,9 +84,9 @@ curriculum_file: curriculum/competency-map.yaml
 learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
-updated_on: '2026-10-22'
-last_session_id: 2026-10-22-s04
-last_applied_checkpoint: 2026-10-22-s04-cp02
+updated_on: '2026-10-23'
+last_session_id: 2026-10-23-s01
+last_applied_checkpoint: 2026-10-23-s01-cp01
 active_work: null
 competencies:
   os.processes:
@@ -936,19 +936,169 @@ competencies:
     review_plan: []
   os.files-and-descriptors:
     scores:
-      concept: null
+      concept: 3
       implementation: null
-      debugging: null
+      debugging: 2
       judgment: null
       transfer: null
     weighted_score: null
-    confidence: none
-    proficiency: unseen
-    last_assessed_on: null
+    confidence: low
+    proficiency: learning
+    last_assessed_on: '2026-10-23'
     review_due: false
-    evidence: []
-    assessment_history: []
-    review_plan: []
+    evidence:
+    - session_id: 2026-10-23-s01
+      date: '2026-10-23'
+      lab_id: diag-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-import-two-launches-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-23-s01-e01
+      axis: concept
+      assessment_status: not_observed
+      max_hint: H1
+      artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o01/o02
+      result: Correct initial CWD hypothesis; unverified slash remedy and predicted full path later contradicted.
+      prompt_context: No mechanism supplied before initial answer; neutral clarification H1.
+      reasoning_check:
+        check_type: prediction
+        prompt: Explain A/B difference, then predict full path after adding leading slash.
+        learner_response: Relative input uses launch directory; prefix slash proposed to fix B; predicted repository/data/orders.txt.
+        observation_reference: labs/diag-005/attempts/a001/notes.md — o01/o02
+        interpretation: Preserve initial success and mistaken prediction; insufficient alone for numerical score.
+        limitations:
+        - One source-informed attempt, not confirmed source-blind.
+    - session_id: 2026-10-23-s01
+      date: '2026-10-23'
+      lab_id: diag-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-import-two-launches-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-23-s01-e02
+      axis: debugging
+      assessment_status: assessed
+      max_hint: H5
+      artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o03-o06/o10
+      result: Learner chose baseline/change/rebuild/A-B comparison with falsification criterion; observed new failure,
+        interpreted supplied path probe, and verified repaired A/B.
+      prompt_context: H0/H1 before A/B plan; H5 scoped to supplied observation program. Later API snippet assisted
+        repair; not a retroactive loss of earlier evidence.
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: Choose an experiment that could refute the proposed slash fix.
+        learner_response: Compare A/B before and after adding slash; formerly successful A failing refutes fix. Reported
+          that result, then interpreted D:/data/orders.txt from supplied probe.
+        observation_reference: labs/diag-005/attempts/a001/notes.md — o03-o06/o10
+        interpretation: Supports debugging 2 for file-not-found diagnosis with supplied instrumentation, not wholly
+          independent measurement design.
+        limitations:
+        - No permission or descriptor-exhaustion case.
+        - Probe written by instructor; A/B design chosen by learner.
+    - session_id: 2026-10-23-s01
+      date: '2026-10-23'
+      lab_id: diag-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-import-two-launches-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-23-s01-e03
+      axis: concept
+      assessment_status: assessed
+      max_hint: H1
+      artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o06-o08/o11
+      result: Learner explained launch-context dependence, selected executable directory as invariant anchor, formed
+        exact data path, and predicted data resolution after relocation before feedback.
+      prompt_context: Strategy and directory extraction reasoned by learner before repair API snippet; concept prompts
+        H1. Debugging measurement H5 and implementation snippet H5 recorded separately. Post-response launch correction
+        H4 is teaching, not new learner evidence.
+      reasoning_check:
+        check_type: constraint_change
+        prompt: If whole package moves to D:/Latihan/impor while terminal stays at repository, what data path is formed
+          and why?
+        learner_response: D:/Latihan/impor/data/orders.txt; success because executable and data move together. Learner
+          also suggested .\impor\lab.exe from repository as launch command.
+        observation_reference: labs/diag-005/attempts/a001/notes.md — o06-o08/o11
+        interpretation: Concept 3 narrowly supported for data resolution inside intended executable; relocation reasoning
+          is conditional on correct launch. Command mismatch explicitly retained and corrected after response; review
+          both lookup layers.
+        limitations:
+        - Single case/date, low confidence; no whole-node mastery.
+        - Relative launch command was inconsistent with hypothetical location; correction came after this response.
+        - No permissions, handles, durability, retention or cross-domain transfer.
+    - session_id: 2026-10-23-s01
+      date: '2026-10-23'
+      lab_id: diag-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-import-two-launches-windows-v1
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-23-s01-e04
+      axis: implementation
+      assessment_status: not_observed
+      max_hint: H5
+      artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o09/o10
+      result: Learner integrated os.Executable/Dir snippet with filepath.Join and ReadFile; source builds and A/B
+        plus instructor relocation pass.
+      prompt_context: H5 supplied executable-directory code; learner chose anchor and added Join/read path; scaffold
+        already handled ReadFile/error cases.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: Explain exact intended data path before implementing the approach.
+        learner_response: Take executable directory and append data/orders.txt; supplied directory snippet then integrated
+          into learner source.
+        observation_reference: labs/diag-005/attempts/a001/notes.md — o09/o10
+        interpretation: Artifact correctness established; implementation axis remains unassessed for broader safe
+          resource handling/permission outcome. Do not infer independence from green output.
+        limitations:
+        - Target axes concept/debugging; no learner-written resource lifecycle or permission mechanism.
+        - Relocation run performed by instructor.
+    assessment_history:
+    - assessment_id: 2026-10-23-s01-as01
+      session_id: 2026-10-23-s01
+      checkpoint_id: 2026-10-23-s01-cp01
+      date: '2026-10-23'
+      evidence_ids:
+      - 2026-10-23-s01-e02
+      - 2026-10-23-s01-e03
+      before:
+        scores:
+          concept: null
+          debugging: null
+        confidence: none
+        proficiency: unseen
+      after:
+        scores:
+          concept: 3
+          debugging: 2
+        confidence: low
+        proficiency: learning
+      rationale: 'Narrow path baseline: learner-generated data-location reasoning and constrained prediction; diagnostic
+        instrument supplied. Preserve final launch-command uncertainty for fresh review, not broad competence or mastery.
+        Other axes insufficiently sampled.'
+    review_plan:
+    - review_id: 2026-10-23-s01-r01
+      anchor_evidence_ids:
+      - 2026-10-23-s01-e02
+      - 2026-10-23-s01-e03
+      anchor_date: '2026-10-23'
+      target_axes:
+      - concept
+      - debugging
+      task_type: delayed_retrieval
+      target_date: '2026-10-25'
+      scheduled_date: '2026-10-25'
+      scheduling_reason: D2 Sunday available; fresh H0/H1 small variant testing launch command versus data lookup
+        and learner-selected observation. Existing process reviews remain October 24.
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
   network.sockets:
     scores:
       concept: null

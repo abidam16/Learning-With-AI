@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-23T06:33:50+07:00",
+  "source_sha256": "5d7de1ba06a3ab85283165a629b40cbdd3f4ac4c09c4b7f29b4b1af023900920",
+  "origin": "instructor verification of learner implementation",
+  "learner_report": {
+    "A": {
+      "output": "Impor: mulai\nImpor: selesai, 3 pesanan",
+      "exit_code": 0
+    },
+    "B": {
+      "output": "Impor: mulai\nImpor: selesai, 3 pesanan",
+      "exit_code": 0
+    }
+  },
+  "runs": [
+    {
+      "case": "A",
+      "cwd": "D:\\Learning\\Learning-With-AI\\labs\\diag-005",
+      "exit_code": 0,
+      "stdout": "Impor: mulai\nImpor: selesai, 3 pesanan\n",
+      "stderr": ""
+    },
+    {
+      "case": "B",
+      "cwd": "D:\\Learning\\Learning-With-AI",
+      "exit_code": 0,
+      "stdout": "Impor: mulai\nImpor: selesai, 3 pesanan\n",
+      "stderr": ""
+    }
+  ],
+  "build": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

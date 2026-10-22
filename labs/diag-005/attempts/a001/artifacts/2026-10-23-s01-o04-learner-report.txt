@@ -1,0 +1,25 @@
+Learner-reported output, recorded 2026-10-23T06:07:58+07:00.
+Not a captured terminal log or a new instructor execution. Exit codes not provided.
+
+Before change:
+Command B: .\labs\diag-005\lab.exe
+Impor: mulai
+Detail: open data/orders.txt: The system cannot find the path specified.
+Impor: gagal
+
+Command A (from labs/diag-005): .\lab.exe
+Impor: mulai
+Impor: selesai, 3 pesanan
+
+After change:
+Command B: .\labs\diag-005\lab.exe
+Impor: mulai
+Detail: open /data/orders.txt: The system cannot find the path specified.
+Impor: gagal
+
+Command A (from labs/diag-005): .\lab.exe
+Impor: mulai
+Detail: open /data/orders.txt: The system cannot find the path specified.
+Impor: gagal
+
+Learner conclusion: after the change, invocation from labs/diag-005 also fails to find /data/orders.txt.
