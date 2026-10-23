@@ -85,16 +85,18 @@ learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
 updated_on: '2026-10-23'
-last_session_id: 2026-10-23-s02
-last_applied_checkpoint: 2026-10-23-s02-cp02
+last_session_id: 2026-10-23-s03
+last_applied_checkpoint: 2026-10-23-s03-cp01
 active_work:
   lab_id: diag-006
   task_variant: order-export-completeness-windows-v1
   attempt_id: a001
-  session_id: 2026-10-23-s02
-  checkpoint_id: 2026-10-23-s02-cp02
-  checkpoint_reference: learner/sessions/2026-10-23-s02/checkpoint-cp02.md
-  next_step: Predict how Flush error reaches caller, then author checked Flush propagation; inspect Close errors and verify exact output for 3 and 600 orders.
+  session_id: 2026-10-23-s03
+  checkpoint_id: 2026-10-23-s03-cp01
+  checkpoint_reference: learner/sessions/2026-10-23-s03/checkpoint.md
+  next_step: Distinguish ignored Close return from assignment to named result; preserve
+    prior write error, then learner authors deferred cleanup and verifies 3/600 rows
+    and failures.
 competencies:
   os.processes:
     scores:

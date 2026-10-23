@@ -22,7 +22,9 @@ func exportReport(path string, count int) error {
 			return err
 		}
 	}
-	w.Flush()
+	if err := w.Flush(); err != nil {
+		return err
+	}
 	return nil
 }
 
