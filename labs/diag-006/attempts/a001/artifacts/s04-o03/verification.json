@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "count": 3,
+      "exit_code": 0,
+      "rows": 3,
+      "mismatched_lines": [],
+      "exact_ordered_rows": true
+    },
+    {
+      "count": 600,
+      "exit_code": 0,
+      "rows": 600,
+      "mismatched_lines": [],
+      "exact_ordered_rows": true
+    }
+  ],
+  "source_matches_snapshot": true,
+  "failure_injection": "not performed"
+}

@@ -170,3 +170,51 @@
 - Interpretation: still conflates a deferred call's returned value with outer named result mutation, and successful cleanup with successful export. Previous o07 recognition of timing and o08 correct signature remain valid narrow observations; do not rewrite them or infer complete understanding from them.
 - Feedback: caller should receive Fprintf failure; successful Close does not make writing successful. Close's returned value does not automatically modify resultErr. Only explicit assignment can do that. Unconditionally assigning a nil Close result would erase the earlier error; preserve an existing failure and use a Close failure when no earlier failure exists. No full implementation supplied or target source edited.
 - No learner response to this closing explanation yet; distinguish teaching from demonstrated understanding. Guided concept/debugging/implementation maximum H5 retained. No new recurring pattern or emotional inference.
+
+## 2026-10-23-s04-o01 — ignored return versus named-result assignment
+
+- Recorded 2026-10-23T15:58:24+07:00. Prompt assumes resultErr already contains a write error and Close succeeds, returning nil. A calls f.Close() in a deferred closure without assignment; B assigns resultErr = f.Close(). Asked for caller result and causal difference before execution.
+- Actual learner response: "Pada A, pemanggil akan mendapat nilai nil ketika f.Close() gagal. Untuk B, pemanggil akan mendapat nilai gagal Close() dan disimpan ke variable resultErr, sehingga pemanggil mendapat keterangan error tersebut."
+- Interpretation: recognizes explicit assignment in B for a hypothetical Close failure, but changes the supplied Close-success premise. A appears to conflate ignored Close return with outer result; clarify the premise before attributing all mismatch to mechanism misunderstanding. No source change or runtime result supplied.
+- Feedback H4 concept within existing attempt maximum H5: restate prior write error and successful Close; A leaves resultErr unchanged, B explicitly overwrites it with nil. Even if Close failed, A would retain the prior write error rather than automatically become nil. Successful cleanup does not establish successful writing.
+- Next focused check: under a first-failure policy, what condition on resultErr permits replacing it with Close's returned value? Guided reasoning, not independent assessment. No instructor target edit/full repair, numerical score, assessment evidence, review, difficulty or recurring-pattern update.
+
+## 2026-10-23-s04-o02 — preserves existing error
+
+- Learner response: "ketika resultErr != nil, maka kita tidak replace dengan hasil f.Close() agar error sebelumnya tidak terhapus".
+- Reasoning check: correctly identifies existing non-nil result as the condition that prevents replacement and explains preservation. Immediate application after o01 feedback within guided attempt; not independent retention or proof of full cleanup implementation.
+- Feedback affirms the condition. Next learner-owned task: apply named result and deferred cleanup in exportReport; Close must execute even after earlier write/Flush error, existing error must survive, and Close error must reach caller when no prior error exists. Clarify that the conditional controls result replacement, not whether cleanup happens. This is partial approach assistance H5, not a full code solution.
+- Learner to provide changed exportReport for review before build/fixture verification. No code/runtime artifact yet; no numerical scores, assessment evidence, reviews, difficulty or mistake-pattern changes. Existing attempt maxima concept/debugging/implementation H5 retained.
+
+## 2026-10-23-s04-o03 — learner cleanup patch and normal-path verification
+
+- Learner requests evaluation of changed exportReport. Inspection began 2026-10-23T16:06:16+07:00. Learner applied named result and deferred closure, with resultErr = f.Close() inside if resultErr == nil. Existing Fprintf/Flush error returns preserved. Instructor did not edit target source.
+- Correct parts: named result compiles, normal return allows Close result to reach caller, and existing failure is not overwritten. Remaining source-derived defect: earlier write/Flush failure prepares non-nil resultErr, causing deferred conditional to skip f.Close entirely. Thus cleanup on early failure is not ensured. Distinguish this control-flow finding from an observed runtime leak; failure injection has not been performed.
+- Preserved attempt: artifacts/s04-o03/main.go.txt. Instructor build: ../../.local-tools/go/bin/go.exe build -o attempts/a001/artifacts/s04-o03/lab.exe . ; exit 0 in build.txt. Ran this isolated executable with 3 and 600, both exit 0. Verified exact ordered content of every CSV line, counts 3/600, no mismatches. Outputs and reports preserved within same directory; verification.json records results and source_matches_snapshot=true. Learner's existing out reports were not overwritten.
+- Interpretation: valid guided partial implementation and normal-path correctness; whole cleanup contract not yet met. Passing normal fixtures does not verify failure cleanup or independent understanding. No new numerical assessment/evidence/review changes at this stage; concept/debugging/implementation H5 retained.
+- Feedback identifies conditional cleanup issue without supplying corrected implementation. Next focused causal prediction: if Fprintf returns a write error and exportReport executes return err, trace resultErr, deferred condition and whether Close runs. Await response before learner repair/failure verification. Same difficulty and attempt; no recurring-pattern update.
+
+## 2026-10-23-s04-o04 — corrected unconditional cleanup and verified repair
+
+- Learner correctly predicts prior patch: Fprintf error becomes resultErr, then conditional skips Close. Reports independently authoring another patch within the already guided task. Inspection began 2026-10-23T16:11:03+07:00.
+- Actual deferred closure now first executes err = f.Close(), then assigns resultErr = err only if resultErr == nil. Named result and existing write/Flush error handling remain. This meets first-error preservation and unconditional cleanup after successful creation on the ordinary return paths in scope. os.Create failure returns before registering cleanup. Instructor made no learner-target edits.
+- Artifact correctness: snapshot artifacts/s04-o04/main.go.txt, build.txt exit 0, isolated real CLI executions for 3/600 both exit 0 with exact ordered contents of every row; verification.json source_matches_snapshot=true. Existing learner reports untouched.
+- Instructor-authored failure harness copies learner source, changing only creation call to an injectable factory. Seven test cases PASS (failure-tests.txt, test exit 0): create failure; small success; Flush-time underlying write failure; same plus Close failure; buffer-full Fprintf-time underlying write failure; same plus Close failure; Close-only failure after successful Flush. Tests assert error identity, write/close counts, successful output bytes. Controlled fake file is not a real Windows disk/device failure. Harness methodology in artifacts/s04-o04/README.md; no learner authorship claimed for tests.
+- Reasoning evidence: correct causal trace of previous conditional-cleanup defect, followed by learner-authored repair. Assistance maxima concept/debugging/implementation H5 persist; source/test success does not establish independence. No numerical assessment/evidence/review changes yet, pending final targeted caller-flow check.
+- Planned final question: when all Fprintf and Flush operations succeed but Close returns an error, trace exportReport -> run -> main to predict message and process exit status. One bounded reasoning check before session completion; no additional lab. Difficulty maintained, no recurring-pattern update.
+
+
+## 2026-10-23-s04-o05 — final caller-flow reasoning and completion
+
+- Closing started 2026-10-23T16:16:54+07:00. Learner correctly explains that successful earlier work leaves resultErr nil, Close error becomes exportReport result, run enters its error branch and prints Ekspor gagal with the error, returns 1, and main passes 1 to os.Exit. Parenthetical "error == nil" understood in context as no prior result error; not treated as a new defect.
+- This causal explanation is consistent with the actual learner patch and follows guided H5 work. It confirms current application, not independent retention. Core implementation is learner-authored; all failure tests are instructor-authored.
+- Session and diag-006 attempt a001 completed. Implementation null -> 2 for safe cleanup/error propagation with guidance, verified normal output and controlled failures. Concept stays 3 with earlier independent path-reasoning scope explicitly preserved; buffering/error-flow concept remains guided. Debugging stays 2; judgment/transfer null. Confidence low; proficiency learning -> functional under map thresholds, not independent mastery. No weighted score.
+- Misconceptions observed during this session: premise mismatch/ignored return versus assignment, and putting cleanup itself inside the error-replacement condition. Later reasoning and patch correct these in the current task; fresh retrieval needed. No independently recurring cross-task pattern established.
+- Hint maxima concept H5, debugging H5, implementation H5 across this continuing attempt. No H6 solution or instructor target edit. Difficulty 1 maintained; foundation teaching narrowed the immediate work. Learner feedback about challenge/frustration not supplied; no emotion inferred.
+- Next: process review October 24 unchanged; October 25 path review retained plus a fresh H0/H1 small buffering/cleanup/error-flow variant anchored to this session. No external automation. No commit/push.
+
+
+### 2026-10-23-s04-cp01 saved
+
+PASS: map/state/lab YAML parse; competency IDs and unique evidence/review references valid; prior observations and other competencies preserved; checkpoint/history/state agree; source matches final learner snapshot. Implementation null->2, proficiency functional, confidence low; active work cleared.
+Checkpoint: learner/sessions/2026-10-23-s04/checkpoint.md

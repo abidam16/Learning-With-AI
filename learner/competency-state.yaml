@@ -85,18 +85,9 @@ learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
 updated_on: '2026-10-23'
-last_session_id: 2026-10-23-s03
-last_applied_checkpoint: 2026-10-23-s03-cp01
-active_work:
-  lab_id: diag-006
-  task_variant: order-export-completeness-windows-v1
-  attempt_id: a001
-  session_id: 2026-10-23-s03
-  checkpoint_id: 2026-10-23-s03-cp01
-  checkpoint_reference: learner/sessions/2026-10-23-s03/checkpoint.md
-  next_step: Distinguish ignored Close return from assignment to named result; preserve
-    prior write error, then learner authors deferred cleanup and verifies 3/600 rows
-    and failures.
+last_session_id: 2026-10-23-s04
+last_applied_checkpoint: 2026-10-23-s04-cp01
+active_work: null
 competencies:
   os.processes:
     scores:
@@ -123,23 +114,20 @@ competencies:
       axis: concept
       assessment_status: not_observed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o01/o02
-      result: 'Learner correctly traced mode/args and rejection branch but predicted
-        no Batch: selesai because os.Exit(2) stops execution. Shell-visible status not
-        separately identified.'
+      result: 'Learner correctly traced mode/args and rejection branch but predicted no Batch: selesai because
+        os.Exit(2) stops execution. Shell-visible status not separately identified.'
       max_hint: H4
-      prompt_context: Args/Executable API clarified. Exit-status definition supplied
-        (H4 on that concept subpart); no process-boundary mechanism or remedy supplied
-        before learner revision. Neutral follow-up prompts H1.
+      prompt_context: Args/Executable API clarified. Exit-status definition supplied (H4 on that concept subpart);
+        no process-boundary mechanism or remedy supplied before learner revision. Neutral follow-up prompts
+        H1.
       reasoning_check:
         check_type: prediction
-        prompt: 'Predict output and LASTEXITCODE for lab.exe ditolak; does Batch: selesai
-          print and why?'
-        learner_response: 'Args length 2 skips first branch, mode becomes ditolak, command
-          invokes lab.exe --job ditolak, runJob rejects and exits 2; Batch: selesai
-          will not print.'
+        prompt: 'Predict output and LASTEXITCODE for lab.exe ditolak; does Batch: selesai print and why?'
+        learner_response: 'Args length 2 skips first branch, mode becomes ditolak, command invokes lab.exe
+          --job ditolak, runJob rejects and exits 2; Batch: selesai will not print.'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o01/o02
-        interpretation: Useful partial trace; uncertainty about termination scope. Insufficient
-          initial evidence for a numerical score; later revision preserved separately.
+        interpretation: Useful partial trace; uncertainty about termination scope. Insufficient initial evidence
+          for a numerical score; later revision preserved separately.
         limitations:
         - One attempt; not a repeated mistake.
         - Definition/API support precedes response; not wholly H0.
@@ -155,22 +143,20 @@ competencies:
       axis: debugging
       assessment_status: not_observed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o03
-      result: Learner chose to run the command and inspect LASTEXITCODE, stated completion
-        output would falsify prediction, reported both messages and 0, and rejected
-        original prediction.
+      result: Learner chose to run the command and inspect LASTEXITCODE, stated completion output would falsify
+        prediction, reported both messages and 0, and rejected original prediction.
       max_hint: H1
-      prompt_context: H1 workflow prompts and command confirmation. Shell/API definitions
-        supplied earlier; no fault location or fix supplied.
+      prompt_context: H1 workflow prompts and command confirmation. Shell/API definitions supplied earlier;
+        no fault location or fix supplied.
       reasoning_check:
         check_type: discriminating_experiment
         prompt: Choose an experiment and an observation that would refute your prediction.
-        learner_response: 'Run lab.exe ditolak, inspect LASTEXITCODE; Batch: selesai
-          would disprove prediction. Reported Job: input ditolak, Batch: selesai, and
-          0; acknowledged prediction was wrong.'
+        learner_response: 'Run lab.exe ditolak, inspect LASTEXITCODE; Batch: selesai would disprove prediction.
+          Reported Job: input ditolak, Batch: selesai, and 0; acknowledged prediction was wrong.'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o03
-        interpretation: Evidence of falsifiable checking and revision. Root-cause investigation
-          of batch contract remains incomplete; crash/kill/startup distinctions in the
-          map were not tested. Keep debugging score null.
+        interpretation: Evidence of falsifiable checking and revision. Root-cause investigation of batch contract
+          remains incomplete; crash/kill/startup distinctions in the map were not tested. Keep debugging score
+          null.
         limitations:
         - Command already present in task, so not an experiment designed from scratch.
         - Terminal output is learner-reported; reference artifacts/learner-output.txt.
@@ -187,31 +173,27 @@ competencies:
       axis: concept
       assessment_status: assessed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md — o04
-      result: 'Learner distinguished exit of lab.exe --job ditolak from the original
-        lab.exe ditolak and explained continuation to Batch: selesai. Used LASTEXITCODE
-        imprecisely for job status.'
+      result: 'Learner distinguished exit of lab.exe --job ditolak from the original lab.exe ditolak and explained
+        continuation to Batch: selesai. Used LASTEXITCODE imprecisely for job status.'
       max_hint: H4
-      prompt_context: Args/Executable API clarified. Exit-status definition supplied
-        (H4 on that concept subpart); no process-boundary mechanism or remedy supplied
-        before learner revision. Neutral follow-up prompts H1.
+      prompt_context: Args/Executable API clarified. Exit-status definition supplied (H4 on that concept subpart);
+        no process-boundary mechanism or remedy supplied before learner revision. Neutral follow-up prompts
+        H1.
       reasoning_check:
         check_type: causal_explanation
-        prompt: Which part of the original explanation needs revision to explain both
-          messages and exit code 0?
-        learner_response: 'os.Exit(2) applies to command lab.exe --job ditolak run by
-          job.Run(), not the initial lab.exe ditolak; the initial command continues
-          to print Batch: selesai. Described 2 as LASTEXITCODE of job.Run().'
+        prompt: Which part of the original explanation needs revision to explain both messages and exit code
+          0?
+        learner_response: 'os.Exit(2) applies to command lab.exe --job ditolak run by job.Run(), not the initial
+          lab.exe ditolak; the initial command continues to print Batch: selesai. Described 2 as LASTEXITCODE
+          of job.Run().'
         observation_reference: labs/diag-001/attempts/a001/notes.md — o04
-        interpretation: Supports concept 2 for this narrow lifecycle/exit-status case
-          with definition support and staged prompts. Process-boundary revision was
-          learner-generated before instructor confirmation. No claim of complete process
-          knowledge or independent command/API knowledge.
+        interpretation: Supports concept 2 for this narrow lifecycle/exit-status case with definition support
+          and staged prompts. Process-boundary revision was learner-generated before instructor confirmation.
+          No claim of complete process knowledge or independent command/API knowledge.
         limitations:
         - Only one case and date; no delayed retrieval or transfer.
-        - PID, environment, signals, and explicit explanation of normal parent termination
-          remain untested.
-        - H4 is scoped to exit-status definition; the process-boundary inference followed
-          only H1 prompts.
+        - PID, environment, signals, and explicit explanation of normal parent termination remain untested.
+        - H4 is scoped to exit-status definition; the process-boundary inference followed only H1 prompts.
         - Post-response instructor clarification is teaching, not learner evidence.
     - evidence_id: 2026-10-20-s02-e01
       session_id: 2026-10-20-s02
@@ -223,23 +205,20 @@ competencies:
       task_variant: batch-report-windows-v1
       assessment_status: not_observed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md
-      result: Learner identified unconditional batch completion, chose direct job invocation,
-        predicted rejection/2 and reported that result (o03-o06). Contrasts with earlier
-        batch completion/0.
+      result: Learner identified unconditional batch completion, chose direct job invocation, predicted rejection/2
+        and reported that result (o03-o06). Contrasts with earlier batch completion/0.
       max_hint: H1
-      prompt_context: Neutral workflow prompts before the Stdout/Run teaching. Prior
-        process-concept exposure H4 is retained; direct invocation experiment was selected
-        by learner. Later API assistance does not retroactively relabel this observation.
+      prompt_context: Neutral workflow prompts before the Stdout/Run teaching. Prior process-concept exposure
+        H4 is retained; direct invocation experiment was selected by learner. Later API assistance does not
+        retroactively relabel this observation.
       reasoning_check:
         check_type: discriminating_experiment
-        prompt: Pilih eksperimen, pengamatan, dan prediksi untuk menguji dugaan sebelum
-          perbaikan.
-        learner_response: Run lab.exe --job ditolak, inspect output and LASTEXITCODE;
-          predict only rejection and 2 because os.Exit(2); reported both as predicted.
+        prompt: Pilih eksperimen, pengamatan, dan prediksi untuk menguji dugaan sebelum perbaikan.
+        learner_response: Run lab.exe --job ditolak, inspect output and LASTEXITCODE; predict only rejection
+          and 2 because os.Exit(2); reported both as predicted.
         observation_reference: labs/diag-001/attempts/a001/artifacts/s02-direct-job-output.txt
-        interpretation: Useful learner-selected comparison and source-based diagnosis.
-          Insufficient coverage to score the map outcome distinguishing crash, kill
-          and startup failure.
+        interpretation: Useful learner-selected comparison and source-based diagnosis. Insufficient coverage
+          to score the map outcome distinguishing crash, kill and startup failure.
         limitations:
         - Same resumed attempt, not a fresh or delayed retest.
         - Execution output reported by learner, not observed directly.
@@ -256,31 +235,27 @@ competencies:
       task_variant: batch-report-windows-v1
       assessment_status: assessed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md
-      result: Learner wrote all patches. Patch01 confused Stdout with outcome and failed
-        rejection test; patch02 adopted Run error/exit handling but failed compilation;
-        patch03 uses one error return and exits batch 1 on error. Instructor build and
-        both contract tests passed.
+      result: Learner wrote all patches. Patch01 confused Stdout with outcome and failed rejection test; patch02
+        adopted Run error/exit handling but failed compilation; patch03 uses one error return and exits batch
+        1 on error. Instructor build and both contract tests passed.
       max_hint: H4
-      prompt_context: Instructor explained Stdout destination versus exit status and
-        Run's error return, then clarified one return value. No instructor patch or
-        pseudocode. Scaffold launching and stream wiring are instructor-provided.
+      prompt_context: Instructor explained Stdout destination versus exit status and Run's error return, then
+        clarified one return value. No instructor patch or pseudocode. Scaffold launching and stream wiring
+        are instructor-provided.
       reasoning_check:
         check_type: prediction
-        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap,
-          apa pesan dan LASTEXITCODE untuk lab.exe ditolak? Mengapa?
-        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai
-          normal tanpa perintah exit nonzero seperti os.Exit(1).'
+        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap, apa pesan dan LASTEXITCODE
+          untuk lab.exe ditolak? Mengapa?
+        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai normal tanpa perintah
+          exit nonzero seperti os.Exit(1).'
         observation_reference: labs/diag-001/attempts/a001/notes.md
-        interpretation: Passing learner-authored guided repair plus correct final explanation
-          supports implementation 2 for result handling and batch exit status in this
-          narrow task.
+        interpretation: Passing learner-authored guided repair plus correct final explanation supports implementation
+          2 for result handling and batch exit status in this narrow task.
         limitations:
         - Assisted implementation; not independent score 3.
         - Launching/wiring supplied by scaffold; signals and controlled shutdown untested.
-        - Same final reasoning response also supports e03, not an additional independent
-          task.
-        - Hypothetical edit was discussed only; passing tests apply to retained final
-          source.
+        - Same final reasoning response also supports e03, not an additional independent task.
+        - Hypothetical edit was discussed only; passing tests apply to retained final source.
       retest_of: null
       correction_of: null
     - evidence_id: 2026-10-20-s02-e03
@@ -293,21 +268,20 @@ competencies:
       task_variant: batch-report-windows-v1
       assessment_status: assessed
       artifact_or_observation: labs/diag-001/attempts/a001/notes.md
-      result: Correctly predicted rejection message with batch status 0 if only batch
-        os.Exit(1) were removed while if/else stayed; explained normal batch termination
-        without nonzero exit.
+      result: Correctly predicted rejection message with batch status 0 if only batch os.Exit(1) were removed
+        while if/else stayed; explained normal batch termination without nonzero exit.
       max_hint: H4
-      prompt_context: After process/exit teaching in s01 and Stdout/Run explanation
-        in s02. Final question supplies a hypothetical change but no answer before response.
+      prompt_context: After process/exit teaching in s01 and Stdout/Run explanation in s02. Final question
+        supplies a hypothetical change but no answer before response.
       reasoning_check:
         check_type: prediction
-        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap,
-          apa pesan dan LASTEXITCODE untuk lab.exe ditolak? Mengapa?
-        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai
-          normal tanpa perintah exit nonzero seperti os.Exit(1).'
+        prompt: Jika hanya os.Exit(1) pada cabang error dihapus, sementara if/else tetap, apa pesan dan LASTEXITCODE
+          untuk lab.exe ditolak? Mengapa?
+        learner_response: 'Hanya Job: input ditolak; LASTEXITCODE 0 karena program selesai normal tanpa perintah
+          exit nonzero seperti os.Exit(1).'
         observation_reference: labs/diag-001/attempts/a001/notes.md
-        interpretation: Reinforces concept 2 for distinction between job failure and
-          batch termination. No independent promotion from immediate post-teaching reasoning.
+        interpretation: Reinforces concept 2 for distinction between job failure and batch termination. No
+          independent promotion from immediate post-teaching reasoning.
         limitations:
         - One familiar task/date, after assistance.
         - No execution of hypothetical variant.
@@ -323,33 +297,27 @@ competencies:
       axis: concept
       task_variant: document-delivery-windows-v1
       assessment_status: assessed
-      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05,
-        s01-o07
-      result: Correctly predicted starter messages/status 0, explained worker status
-        4 versus deliver completion/return 0, then predicted patched parent silent/status
-        2 for a silent worker exiting 7.
+      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05, s01-o07
+      result: Correctly predicted starter messages/status 0, explained worker status 4 versus deliver completion/return
+        0, then predicted patched parent silent/status 2 for a silent worker exiting 7.
       max_hint: H1
-      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20.
-        Launcher, streams, fixture, tests and business contract supplied. No new solution
-        hint or instructor patch; neutral scope clarification H1. Not cross-stack transfer
-        or completion of October 24 retrieval.
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
       reasoning_check:
         check_type: boundary_case
-        prompt: If worker prints nothing then calls os.Exit(7), what output and LASTEXITCODE
-          follow with your current code, and why?
-        learner_response: No output; LASTEXITCODE 2 because err != nil reaches os.Exit(2),
-          preventing execution after the if block.
-        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05,
-          s01-o07
-        interpretation: Independent causal reasoning on this representative lifecycle/status
-          slice supports concept 3. Earlier ambiguous referent resolved by subsequent
-          explanation; no unsupported score reduction.
+        prompt: If worker prints nothing then calls os.Exit(7), what output and LASTEXITCODE follow with your
+          current code, and why?
+        learner_response: No output; LASTEXITCODE 2 because err != nil reaches os.Exit(2), preventing execution
+          after the if block.
+        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o01, s01-o05, s01-o07
+        interpretation: Independent causal reasoning on this representative lifecycle/status slice supports
+          concept 3. Earlier ambiguous referent resolved by subsequent explanation; no unsupported score reduction.
         limitations:
         - One attempt and near variant; familiar API.
         - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
         - Silent worker exit-7 boundary is hypothetical, not executed.
-        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer
-          untested.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
       retest_of: null
       correction_of: null
     - evidence_id: 2026-10-21-s01-e02
@@ -361,36 +329,30 @@ competencies:
       axis: implementation
       task_variant: document-delivery-windows-v1
       assessment_status: assessed
-      artifact_or_observation: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt;
-        labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt; labs/diag-002/attempts/a001/notes.md
-        — s01-o06, s01-o07
-      result: Learner added err := worker.Run() and nonzero parent exit on error. All
-        three contract cases and three fixture cases pass on fresh instructor run, exit
-        0; no hardcoded scenario or text, worker runs once.
+      artifact_or_observation: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt; labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt;
+        labs/diag-002/attempts/a001/notes.md — s01-o06, s01-o07
+      result: Learner added err := worker.Run() and nonzero parent exit on error. All three contract cases
+        and three fixture cases pass on fresh instructor run, exit 0; no hardcoded scenario or text, worker
+        runs once.
       max_hint: H0
-      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20.
-        Launcher, streams, fixture, tests and business contract supplied. No new solution
-        hint or instructor patch; neutral scope clarification H1. Not cross-stack transfer
-        or completion of October 24 retrieval.
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
       reasoning_check:
         check_type: causal_explanation
-        prompt: Complete deliver for the three business contracts, then predict the
-          silent worker/nonzero boundary with your implementation.
-        learner_response: Learner-authored error check exits parent with 2, otherwise
-          prints completion and returns 0. Explained why the error branch prevents later
-          output for silent worker exit 7.
-        observation_reference: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt;
-          labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt; labs/diag-002/attempts/a001/notes.md
-          — s01-o06, s01-o07
-        interpretation: Independent implementation and relevant boundary explanation
-          support implementation 3 within result handling. Not evidence of implementing
-          launcher, signal handling or controlled shutdown.
+        prompt: Complete deliver for the three business contracts, then predict the silent worker/nonzero boundary
+          with your implementation.
+        learner_response: Learner-authored error check exits parent with 2, otherwise prints completion and
+          returns 0. Explained why the error branch prevents later output for silent worker exit 7.
+        observation_reference: labs/diag-002/attempts/a001/artifacts/s01-patch01-main.go.txt; labs/diag-002/attempts/a001/artifacts/s01-patch01-instructor-test.txt;
+          labs/diag-002/attempts/a001/notes.md — s01-o06, s01-o07
+        interpretation: Independent implementation and relevant boundary explanation support implementation
+          3 within result handling. Not evidence of implementing launcher, signal handling or controlled shutdown.
         limitations:
         - One attempt and near variant; familiar API.
         - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
         - Silent worker exit-7 boundary is hypothetical, not executed.
-        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer
-          untested.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
       retest_of: null
       correction_of: null
     - evidence_id: 2026-10-21-s01-e03
@@ -402,34 +364,29 @@ competencies:
       axis: debugging
       task_variant: document-delivery-windows-v1
       assessment_status: not_observed
-      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o02 through
-        s01-o05
-      result: Learner chose direct --worker kirim invocation, predicted two messages/status
-        4 and falsifier, reported matching result, then contrasted parent completion/status
-        0 and identified missing result check.
+      artifact_or_observation: labs/diag-002/attempts/a001/notes.md — s01-o02 through s01-o05
+      result: Learner chose direct --worker kirim invocation, predicted two messages/status 4 and falsifier,
+        reported matching result, then contrasted parent completion/status 0 and identified missing result
+        check.
       max_hint: H1
-      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20.
-        Launcher, streams, fixture, tests and business contract supplied. No new solution
-        hint or instructor patch; neutral scope clarification H1. Not cross-stack transfer
-        or completion of October 24 retrieval.
+      prompt_context: New near variant after H4 concept/API teaching on 2026-10-20. Launcher, streams, fixture,
+        tests and business contract supplied. No new solution hint or instructor patch; neutral scope clarification
+        H1. Not cross-stack transfer or completion of October 24 retrieval.
       reasoning_check:
         check_type: discriminating_experiment
-        prompt: Which experiment tests your explanation of the two statuses, and what
-          observation would refute it?
-        learner_response: Invoke lab.exe --worker kirim and inspect LASTEXITCODE. Expect
-          only the two worker messages and 4; completion with 0 would contradict prediction.
-          Reported matching result and later parent completion/0.
-        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o02 through
-          s01-o05
-        interpretation: Useful partial diagnostic evidence. Full debugging score remains
-          null because mapped crash/kill/startup differentiation was not tested. Similar
-          experiment used yesterday; not novel transfer.
+        prompt: Which experiment tests your explanation of the two statuses, and what observation would refute
+          it?
+        learner_response: Invoke lab.exe --worker kirim and inspect LASTEXITCODE. Expect only the two worker
+          messages and 4; completion with 0 would contradict prediction. Reported matching result and later
+          parent completion/0.
+        observation_reference: labs/diag-002/attempts/a001/notes.md — s01-o02 through s01-o05
+        interpretation: Useful partial diagnostic evidence. Full debugging score remains null because mapped
+          crash/kill/startup differentiation was not tested. Similar experiment used yesterday; not novel transfer.
         limitations:
         - One attempt and near variant; familiar API.
         - Worker/batch terminal comparisons learner-reported; contract rerun instructor-verified.
         - Silent worker exit-7 boundary is hypothetical, not executed.
-        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer
-          untested.
+        - PID, environment, signals, shutdown, crash/kill/startup and broad transfer untested.
       retest_of: null
       correction_of: null
     - evidence_id: 2026-10-21-s02-e01
@@ -443,34 +400,29 @@ competencies:
       assessment_status: assessed
       artifact_or_observation: labs/probe-003/attempts/a001/notes.md — o01–o04; labs/probe-003/attempts/a001/artifacts/prediction-source.go.txt;
         labs/probe-003/attempts/a001/artifacts/instructor-run.txt
-      result: 'Initial prediction incorrectly skipped the worker argument branch and
-        predicted recursion. After neutral Args clarification, learner corrected the
-        trace and predicted Worker: ditolak, Runner: hasil 9, and shell status 0. Instructor
-        execution matched the final prediction.'
+      result: 'Initial prediction incorrectly skipped the worker argument branch and predicted recursion. After
+        neutral Args clarification, learner corrected the trace and predicted Worker: ditolak, Runner: hasil
+        9, and shell status 0. Instructor execution matched the final prediction.'
       max_hint: H1
-      prompt_context: Full source supplied for a reading probe. Neutral request to evaluate
-        worker Args prompted learner correction; no Args rule or process-status answer
-        supplied before response. Prior H4 teaching on October 20 retained. Explanatory
-        confirmation after the final response is not additional independent evidence.
+      prompt_context: Full source supplied for a reading probe. Neutral request to evaluate worker Args prompted
+        learner correction; no Args rule or process-status answer supplied before response. Prior H4 teaching
+        on October 20 retained. Explanatory confirmation after the final response is not additional independent
+        evidence.
       reasoning_check:
         check_type: prediction
-        prompt: 'Predict messages and LASTEXITCODE for lab.exe without arguments. Follow-ups:
-          evaluate Args for lab.exe --worker; then state runner shell status and why.'
-        learner_response: 'Revised initial recursion prediction: worker enters if, prints
-          Worker: ditolak and exits 6. Run returns error and execute returns 9 rather
-          than exiting the runner. Runner prints Runner: hasil 9. LASTEXITCODE is 0
-          because the original lab.exe finishes normally.'
+        prompt: 'Predict messages and LASTEXITCODE for lab.exe without arguments. Follow-ups: evaluate Args
+          for lab.exe --worker; then state runner shell status and why.'
+        learner_response: 'Revised initial recursion prediction: worker enters if, prints Worker: ditolak and
+          exits 6. Run returns error and execute returns 9 rather than exiting the runner. Runner prints Runner:
+          hasil 9. LASTEXITCODE is 0 because the original lab.exe finishes normally.'
         observation_reference: labs/probe-003/attempts/a001/notes.md — o01–o04; labs/probe-003/attempts/a001/artifacts/instructor-run.txt
-        interpretation: Supports maintaining concept 3 for the previously assessed narrow
-          distinction between worker exit, function return, and parent completion. Initial
-          reading error corrected after H1 does not warrant an automatic decrease. No
-          promotion warranted.
+        interpretation: Supports maintaining concept 3 for the previously assessed narrow distinction between
+          worker exit, function return, and parent completion. Initial reading error corrected after H1 does
+          not warrant an automatic decrease. No promotion warranted.
         limitations:
         - Same-day familiar mechanism; not delayed retrieval or transfer.
-        - Execution performed by instructor; no learner implementation or runtime diagnostic
-          assessed.
-        - PID, environment, signals, shutdown and startup/crash/kill distinctions not
-          assessed in this probe.
+        - Execution performed by instructor; no learner implementation or runtime diagnostic assessed.
+        - PID, environment, signals, shutdown and startup/crash/kill distinctions not assessed in this probe.
       retest_of: null
       correction_of: null
     - session_id: 2026-10-22-s01
@@ -479,36 +431,31 @@ competencies:
       attempt_id: a001
       competency_id: os.processes
       task_variant: report-runner-two-reports-windows-v1
-      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01
-        through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
+      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01 through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
         labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-instructor-baseline.txt
       max_hint: H1
-      prompt_context: Learner independently selected direct commands and hypothesized
-        distinct causes before new hints. Neutral H1 questions corrected initial conflation
-        of direct and wrapper invocation output/status. Learner predicted stale LASTEXITCODE
-        before instructor confirmation. Prior H4 teaching on October 20 remains documented.
-        Executable and source supplied; no instructor solution patch.
+      prompt_context: Learner independently selected direct commands and hypothesized distinct causes before
+        new hints. Neutral H1 questions corrected initial conflation of direct and wrapper invocation output/status.
+        Learner predicted stale LASTEXITCODE before instructor confirmation. Prior H4 teaching on October 20
+        remains documented. Executable and source supplied; no instructor solution patch.
       retest_of: null
       correction_of: null
       evidence_id: 2026-10-22-s01-e01
       axis: concept
       assessment_status: assessed
-      result: Learner explained intentional worker exit 6 versus missing executable,
-        corrected direct invocation predictions after H1, independently predicted that
-        shell lookup failure preserves previous LASTEXITCODE 6, and reported matching
-        observations. Parent error mapping explains status 2 for both cases.
+      result: Learner explained intentional worker exit 6 versus missing executable, corrected direct invocation
+        predictions after H1, independently predicted that shell lookup failure preserves previous LASTEXITCODE
+        6, and reported matching observations. Parent error mapping explains status 2 for both cases.
       reasoning_check:
         check_type: prediction
-        prompt: Before direct invocation of bundle/processor.exe --worker, predict messages
-          and LASTEXITCODE and explain why.
-        learner_response: Executable is absent, so main is never reached and only a
-          system error appears. LASTEXITCODE remains 6 from the previous direct worker
-          command. Wrapper B separately returns/exits 2 on Run error.
+        prompt: Before direct invocation of bundle/processor.exe --worker, predict messages and LASTEXITCODE
+          and explain why.
+        learner_response: Executable is absent, so main is never reached and only a system error appears. LASTEXITCODE
+          remains 6 from the previous direct worker command. Wrapper B separately returns/exits 2 on Run error.
         observation_reference: labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt
-        interpretation: Maintains concept 3 for lifecycle and exit-status scope. Correct
-          prediction distinguishes lookup failure from a process exit and from the wrapper
-          result. No promotion or automatic decrease from initial corrected reading/prediction
-          error.
+        interpretation: Maintains concept 3 for lifecycle and exit-status scope. Correct prediction distinguishes
+          lookup failure from a process exit and from the wrapper result. No promotion or automatic decrease
+          from initial corrected reading/prediction error.
         limitations:
         - Reported terminal output rather than instructor rerun of learner commands.
         - Same previously presented attempt, not delayed retrieval or transfer.
@@ -519,47 +466,38 @@ competencies:
       attempt_id: a001
       competency_id: os.processes
       task_variant: report-runner-two-reports-windows-v1
-      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01
-        through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
+      artifact_or_observation: labs/diag-003/attempts/a001/notes.md — 2026-10-22-s01-o01 through o07; labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt;
         labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-instructor-baseline.txt
       max_hint: H1
-      prompt_context: Learner independently selected direct commands and hypothesized
-        distinct causes before new hints. Neutral H1 questions corrected initial conflation
-        of direct and wrapper invocation output/status. Learner predicted stale LASTEXITCODE
-        before instructor confirmation. Prior H4 teaching on October 20 remains documented.
-        Executable and source supplied; no instructor solution patch.
+      prompt_context: Learner independently selected direct commands and hypothesized distinct causes before
+        new hints. Neutral H1 questions corrected initial conflation of direct and wrapper invocation output/status.
+        Learner predicted stale LASTEXITCODE before instructor confirmation. Prior H4 teaching on October 20
+        remains documented. Executable and source supplied; no instructor solution patch.
       retest_of: null
       correction_of: null
       evidence_id: 2026-10-22-s01-e02
       axis: debugging
       assessment_status: not_observed
-      result: 'Partial diagnostic evidence: learner chose direct A/B command comparisons,
-        revised predictions with H1, reported silent exit 6 for direct worker and shell
-        CommandNotFoundException plus stale 6 for absent target, and proposed adding
-        err to generic failure output.'
+      result: 'Partial diagnostic evidence: learner chose direct A/B command comparisons, revised predictions
+        with H1, reported silent exit 6 for direct worker and shell CommandNotFoundException plus stale 6 for
+        absent target, and proposed adding err to generic failure output.'
       reasoning_check:
         check_type: discriminating_experiment
-        prompt: 'Choose an experiment and predict distinct results for the two possible
-          causes; after results, choose one additional item in Runner: gagal for the
-          operator and explain why.'
-        learner_response: Run lab.exe --worker and bundle/processor.exe --worker directly.
-          After neutral clarification, predicted silent 6 for the first, lookup error
-          and previous 6 for the second, reported both, and selected err details so
-          the failure cause is visible.
+        prompt: 'Choose an experiment and predict distinct results for the two possible causes; after results,
+          choose one additional item in Runner: gagal for the operator and explain why.'
+        learner_response: Run lab.exe --worker and bundle/processor.exe --worker directly. After neutral clarification,
+          predicted silent 6 for the first, lookup error and previous 6 for the second, reported both, and
+          selected err details so the failure cause is visible.
         observation_reference: labs/diag-003/attempts/a001/artifacts/2026-10-22-s01-learner-direct-output.txt
-        interpretation: 'Valid partial debugging evidence distinguishes intentional
-          nonzero exit from launch failure. Full-node score remains null consistently
-          with prior assessment scope: crash and force termination discrimination remain
-          untested. not_observed refers to insufficient coverage for that numeric score,
+        interpretation: 'Valid partial debugging evidence distinguishes intentional nonzero exit from launch
+          failure. Full-node score remains null consistently with prior assessment scope: crash and force termination
+          discrimination remain untested. not_observed refers to insufficient coverage for that numeric score,
           not absence of all diagnostic skill.'
         limitations:
-        - No crash/kill experiment; exit 6 is intentional and must not be labeled a
-          crash.
-        - Direct B error comes from PowerShell, not captured Go Run error; runtime instrumentation
-          not implemented.
+        - No crash/kill experiment; exit 6 is intentional and must not be labeled a crash.
+        - Direct B error comes from PowerShell, not captured Go Run error; runtime instrumentation not implemented.
         - Two commands belong to one attempt, not two independent task variants.
-        - Operator-information choice is not evidence for graceful versus force-termination
-          judgment.
+        - Operator-information choice is not evidence for graceful versus force-termination judgment.
     - session_id: 2026-10-22-s03
       date: '2026-10-22'
       lab_id: diag-004
@@ -569,43 +507,37 @@ competencies:
       max_hint: H4
       retest_of: null
       correction_of: null
-      artifact_or_observation: labs/diag-004/attempts/a001/notes.md — 2026-10-22-s03-o01
-        through o11; labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt
-      prompt_context: Prior H4 A explanation retained. B readiness focus H3; runner
-        panic, ProcessState and TerminateProcess explained H4 after attempts. JSON selected
-        by learner; supervisor log selected by instructor. H1 clarified output/source
-        referent; that ambiguity is not scored as failure. All fixture code/log instrumentation
-        supplied.
+      artifact_or_observation: labs/diag-004/attempts/a001/notes.md — 2026-10-22-s03-o01 through o11; labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt
+      prompt_context: Prior H4 A explanation retained. B readiness focus H3; runner panic, ProcessState and
+        TerminateProcess explained H4 after attempts. JSON selected by learner; supervisor log selected by
+        instructor. H1 clarified output/source referent; that ambiguity is not scored as failure. All fixture
+        code/log instrumentation supplied.
       evidence_id: 2026-10-22-s03-e01
       axis: concept
       assessment_status: assessed
-      result: Learner correctly recognized B's loop after H1 and traced supervisor termination
-        after guidance. Predicted worker 0/runner 2, observed 2/2, then attributed worker
-        status to old shell LASTEXITCODE (o06). After ProcessState teaching, correctly
-        guessed TerminateProcess parameter 2. In closing boundary check said status
-        alone is insufficient but attributed an alternative worker status to runner
-        return/os.Exit (o11). Current provenance reasoning remains guidance-dependent;
-        concept revised 3 to 2, not a score for API memorization.
+      result: Learner correctly recognized B's loop after H1 and traced supervisor termination after guidance.
+        Predicted worker 0/runner 2, observed 2/2, then attributed worker status to old shell LASTEXITCODE
+        (o06). After ProcessState teaching, correctly guessed TerminateProcess parameter 2. In closing boundary
+        check said status alone is insufficient but attributed an alternative worker status to runner return/os.Exit
+        (o11). Current provenance reasoning remains guidance-dependent; concept revised 3 to 2, not a score
+        for API memorization.
       reasoning_check:
         check_type: boundary_case
-        prompt: 'Jika hanya result.json dengan worker_exit_code: 2 tersedia, apakah
-          itu cukup memastikan worker dihentikan supervisor? Mengapa?'
-        learner_response: Tidak cukup; worker bisa menghasilkan 2 karena mencapai akhir
-          run(), return 2 diteruskan ke os.Exit(run()) pada main, sehingga sebab belum
-          jelas.
+        prompt: 'Jika hanya result.json dengan worker_exit_code: 2 tersedia, apakah itu cukup memastikan worker
+          dihentikan supervisor? Mengapa?'
+        learner_response: Tidak cukup; worker bisa menghasilkan 2 karena mencapai akhir run(), return 2 diteruskan
+          ke os.Exit(run()) pada main, sehingga sebab belum jelas.
         observation_reference: labs/diag-004/attempts/a001/notes.md
-        interpretation: Conclusion of insufficient cause evidence is correct, but cited
-          alternative belongs to the runner. Together with explicit shell-status attribution
-          in o06, this supports revising independence estimate on the same exit-status
-          provenance scope to 2. Successful prior independent records remain intact;
-          no automatic score floor from history.
+        interpretation: Conclusion of insufficient cause evidence is correct, but cited alternative belongs
+          to the runner. Together with explicit shell-status attribution in o06, this supports revising independence
+          estimate on the same exit-status provenance scope to 2. Successful prior independent records remain
+          intact; no automatic score floor from history.
         limitations:
         - One guided attempt, not delayed retrieval or multiple independent failures.
         - No response after final teaching; remediation success not established.
-        - Earlier narrow independent successes remain valid; current low-confidence
-          estimate needs a fresh targeted check.
-        - No whole-domain inference about environment, signals, or graceful shutdown;
-          implementation not reassessed.
+        - Earlier narrow independent successes remain valid; current low-confidence estimate needs a fresh
+          targeted check.
+        - No whole-domain inference about environment, signals, or graceful shutdown; implementation not reassessed.
     - session_id: 2026-10-22-s03
       date: '2026-10-22'
       lab_id: diag-004
@@ -615,43 +547,36 @@ competencies:
       max_hint: H4
       retest_of: null
       correction_of: null
-      artifact_or_observation: labs/diag-004/attempts/a001/notes.md — 2026-10-22-s03-o01
-        through o11; labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt
-      prompt_context: Prior H4 A explanation retained. B readiness focus H3; runner
-        panic, ProcessState and TerminateProcess explained H4 after attempts. JSON selected
-        by learner; supervisor log selected by instructor. H1 clarified output/source
-        referent; that ambiguity is not scored as failure. All fixture code/log instrumentation
-        supplied.
+      artifact_or_observation: labs/diag-004/attempts/a001/notes.md — 2026-10-22-s03-o01 through o11; labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt
+      prompt_context: Prior H4 A explanation retained. B readiness focus H3; runner panic, ProcessState and
+        TerminateProcess explained H4 after attempts. JSON selected by learner; supervisor log selected by
+        instructor. H1 clarified output/source referent; that ambiguity is not scored as failure. All fixture
+        code/log instrumentation supplied.
       evidence_id: 2026-10-22-s03-e02
       axis: debugging
       assessment_status: not_observed
-      result: 'Partial assisted diagnosis: learner chose JSON, predicted worker 0/runner
-        2, and reported actual worker 2/runner 2 for PID 23324. With instructor-selected
-        supervisor log, identified start/final status and then matching TerminateProcess
-        control_request. No verified learner rerun, no learner runtime inspection of
-        crash A. Preserve partial evidence; insufficient coverage for the full-node
-        debugging score, which stays null.'
+      result: 'Partial assisted diagnosis: learner chose JSON, predicted worker 0/runner 2, and reported actual
+        worker 2/runner 2 for PID 23324. With instructor-selected supervisor log, identified start/final status
+        and then matching TerminateProcess control_request. No verified learner rerun, no learner runtime inspection
+        of crash A. Preserve partial evidence; insufficient coverage for the full-node debugging score, which
+        stays null.'
       reasoning_check:
         check_type: discriminating_experiment
-        prompt: Pilih berkas runtime untuk menguji penjelasan B dan prediksi isinya
-          sebelum inspeksi; kemudian pada guided supervisor-log inspection identifikasi
-          tindakan terhadap PID 23324.
-        learner_response: Chose result.json for structured fields and predicted worker
-          0/runner 2; sent actual 2/2. Later sent full supervisor log, identified PID
-          and completion, and after referent clarification selected the TerminateProcess
-          target_pid=23324 requested_exit_code=2 record.
+        prompt: Pilih berkas runtime untuk menguji penjelasan B dan prediksi isinya sebelum inspeksi; kemudian
+          pada guided supervisor-log inspection identifikasi tindakan terhadap PID 23324.
+        learner_response: Chose result.json for structured fields and predicted worker 0/runner 2; sent actual
+          2/2. Later sent full supervisor log, identified PID and completion, and after referent clarification
+          selected the TerminateProcess target_pid=23324 requested_exit_code=2 record.
         observation_reference: labs/diag-004/attempts/a001/artifacts/2026-10-22-s03-learner-reports.txt
-        interpretation: Evidence links the same PID to the termination request and outcome
-          with H4 explanation/H3 file selection. JSON choice alone did not discriminate
-          cause. Do not count instructor's synthesized success/Wait explanation as independent
-          learner diagnosis.
+        interpretation: Evidence links the same PID to the termination request and outcome with H4 explanation/H3
+          file selection. JSON choice alone did not discriminate cause. Do not count instructor's synthesized
+          success/Wait explanation as independent learner diagnosis.
         limitations:
-        - Logs generated by instructor fixture at 10:45 and inspected by learner; not
-          a new execution.
+        - Logs generated by instructor fixture at 10:45 and inspected by learner; not a new execution.
         - API and causal distinction taught before successful log correlation.
         - A runtime comparison and status provenance remain unfinished.
-        - not_observed means insufficient evidence for the full numeric axis, not absence
-          of useful diagnostic observations.
+        - not_observed means insufficient evidence for the full numeric axis, not absence of useful diagnostic
+          observations.
     - session_id: 2026-10-22-s04
       date: '2026-10-22'
       competency_id: os.processes
@@ -661,32 +586,27 @@ competencies:
       max_hint: H4
       assessment_status: assessed
       retest_of: null
-      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination
-        and status provenance. Source location prompt H3; instructor clarified ProcessState
-        before prediction. Learner selected A files. All fixture/instrumentation provided;
-        no independent delayed retest.
+      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination and status provenance.
+        Source location prompt H3; instructor clarified ProcessState before prediction. Learner selected A
+        files. All fixture/instrumentation provided; no independent delayed retest.
       evidence_id: 2026-10-22-s04-e01
       axis: concept
-      artifact_or_observation: labs/diag-004/attempts/a001/notes.md, 2026-10-22-s04-o01
-        and o02
-      result: Learner assigned worker status to the child and TerminateProcess(h,2),
-        shell status to runner and os.Exit(run(...)); then correctly predicted worker
-        2 / runner 7 when only run's final return changes. Guided application supports
-        concept 2, not independent promotion.
+      artifact_or_observation: labs/diag-004/attempts/a001/notes.md, 2026-10-22-s04-o01 and o02
+      result: Learner assigned worker status to the child and TerminateProcess(h,2), shell status to runner
+        and os.Exit(run(...)); then correctly predicted worker 2 / runner 7 when only run's final return changes.
+        Guided application supports concept 2, not independent promotion.
       reasoning_check:
         check_type: prediction
-        prompt: Only final return 2 in run becomes return 7; TerminateProcess(h,2) remains
-          and succeeds. Predict worker_exit_code and PowerShell LASTEXITCODE after lab.exe
-          B, with reasons.
-        learner_response: worker_exit_code tetap 2 karena TerminateProcess(h, 2) tetap.
-          LASTEXITCODE 7 karena return berubah dari 2 menjadi 7.
+        prompt: Only final return 2 in run becomes return 7; TerminateProcess(h,2) remains and succeeds. Predict
+          worker_exit_code and PowerShell LASTEXITCODE after lab.exe B, with reasons.
+        learner_response: worker_exit_code tetap 2 karena TerminateProcess(h, 2) tetap. LASTEXITCODE 7 karena
+          return berubah dari 2 menjadi 7.
         observation_reference: labs/diag-004/attempts/a001/notes.md
-        interpretation: Correct ownership and separate numeric outcomes after teaching;
-          previous provenance gap improves in immediate guided application.
+        interpretation: Correct ownership and separate numeric outcomes after teaching; previous provenance
+          gap improves in immediate guided application.
         limitations:
         - Hypothetical only; no code edit or execution.
-        - Immediate H4-assisted follow-up in same attempt; retention and independence
-          untested.
+        - Immediate H4-assisted follow-up in same attempt; retention and independence untested.
     - session_id: 2026-10-22-s04
       date: '2026-10-22'
       competency_id: os.processes
@@ -696,36 +616,32 @@ competencies:
       max_hint: H4
       assessment_status: assessed
       retest_of: null
-      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination
-        and status provenance. Source location prompt H3; instructor clarified ProcessState
-        before prediction. Learner selected A files. All fixture/instrumentation provided;
-        no independent delayed retest.
+      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination and status provenance.
+        Source location prompt H3; instructor clarified ProcessState before prediction. Learner selected A
+        files. All fixture/instrumentation provided; no independent delayed retest.
       evidence_id: 2026-10-22-s04-e02
       axis: debugging
-      artifact_or_observation: labs/diag-004/attempts/a001/notes.md, 2026-10-22-s04-o03/o04;
-        labs/diag-004/attempts/a001/artifacts/A/worker.stderr.log; labs/diag-004/attempts/a001/artifacts/A/supervisor.log
-      result: Learner chose supervisor.log and worker.stderr.log, predicted an index
-        bounds error, inspected baseline output and identified stderr panic as specific
-        causal evidence. Together with earlier guided B termination correlation and
-        startup diagnosis, supports standard-case debugging with guidance (2).
+      artifact_or_observation: labs/diag-004/attempts/a001/notes.md, 2026-10-22-s04-o03/o04; labs/diag-004/attempts/a001/artifacts/A/worker.stderr.log;
+        labs/diag-004/attempts/a001/artifacts/A/supervisor.log
+      result: Learner chose supervisor.log and worker.stderr.log, predicted an index bounds error, inspected
+        baseline output and identified stderr panic as specific causal evidence. Together with earlier guided
+        B termination correlation and startup diagnosis, supports standard-case debugging with guidance (2).
       reasoning_check:
         check_type: discriminating_experiment
-        prompt: Choose runtime evidence for A and predict specific observations before
-          inspection; after inspection identify strongest causal evidence and explain.
-        learner_response: Chose supervisor.log and worker.stderr.log; predicted index
-          out of bound. Sent start/Wait PID 49312 status 2 plus runtime panic index
-          out of range [1] with length 1 at main.go:34. Explained stderr shows bounds
-          failure more clearly than supervisor log.
+        prompt: Choose runtime evidence for A and predict specific observations before inspection; after inspection
+          identify strongest causal evidence and explain.
+        learner_response: Chose supervisor.log and worker.stderr.log; predicted index out of bound. Sent start/Wait
+          PID 49312 status 2 plus runtime panic index out of range [1] with length 1 at main.go:34. Explained
+          stderr shows bounds failure more clearly than supervisor log.
         observation_reference: labs/diag-004/attempts/a001/notes.md
-        interpretation: Prediction followed by matching runtime evidence and causal
-          selection completes guided A inspection. B termination evidence is preserved
-          under s03-e02; launch failure under s01-e02. Score reflects combined guided
-          coverage, not treating these observations as independent new variants.
+        interpretation: Prediction followed by matching runtime evidence and causal selection completes guided
+          A inspection. B termination evidence is preserved under s03-e02; launch failure under s01-e02. Score
+          reflects combined guided coverage, not treating these observations as independent new variants.
         limitations:
         - Baseline instructor logs at 10:45; learner inspected, did not rerun.
         - Cause A taught H4 before this session; B log selection previously guided.
-        - Scope Go bounds panic, controlled Windows termination and tested launch failure;
-          not every crash or OS.
+        - Scope Go bounds panic, controlled Windows termination and tested launch failure; not every crash
+          or OS.
         - No instrumentation or implementation by learner.
     - session_id: 2026-10-22-s04
       date: '2026-10-22'
@@ -736,27 +652,24 @@ competencies:
       max_hint: H4
       assessment_status: assessed
       retest_of: null
-      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination
-        and status provenance. Source location prompt H3; instructor clarified ProcessState
-        before prediction. Learner selected A files. All fixture/instrumentation provided;
-        no independent delayed retest.
+      prompt_context: Same guided attempt after H4 teaching of A bounds panic, B termination and status provenance.
+        Source location prompt H3; instructor clarified ProcessState before prediction. Learner selected A
+        files. All fixture/instrumentation provided; no independent delayed retest.
       evidence_id: 2026-10-22-s04-e03
       axis: concept
       artifact_or_observation: labs/diag-004/attempts/a001/notes.md, 2026-10-22-s04-o05
-      result: Learner said worker has an error but cause is unknown from status alone.
-        Correct insufficient-cause conclusion; instructor refined wording to nonzero
-        termination, since B is externally terminated. No claim learner independently
-        supplied that refinement.
+      result: Learner said worker has an error but cause is unknown from status alone. Correct insufficient-cause
+        conclusion; instructor refined wording to nonzero termination, since B is externally terminated. No
+        claim learner independently supplied that refinement.
       reasoning_check:
         check_type: boundary_case
-        prompt: If detailed A/B logs disappear and only worker_exit_code=2 remains,
-          what can and cannot be established about worker, based on both cases?
-        learner_response: Yang bisa dipastikan adalah ada error pada worker tetapi penyebabnya
-          apa tidak bisa diketahui.
+        prompt: If detailed A/B logs disappear and only worker_exit_code=2 remains, what can and cannot be
+          established about worker, based on both cases?
+        learner_response: Yang bisa dipastikan adalah ada error pada worker tetapi penyebabnya apa tidak bisa
+          diketahui.
         observation_reference: labs/diag-004/attempts/a001/notes.md
-        interpretation: Recognizes numeric code does not identify cause. Word error
-          is imprecise and does not establish learner believes code necessarily contains
-          a bug; clarified without inventing misconception.
+        interpretation: Recognizes numeric code does not identify cause. Word error is imprecise and does not
+          establish learner believes code necessarily contains a bug; clarified without inventing misconception.
         limitations:
         - Following guided A/B diagnosis, not independent retrieval.
         - No response after final terminology clarification.
@@ -778,10 +691,9 @@ competencies:
           concept: 2
         confidence: low
         proficiency: learning
-      rationale: 'Narrow guided baseline: learner traced code, tested prediction, and
-        revised process termination scope; definitions/API supplied. Debugging outcome
-        insufficiently sampled, other axes unobserved. Do not treat this as full node
-        mastery or a score ceiling.'
+      rationale: 'Narrow guided baseline: learner traced code, tested prediction, and revised process termination
+        scope; definitions/API supplied. Debugging outcome insufficiently sampled, other axes unobserved. Do
+        not treat this as full node mastery or a score ceiling.'
     - assessment_id: 2026-10-20-s02-as01
       session_id: 2026-10-20-s02
       checkpoint_id: 2026-10-20-s02-cp01
@@ -795,11 +707,10 @@ competencies:
       after:
         scores:
           implementation: 2
-      rationale: Guided learner-authored standard-case result handling passed both tests
-        and final reasoning check. Narrow implementation baseline, not signal/shutdown
-        mastery. Concept remains 2 after immediate assisted explanation; debugging remains
-        unassessed for crash/kill/startup despite useful partial evidence. Confidence
-        low and proficiency learning remain appropriate; all other scores unchanged.
+      rationale: Guided learner-authored standard-case result handling passed both tests and final reasoning
+        check. Narrow implementation baseline, not signal/shutdown mastery. Concept remains 2 after immediate
+        assisted explanation; debugging remains unassessed for crash/kill/startup despite useful partial evidence.
+        Confidence low and proficiency learning remain appropriate; all other scores unchanged.
     - assessment_id: 2026-10-21-s01-as01
       session_id: 2026-10-21-s01
       checkpoint_id: 2026-10-21-s01-cp01
@@ -815,13 +726,11 @@ competencies:
         scores:
           concept: 3
           implementation: 3
-      rationale: Independent prediction, learner-designed comparison, learner-authored
-        passing patch and correct boundary reasoning on a fresh near variant support
-        3 for the same narrow lifecycle/status slice previously assessed at 2. New assistance
-        concept H1/implementation H0, prior H4 retained. No claim of full process outcome
-        coverage. Debugging/judgment/transfer stay null, confidence low and proficiency
-        learning remain; one familiar mechanism family is insufficient for broader confidence
-        or proficiency.
+      rationale: Independent prediction, learner-designed comparison, learner-authored passing patch and correct
+        boundary reasoning on a fresh near variant support 3 for the same narrow lifecycle/status slice previously
+        assessed at 2. New assistance concept H1/implementation H0, prior H4 retained. No claim of full process
+        outcome coverage. Debugging/judgment/transfer stay null, confidence low and proficiency learning remain;
+        one familiar mechanism family is insufficient for broader confidence or proficiency.
     - assessment_id: 2026-10-22-s03-as01
       session_id: 2026-10-22-s03
       checkpoint_id: 2026-10-22-s03-cp01
@@ -834,14 +743,12 @@ competencies:
       after:
         scores:
           concept: 2
-      rationale: Two explicit attributions within the same attempt (o06 to stale shell
-        status, o11 to runner return) show worker-status provenance is not consistently
-        independent despite H4 teaching and successful guided tracing. Revise concept
-        estimate on the previously assessed lifecycle/status scope from 3 to 2. This
-        is not based on one short answer, unfamiliar API, timing, asking for help, or
-        instructor's ambiguous referent in o09. Preserve earlier successful evidence
-        and seek a fresh targeted check. Other axes, low confidence and learning proficiency
-        remain unchanged.
+      rationale: Two explicit attributions within the same attempt (o06 to stale shell status, o11 to runner
+        return) show worker-status provenance is not consistently independent despite H4 teaching and successful
+        guided tracing. Revise concept estimate on the previously assessed lifecycle/status scope from 3 to
+        2. This is not based on one short answer, unfamiliar API, timing, asking for help, or instructor's
+        ambiguous referent in o09. Preserve earlier successful evidence and seek a fresh targeted check. Other
+        axes, low confidence and learning proficiency remain unchanged.
     - assessment_id: 2026-10-22-s04-as01
       session_id: 2026-10-22-s04
       checkpoint_id: 2026-10-22-s04-cp02
@@ -858,13 +765,12 @@ competencies:
         scores:
           debugging: 2
         proficiency: functional
-      rationale: Previously deferred debugging score for incomplete crash/termination/startup
-        coverage. A runtime inspection now complements guided B termination correlation
-        and earlier launch failure evidence. Map score 2 fits standard cases with guidance;
-        not independent diagnosis. Concept remains 2 after immediate assisted success,
-        implementation 3 unchanged without reassessment; judgment/transfer null, confidence
-        low. Functional follows map thresholds C>=2/I>=2/D>=2 and does not assert full-domain
-        independence or mastery.
+      rationale: Previously deferred debugging score for incomplete crash/termination/startup coverage. A runtime
+        inspection now complements guided B termination correlation and earlier launch failure evidence. Map
+        score 2 fits standard cases with guidance; not independent diagnosis. Concept remains 2 after immediate
+        assisted success, implementation 3 unchanged without reassessment; judgment/transfer null, confidence
+        low. Functional follows map thresholds C>=2/I>=2/D>=2 and does not assert full-domain independence
+        or mastery.
     review_plan:
     - review_id: 2026-10-20-s01-r01
       anchor_evidence_ids:
@@ -875,9 +781,8 @@ competencies:
       task_type: delayed_retrieval
       target_date: '2026-10-22'
       scheduled_date: '2026-10-24'
-      scheduling_reason: 'D2 target adapted to Saturday availability: actual planned
-        interval D4. Fresh H0/H1 variant on process lifetime and exit status; continuing
-        original attempt is not this retest.'
+      scheduling_reason: 'D2 target adapted to Saturday availability: actual planned interval D4. Fresh H0/H1
+        variant on process lifetime and exit status; continuing original attempt is not this retest.'
       status: planned
       completed_at: null
       result_evidence_ids: []
@@ -891,8 +796,8 @@ competencies:
       task_type: delayed_retrieval
       target_date: '2026-10-22'
       scheduled_date: '2026-10-24'
-      scheduling_reason: Fresh H0/H1 variant after H4 API help; D2 target moved to Saturday
-        availability D4. Can accompany existing concept review without replacing it.
+      scheduling_reason: Fresh H0/H1 variant after H4 API help; D2 target moved to Saturday availability D4.
+        Can accompany existing concept review without replacing it.
       status: planned
       completed_at: null
       result_evidence_ids: []
@@ -906,9 +811,9 @@ competencies:
       task_type: delayed_retrieval
       target_date: '2026-10-24'
       scheduled_date: '2026-10-24'
-      scheduling_reason: D2 Saturday fresh H0/H1 runtime diagnosis after guided A/B
-        work. Coordinate a small scope with existing concept/implementation reviews;
-        these remain unchanged. Prioritize status ownership and evidence-to-cause reasoning.
+      scheduling_reason: D2 Saturday fresh H0/H1 runtime diagnosis after guided A/B work. Coordinate a small
+        scope with existing concept/implementation reviews; these remain unchanged. Prioritize status ownership
+        and evidence-to-cause reasoning.
       status: planned
       completed_at: null
       result_evidence_ids: []
@@ -946,13 +851,13 @@ competencies:
   os.files-and-descriptors:
     scores:
       concept: 3
-      implementation: null
+      implementation: 2
       debugging: 2
       judgment: null
       transfer: null
     weighted_score: null
     confidence: low
-    proficiency: learning
+    proficiency: functional
     last_assessed_on: '2026-10-23'
     review_due: false
     evidence:
@@ -976,7 +881,8 @@ competencies:
         prompt: Explain A/B difference, then predict full path after adding leading slash.
         learner_response: Relative input uses launch directory; prefix slash proposed to fix B; predicted repository/data/orders.txt.
         observation_reference: labs/diag-005/attempts/a001/notes.md — o01/o02
-        interpretation: Preserve initial success and mistaken prediction; insufficient alone for numerical score.
+        interpretation: Preserve initial success and mistaken prediction; insufficient alone for numerical
+          score.
         limitations:
         - One source-informed attempt, not confirmed source-blind.
     - session_id: 2026-10-23-s01
@@ -992,18 +898,18 @@ competencies:
       assessment_status: assessed
       max_hint: H5
       artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o03-o06/o10
-      result: Learner chose baseline/change/rebuild/A-B comparison with falsification criterion; observed new failure,
-        interpreted supplied path probe, and verified repaired A/B.
+      result: Learner chose baseline/change/rebuild/A-B comparison with falsification criterion; observed new
+        failure, interpreted supplied path probe, and verified repaired A/B.
       prompt_context: H0/H1 before A/B plan; H5 scoped to supplied observation program. Later API snippet assisted
         repair; not a retroactive loss of earlier evidence.
       reasoning_check:
         check_type: discriminating_experiment
         prompt: Choose an experiment that could refute the proposed slash fix.
-        learner_response: Compare A/B before and after adding slash; formerly successful A failing refutes fix. Reported
-          that result, then interpreted D:/data/orders.txt from supplied probe.
+        learner_response: Compare A/B before and after adding slash; formerly successful A failing refutes
+          fix. Reported that result, then interpreted D:/data/orders.txt from supplied probe.
         observation_reference: labs/diag-005/attempts/a001/notes.md — o03-o06/o10
-        interpretation: Supports debugging 2 for file-not-found diagnosis with supplied instrumentation, not wholly
-          independent measurement design.
+        interpretation: Supports debugging 2 for file-not-found diagnosis with supplied instrumentation, not
+          wholly independent measurement design.
         limitations:
         - No permission or descriptor-exhaustion case.
         - Probe written by instructor; A/B design chosen by learner.
@@ -1020,21 +926,21 @@ competencies:
       assessment_status: assessed
       max_hint: H1
       artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o06-o08/o11
-      result: Learner explained launch-context dependence, selected executable directory as invariant anchor, formed
-        exact data path, and predicted data resolution after relocation before feedback.
-      prompt_context: Strategy and directory extraction reasoned by learner before repair API snippet; concept prompts
-        H1. Debugging measurement H5 and implementation snippet H5 recorded separately. Post-response launch correction
-        H4 is teaching, not new learner evidence.
+      result: Learner explained launch-context dependence, selected executable directory as invariant anchor,
+        formed exact data path, and predicted data resolution after relocation before feedback.
+      prompt_context: Strategy and directory extraction reasoned by learner before repair API snippet; concept
+        prompts H1. Debugging measurement H5 and implementation snippet H5 recorded separately. Post-response
+        launch correction H4 is teaching, not new learner evidence.
       reasoning_check:
         check_type: constraint_change
-        prompt: If whole package moves to D:/Latihan/impor while terminal stays at repository, what data path is formed
-          and why?
-        learner_response: D:/Latihan/impor/data/orders.txt; success because executable and data move together. Learner
-          also suggested .\impor\lab.exe from repository as launch command.
+        prompt: If whole package moves to D:/Latihan/impor while terminal stays at repository, what data path
+          is formed and why?
+        learner_response: D:/Latihan/impor/data/orders.txt; success because executable and data move together.
+          Learner also suggested .\impor\lab.exe from repository as launch command.
         observation_reference: labs/diag-005/attempts/a001/notes.md — o06-o08/o11
-        interpretation: Concept 3 narrowly supported for data resolution inside intended executable; relocation reasoning
-          is conditional on correct launch. Command mismatch explicitly retained and corrected after response; review
-          both lookup layers.
+        interpretation: Concept 3 narrowly supported for data resolution inside intended executable; relocation
+          reasoning is conditional on correct launch. Command mismatch explicitly retained and corrected after
+          response; review both lookup layers.
         limitations:
         - Single case/date, low confidence; no whole-node mastery.
         - Relative launch command was inconsistent with hypothetical location; correction came after this response.
@@ -1052,21 +958,82 @@ competencies:
       assessment_status: not_observed
       max_hint: H5
       artifact_or_observation: labs/diag-005/attempts/a001/notes.md — o09/o10
-      result: Learner integrated os.Executable/Dir snippet with filepath.Join and ReadFile; source builds and A/B
-        plus instructor relocation pass.
-      prompt_context: H5 supplied executable-directory code; learner chose anchor and added Join/read path; scaffold
-        already handled ReadFile/error cases.
+      result: Learner integrated os.Executable/Dir snippet with filepath.Join and ReadFile; source builds and
+        A/B plus instructor relocation pass.
+      prompt_context: H5 supplied executable-directory code; learner chose anchor and added Join/read path;
+        scaffold already handled ReadFile/error cases.
       reasoning_check:
         check_type: causal_explanation
         prompt: Explain exact intended data path before implementing the approach.
-        learner_response: Take executable directory and append data/orders.txt; supplied directory snippet then integrated
-          into learner source.
+        learner_response: Take executable directory and append data/orders.txt; supplied directory snippet
+          then integrated into learner source.
         observation_reference: labs/diag-005/attempts/a001/notes.md — o09/o10
-        interpretation: Artifact correctness established; implementation axis remains unassessed for broader safe
-          resource handling/permission outcome. Do not infer independence from green output.
+        interpretation: Artifact correctness established; implementation axis remains unassessed for broader
+          safe resource handling/permission outcome. Do not infer independence from green output.
         limitations:
         - Target axes concept/debugging; no learner-written resource lifecycle or permission mechanism.
         - Relocation run performed by instructor.
+    - session_id: 2026-10-23-s04
+      date: '2026-10-23'
+      lab_id: diag-006
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-export-completeness-windows-v1
+      retest_of: null
+      correction_of: null
+      assessment_status: assessed
+      max_hint: H5
+      evidence_id: 2026-10-23-s04-e01
+      axis: implementation
+      artifact_or_observation: labs/diag-006/attempts/a001/artifacts/s04-o04/main.go.txt; labs/diag-006/attempts/a001/artifacts/s04-o04/verification.json;
+        labs/diag-006/attempts/a001/artifacts/s04-o04/failure-tests.txt; labs/diag-006/attempts/a001/notes.md
+        — s04-o03-o05
+      result: Learner implemented checked Flush and deferred unconditional Close with first-error preservation;
+        final source builds, exact ordered 3/600 rows and seven injected-file cases pass.
+      prompt_context: 'Continuing guided attempt: named-result teaching and partial cleanup/error-precedence
+        approach H5; conditional-cleanup defect identified by instructor, repaired by learner. Harness authored
+        by instructor.'
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: Trace previous guarded Close after Fprintf failure, then trace final patch when Close fails
+          after successful Flush.
+        learner_response: Previous resultErr receives write error and Close is skipped; final Close-only error
+          becomes exportReport result, run prints Ekspor gagal and returns 1, main calls os.Exit(1).
+        observation_reference: labs/diag-006/attempts/a001/notes.md — s04-o04/o05
+        interpretation: Correct integrated implementation and causal explanation with guidance support implementation
+          2, not independent 3.
+        limitations:
+        - Same guided task across sessions; no delayed retrieval.
+        - Controlled fake file for failures; no real disk failure or permission configuration assessed.
+    - session_id: 2026-10-23-s04
+      date: '2026-10-23'
+      lab_id: diag-006
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: order-export-completeness-windows-v1
+      retest_of: null
+      correction_of: null
+      assessment_status: assessed
+      max_hint: H5
+      evidence_id: 2026-10-23-s04-e02
+      axis: concept
+      artifact_or_observation: labs/diag-006/attempts/a001/notes.md — s04-o01-o05
+      result: After feedback, learner correctly distinguishes explicit result assignment, preservation of prior
+        error, unconditional cleanup, and final error/status propagation.
+      prompt_context: H5 accumulated exposure; early incorrect premise/result reasoning preserved in notes.
+        Correct responses followed targeted teaching.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: 'All Fprintf/Flush calls succeed, Close fails: explain exportReport -> run -> main message
+          and exit status.'
+        learner_response: No earlier result error, so Close error becomes returned result; run prints Ekspor
+          gagal and returns 1, passed to os.Exit.
+        observation_reference: labs/diag-006/attempts/a001/notes.md — s04-o05
+        interpretation: Current guided error-flow understanding demonstrated. Existing concept 3 for prior
+          path reasoning is unchanged; do not generalize independence to buffering/cleanup.
+        limitations:
+        - Immediate guided response, not delayed independent evidence.
+        - No durability, permission or cross-resource transfer assessment.
     assessment_history:
     - assessment_id: 2026-10-23-s01-as01
       session_id: 2026-10-23-s01
@@ -1087,9 +1054,29 @@ competencies:
           debugging: 2
         confidence: low
         proficiency: learning
-      rationale: 'Narrow path baseline: learner-generated data-location reasoning and constrained prediction; diagnostic
-        instrument supplied. Preserve final launch-command uncertainty for fresh review, not broad competence or mastery.
-        Other axes insufficiently sampled.'
+      rationale: 'Narrow path baseline: learner-generated data-location reasoning and constrained prediction;
+        diagnostic instrument supplied. Preserve final launch-command uncertainty for fresh review, not broad
+        competence or mastery. Other axes insufficiently sampled.'
+    - assessment_id: 2026-10-23-s04-as01
+      session_id: 2026-10-23-s04
+      checkpoint_id: 2026-10-23-s04-cp01
+      date: '2026-10-23'
+      evidence_ids:
+      - 2026-10-23-s04-e01
+      - 2026-10-23-s04-e02
+      before:
+        scores:
+          implementation: null
+        confidence: low
+        proficiency: learning
+      after:
+        scores:
+          implementation: 2
+        confidence: low
+        proficiency: functional
+      rationale: Guided learner-written safe-close and error-propagation repair now verified with causal explanation.
+        Implementation 2 supports functional threshold together with existing concept 3/path scope and debugging
+        2. No independence claim, other axes unchanged.
     review_plan:
     - review_id: 2026-10-23-s01-r01
       anchor_evidence_ids:
@@ -1102,8 +1089,25 @@ competencies:
       task_type: delayed_retrieval
       target_date: '2026-10-25'
       scheduled_date: '2026-10-25'
-      scheduling_reason: D2 Sunday available; fresh H0/H1 small variant testing launch command versus data lookup
-        and learner-selected observation. Existing process reviews remain October 24.
+      scheduling_reason: D2 Sunday available; fresh H0/H1 small variant testing launch command versus data
+        lookup and learner-selected observation. Existing process reviews remain October 24.
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
+    - review_id: 2026-10-23-s04-r01
+      anchor_evidence_ids:
+      - 2026-10-23-s04-e01
+      - 2026-10-23-s04-e02
+      anchor_date: '2026-10-23'
+      target_axes:
+      - concept
+      - implementation
+      task_type: delayed_retrieval
+      target_date: '2026-10-25'
+      scheduled_date: '2026-10-25'
+      scheduling_reason: D2 Sunday; fresh small H0/H1 buffering/cleanup/error-flow variant after H5-guided
+        completion. Preserve existing October 24 process and October 25 path plans; fit scope to time.
       status: planned
       completed_at: null
       result_evidence_ids: []

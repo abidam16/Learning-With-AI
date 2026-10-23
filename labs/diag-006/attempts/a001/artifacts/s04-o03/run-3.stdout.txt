@@ -1,0 +1,5 @@
+ORDER-0001,accepted
+ORDER-0002,accepted
+ORDER-0003,accepted
+Ekspor selesai: 3 order
+File: D:\learning\Learning-With-AI\labs\diag-006\attempts\a001\artifacts\s04-o03\out\report-3.csv

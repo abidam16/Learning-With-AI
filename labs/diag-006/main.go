@@ -8,12 +8,17 @@ import (
 	"strconv"
 )
 
-func exportReport(path string, count int) error {
+func exportReport(path string, count int) (resultErr error) {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		err = f.Close()
+		if resultErr == nil {
+			resultErr = err
+		}
+	}()
 
 	w := bufio.NewWriter(f)
 	for i := 1; i <= count; i++ {

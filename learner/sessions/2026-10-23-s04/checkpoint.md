@@ -1,0 +1,17 @@
+# Checkpoint 2026-10-23-s04-cp01
+
+- Status **completed**: diag-006 / order-export-completeness-windows-v1 / a001. Resumed s03-cp01; no fresh independent diagnostic. Closing began 2026-10-23T16:16:54+07:00, before conservative 16:35 deadline; first measured preparation time 15:52:33. Wall time includes preparation/interactions/waits, not active-work measurement. No extra lab added to fill remaining budget.
+- Learner distinguished prior write error from Close result, initially guarded Close itself, then correctly traced the skipped-cleanup path and authored unconditional deferred Close with conditional result replacement. Final causal explanation correctly follows Close-only failure through exportReport -> run -> main -> exit 1.
+- Build PASS; actual 3/600-order CLI runs exit 0 and exact ordered rows PASS. Seven controlled-file tests PASS for create/write/Flush/Close failures, error precedence and cleanup count. Failure harness substitutes only file creation in a copied source; it is instructor infrastructure, not actual Windows disk failure or learner-authored tests. No power-loss durability claim.
+- Artifacts: labs/diag-006/attempts/a001/artifacts/s04-o04/main.go.txt, build.txt, verification.json, failure-tests.txt, README.md and failure-harness/. Prior incomplete patch retained in artifacts/s04-o03/. Original learner source matches final snapshot; no instructor target edit.
+- Assessment: os.files-and-descriptors implementation null -> 2, supported by guided learner-written repair, verification and reasoning. Concept 3 unchanged and scoped to prior path evidence, debugging 2 unchanged, judgment/transfer null. Buffering/cleanup concept newly demonstrated only with assistance. Confidence low; proficiency functional by map thresholds, not broad independence. Evidence 2026-10-23-s04-e01/e02 and assessment 2026-10-23-s04-as01.
+- Assistance maxima: concept H5, debugging H5, implementation H5. No independent mastery or delayed-retention claim. Permission handling, real disk failures, durability, judgment and transfer remain unassessed in this lab.
+- Misconceptions addressed: ignored return versus result assignment; conditional cleanup versus conditional replacement. Corrections observed within same guided task, not a recurring cross-task pattern; mistake-patterns unchanged.
+- learner_feedback: time budget 45 minutes; no challenge/frustration report. calibration_decision: maintain difficulty 1, because supported progress followed targeted control-flow teaching; next check removes solution cues on a fresh H0/H1 variant.
+- Active work cleared. Process reviews October 24 and path review October 25 retained. Added October 25 D2 buffering/cleanup/error-flow retrieval for concept and implementation; combine within available time without counting one variant as several independent tasks. Next executable learning step: present a small new resource-writing scenario and request prediction before running or modifying it. If next session is October 24, prioritize due process review under selection policy.
+- Notes: labs/diag-006/attempts/a001/notes.md, observations s04-o01 through s04-o05. No automation, commit or push. Persistence validation below is required before claiming the save completed.
+
+
+## Final validation
+
+PASS: map/state/lab YAML parse; competency IDs and unique evidence/review references valid; prior observations and other competencies preserved; checkpoint/history/state agree; source matches final learner snapshot. Implementation null->2, proficiency functional, confidence low; active work cleared.
