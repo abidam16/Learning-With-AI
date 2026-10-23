@@ -1,0 +1,16 @@
+[
+  {
+    "count": 3,
+    "exit_code": 0,
+    "bytes": 0,
+    "read_lines": 0,
+    "matches_baseline": true
+  },
+  {
+    "count": 600,
+    "exit_code": 0,
+    "bytes": 8192,
+    "read_lines": 410,
+    "matches_baseline": true
+  }
+]

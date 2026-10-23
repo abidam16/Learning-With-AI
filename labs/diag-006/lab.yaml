@@ -1,0 +1,40 @@
+{
+  "lab_id": "diag-006",
+  "task_variant": "order-export-completeness-windows-v1",
+  "task_type": "debugging",
+  "mode": "independent_diagnostic",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.files-and-descriptors"],
+  "secondary_competency_ids": [],
+  "target_axes": ["debugging", "concept"],
+  "prerequisites": ["os.processes"],
+  "prerequisite_decision": "Gate met: concept 2, implementation 3, evidence 2026-10-22-s04-e01 and 2026-10-21-s01-e02 in state. Narrow scope uses normal process completion; signal handling not required.",
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 30,
+  "session_budget_minutes": 45,
+  "closing_reserve_minutes": 5,
+  "selection_rationale": "Last checkpoint 2026-10-23-s01-cp01 completed, active_work null. Reviews October 24/25 not due. No established recurring mistake pattern. Continue file fundamentals with unobserved buffering/lifetime scope and guided-debugging independence gap, not repeat solved path task.",
+  "prior_exposure": ["File-path diagnostic completed earlier today with API assistance. Buffering and close/flush understanding not yet recorded; do not label unknown capability weak."],
+  "environment": {
+    "required": ["Windows", "PowerShell", "Go 1.26.0 via .local-tools/go/bin/go.exe"],
+    "build": "From lab directory: & ../../.local-tools/go/bin/go.exe build -o lab.exe .",
+    "fixture": "Generated ORDER-NNNN,accepted rows; compare N=3 and N=600. Report directory anchored to executable to avoid repeating path fault.",
+    "external_services": [],
+    "limits": "Bounded 1..1000 rows. No crash/power-loss durability claim. OS resource exhaustion not exercised. Baseline verification recorded separately."
+  },
+  "constraints": ["Every row complete and ordered", "No hardcoded reports", "Success requires write and close errors handled", "Learner owns target repair", "No power-loss durability guarantee required"],
+  "success_criteria": ["State hypothesis before modification", "Predict an experiment that distinguishes alternatives", "Explain observed completeness discrepancy", "Learner repair produces all rows for 3 and 600", "Explain why selected completion boundary is sufficient for stated contract"],
+  "verification_plan": [
+    {"axis": "debugging", "check_type": "discriminating_experiment", "observable_evidence": "Learner selects measurement and predicts support/refutation, then identifies cause from output and source.", "assistance_boundary": "Do not name buffering fault, select faulty line, or supply repair before attempt. If unfamiliar concept blocks attempt, teach and record hint.", "limitations": "Single file-output task; not full descriptor/permission coverage."},
+    {"axis": "concept", "check_type": "causal_explanation", "observable_evidence": "Learner explains data lifetime and ordering of successful completion, including small/large output difference.", "assistance_boundary": "Separate API clarification from mechanism instruction; track per-axis hints.", "limitations": "No automatic score change from green output or recently taught explanation."}
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Buffered output lifetime unassessed; dominant new mechanism.",
+    "integration_scope": "One process, writer and local generated report.",
+    "failure_complexity": "One missing completion operation; close-error handling is part of explicit success contract.",
+    "scaffolding": "Instructor provides build, CLI validation, data generation, paths and faulty export. Correct path handling is environment support for this target.",
+    "constraints": "Complete report before reporting success; bounded workload.",
+    "tooling_familiarity": "Go syntax partly familiar. Runtime verified locally; command go absent from this shell PATH."
+  }
+}

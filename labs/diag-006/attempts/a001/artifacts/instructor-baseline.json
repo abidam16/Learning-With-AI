@@ -1,0 +1,24 @@
+[
+  {
+    "count": 3,
+    "stdout": [
+      "Ekspor selesai: 3 order",
+      "File: D:\\learning\\Learning-With-AI\\labs\\diag-006\\out\\report-3.csv"
+    ],
+    "exit_code": 0,
+    "bytes": 0,
+    "lines": 0,
+    "last_line": null
+  },
+  {
+    "count": 600,
+    "stdout": [
+      "Ekspor selesai: 600 order",
+      "File: D:\\learning\\Learning-With-AI\\labs\\diag-006\\out\\report-600.csv"
+    ],
+    "exit_code": 0,
+    "bytes": 8192,
+    "lines": 410,
+    "last_line": "ORDER-0410,a"
+  }
+]
