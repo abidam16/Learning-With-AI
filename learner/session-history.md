@@ -292,3 +292,34 @@ Checkpoint: learner/sessions/2026-10-23-s03/checkpoint.md
 - Notes: labs/diag-006/attempts/a001/notes.md, observations s04-o01 through s04-o05. No automation, commit or push. Persistence validation below is required before claiming the save completed.
 
 Checkpoint: learner/sessions/2026-10-23-s04/checkpoint.md
+
+
+### 2026-10-26-s01-cp01
+
+- Status **completed** for bounded review-001 / receipt-destination-result-v1 / a001. Saved at 2026-10-26T06:39:50+07:00. Session may continue with a short due review within the original conservative 06:55 WIB close; no automatic extra time.
+- Learner predicts original nil result independently, revises conditional cleanup after H1 contract trace, writes repair, and predicts both-failure precedence correctly. Four instructor-controlled cases PASS, exit 0, Close once in every case. Artifacts: labs/review-001/attempts/a001/artifacts/s01-o03/save.go.txt and tests.txt. No instructor target edit.
+- Early-return explanation correct; general claim that defer operates on return value narrowed by instructor afterward (H4 on that terminology only). Uptake not yet observed; keep separate from H0/H1 assessed o01-o03.
+- Evidence 2026-10-26-s01-e01/e02; implementation 2 -> 3, concept 3 unchanged with added retrieval evidence. Debugging 2, judgment/transfer null, confidence low, proficiency functional unchanged. No full-domain mastery or transfer claim.
+- Assistance: assessed concept/implementation H1; later general-defer clarification concept H4, not used to inflate independent evidence. Environment test fixture and runs supplied by instructor.
+- Narrow conditional-cleanup recurrence across two tasks recorded MP-001 improving; learner corrected today's proposal after H1. No automatic score penalty.
+- Review 2026-10-23-s04-r01 completed October 26, actual D3. Next related retrieval November 1 (D6, adjusted from D7 November 2 to Sunday availability). Older process/path reviews remain due; due flags recalculated.
+- No learner frustration feedback. Difficulty stays 1 because independence improved but scope remains familiar. Next direction: short due process concept probe if budget allows, otherwise retain due reviews. No unfinished code or environment blocker.
+- No commit, push or automation. Detailed notes: labs/review-001/attempts/a001/notes.md.
+
+Checkpoint: learner/sessions/2026-10-26-s01/checkpoint.md
+
+
+### 2026-10-26-s01-cp02
+
+- Status **completed** for session 2026-10-26-s01, saved 2026-10-26T07:05:06+07:00. Initial budget 45 minutes; nine-minute bathroom break 06:44–06:53 reported by learner and separated from learning time. Closing began 07:03:44 WIB, near break-adjusted conservative 07:04 boundary. Active work time not measured.
+- Review-001 completed at cp01: learner-produced cleanup/error-precedence patch passes four controlled cases with Close exactly once; prediction/revision/implementation at H0/H1. Implementation 2 -> 3, concept 3 unchanged. Evidence 2026-10-26-s01-e01/e02. General defer terminology clarified afterward at H4, uptake not assessed.
+- Review-002 / runner-task-completion-v2 / a001: learner correctly distinguishes child exit, helper return 9 and original shell status 0, but predicts child cleanup after os.Exit. Reports actual missing child cleanup. Instructor then explains os.Exit skips deferred calls (H4); no later learner explanation observed. Evidence 2026-10-26-s01-e03. Process concept remains 2; no other process score change.
+- Assessment scope: file concept 3/implementation 3/debugging 2/judgment null/transfer null; process concept 2/implementation 3/debugging 2/judgment null/transfer null. Both confidence low and proficiency functional, unchanged. No mastery, meaningful transfer or new debugging/test-design claim.
+- Assistance: review-001 independent assessed portions concept/implementation H1, later general-defer clarification concept H4. Review-002 prediction H0, comparison H1, final os.Exit explanation concept H4. Infrastructure/tests supplied by instructor; no instructor learner-source edits.
+- MP-001 improving records conditional-cleanup recurrence across two task variants and today's self-correction after H1; do not call resolved. New os.Exit misconception is a session observation, not an established recurring pattern.
+- Next reviews: October 31 exit/defer concept (D5 adapted from D2 October 28); November 1 resource-result concept/implementation (D6 adapted from D7 November 2). Existing process implementation/debugging and file-path reviews remain due. These are file review plans, not external reminders.
+- Difficulty remains 1; narrower exit/defer check next because retained process-boundary reasoning coexists with this specific gap. Learner feedback reports a break only; no inferred frustration. No unfinished code or blocker; active_work null.
+- Recommended next step: a short fresh prediction contrasting ordinary return with process exit, then prioritize the remaining due reviews within the next time budget. Do not reuse today's taught answer as independent evidence.
+- References: labs/review-001/attempts/a001/notes.md and artifacts/s01-o03/; labs/review-002/attempts/a001/notes.md; labs/review-002/attempts/a001/artifacts/starter-main.go.txt, baseline.txt, s01-o02-learner-output.txt. No commit, push or automation.
+
+Checkpoint: learner/sessions/2026-10-26-s01/checkpoint-cp02.md

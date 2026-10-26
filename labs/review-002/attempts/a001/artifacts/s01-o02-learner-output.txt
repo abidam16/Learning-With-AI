@@ -1,0 +1,6 @@
+Learner-reported output, not a captured terminal session:
+task: rejected
+runner: result 9
+runner: cleanup
+$LASTEXITCODE = 0
+Learner observation: ternyata task: cleanup tidak muncul

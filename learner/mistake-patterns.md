@@ -51,3 +51,14 @@ Append pembaruan memakai format ringkas:
 ## Catatan aktual
 
 <!-- Append pattern dan pembaruan yang berbasis evidence di bawah ini. Belum ada pattern tercatat. -->
+
+
+### MP-001 — Kondisi penggantian error ikut membatasi cleanup
+
+- Tanggal: 2026-10-26. Status: improving; pola terbatas pada dua task cleanup dengan mekanisme serupa.
+- Observasi: conditional Close saat error kosong muncul pada patch diag-006 tanggal 23 Oktober (notes s04-o03) dan usulan awal review-001 tanggal 26 Oktober (notes s01-o01). Keduanya dapat melewatkan cleanup ketika operasi sebelumnya gagal.
+- References: labs/diag-006/attempts/a001/notes.md — s04-o03/o04; labs/review-001/attempts/a001/notes.md — 2026-10-26-s01-o01/o02/o03.
+- Kompetensi: os.files-and-descriptors, concept/implementation. Bukan diagnosis umum tentang kemampuan atau karakter learner.
+- Evidence perbaikan: pada retrieval baru learner mengenali jalur terlewat dan menyusun repair setelah H1; sebelumnya membutuhkan bantuan H5. Patch sekarang lulus empat kasus termasuk kegagalan ganda. Kemiripan task membatasi generalisasi; belum resolved.
+- Intervensi: minta trace kontrol terhadap kontrak cleanup sebelum patch; pisahkan reasoning menjalankan operasi dari memilih hasilnya. Hindari memberikan solusi sebelum attempt.
+- Next check: retrieval berikut dengan bentuk resource/return berbeda, periksa apakah invariant cleanup dikenali tanpa prompt tambahan. Tidak ada penalti skor otomatis.

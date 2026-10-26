@@ -1,0 +1,19 @@
+=== RUN   TestReceipt
+=== RUN   TestReceipt/normal
+    save_test.go:44: result=<nil> data="PAY-042,paid\n" close_calls=1
+=== RUN   TestReceipt/write_failure
+    save_test.go:44: result=<nil> data="" close_calls=1
+    save_test.go:46: result=<nil>; expected=destination full
+=== RUN   TestReceipt/close_failure
+    save_test.go:44: result=destination close failed data="PAY-042,paid\n" close_calls=1
+=== RUN   TestReceipt/both_failures
+    save_test.go:44: result=destination close failed data="" close_calls=1
+    save_test.go:46: result=destination close failed; expected=destination full
+--- FAIL: TestReceipt (0.00s)
+    --- PASS: TestReceipt/normal (0.00s)
+    --- FAIL: TestReceipt/write_failure (0.00s)
+    --- PASS: TestReceipt/close_failure (0.00s)
+    --- FAIL: TestReceipt/both_failures (0.00s)
+FAIL
+FAIL	learning/review001	0.638s
+FAIL

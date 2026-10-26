@@ -1,0 +1,25 @@
+# Attempt a001 — runner-task-completion-v2
+
+- Session 2026-10-26-s01, after completed checkpoint cp01; concept-only due review, bounded to 8 minutes plus closing reserve. Original conservative session close 06:55 WIB.
+- Prompt: read main.go before execution; predict ordered terminal messages and LASTEXITCODE for lab.exe without arguments; explain sequence. Executable lookup/startup assumed successful. No implementation requested.
+- Current hint H0 on process-boundary prediction. Prior process teaching and today's normal defer explanation are relevant exposure; see lab.yaml. Do not count this as transfer or process implementation/debugging evidence.
+- Instructor fixture verification stored in artifacts/baseline.txt and exit-code.txt; not learner evidence. Learner response pending. Current hypothesis none; no observed blocker.
+- Existing process implementation/debugging and file-path reviews remain due. No assessment or review-completion claim from preparation.
+
+## 2026-10-26-s01-o01 — prediction and reported break
+
+- Response observed by instructor at 2026-10-26T07:01:22+07:00. Learner reports bathroom break 06:44–06:53 (nine minutes). This is reported break time, not measured active learning. Original conservative 06:55 close shifts only by that reported break to approximately 07:04; limit next work to one observation and checkpoint.
+- Learner predicts four lines in order: task: rejected; task: cleanup; runner: result 9; runner: cleanup. Predicts LASTEXITCODE 0.
+- Actual reasoning: original invocation skips the argument branch; run launches a second invocation with --task; child prints rejection and calls os.Exit(5), which learner believes finishes the function and runs deferred task cleanup. job.Run returns an error, run returns 9 to Println; original main completes normally, running runner cleanup. Uses `os.Args == 1` informally for the argument count; branch explanation is otherwise coherent.
+- Interpretation before feedback: correctly distinguishes child process, helper return and original process's shell status. Incorrectly generalizes normal return/defer behavior to os.Exit; retain the correct boundary reasoning independently of this misconception. No learner execution yet, no implementation requested, no numerical score change.
+- Assistance before prediction H0 for this probe; earlier ordinary defer explanation is known exposure. Instructor afterward confirms only the correct two-process/return/status reasoning and requests comparing predicted messages with execution; no os.Exit rule or discrepant line supplied. This neutral compare prompt is H1.
+- Next step: learner runs existing lab.exe from labs/review-002 and reports terminal output plus LASTEXITCODE; identify what differs from prediction. Executable verified present; source still matches prepared fixture. Close/checkpoint next, without adding a new task.
+
+## 2026-10-26-s01-o02 — output comparison and closing teaching
+
+- Observation recorded 2026-10-26T07:03:44+07:00. Learner reports task: rejected; runner: result 9; runner: cleanup; LASTEXITCODE 0, and explicitly notices task: cleanup is absent. This is learner-reported execution, matching the independently prepared instructor baseline; do not claim direct observation of the learner terminal.
+- Interpretation: correct identification of discrepant output. Prior correct child/parent/return/status reasoning remains valid; explanation of why task cleanup is absent has not been supplied by learner. No independent correction of the os.Exit rule claimed.
+- Closing teaching H4: os.Exit terminates the current process immediately without running deferred calls. Ordinary function return executes registered defers; parent continues after child termination and runs its own defer on normal return. Source verification: installed Go 1.26 src/os/proc.go lines 57-62 explicitly documents immediate termination without deferred functions. No further learner response after teaching is available.
+- Concept evidence before teaching at H0/H1 is mixed: process boundaries/status correct, os.Exit cleanup prediction incorrect. os.processes concept remains 2; other process axes unchanged. No score decrease warranted from one bounded misconception; no increase from instructor explanation or output matching. No implementation/debugging assessment on this reading probe.
+- Session completed at this checkpoint. Actual active time not measured; reported nine-minute break excluded, closing begins approximately 07:04 WIB. No new task added. Review target concept considered attempted/completed with mixed result, not successful independent retention of every part. Next fresh exit/defer retrieval planned October 31, adapted from D2 October 28 to weekend availability.
+- Process implementation/debugging and file-path reviews remain due. Difficulty maintained at 1; next probe isolates the exit/defer distinction. No new recurring pattern claimed for this single process-cleanup misconception. Learner feedback only reports break; no emotion inferred.

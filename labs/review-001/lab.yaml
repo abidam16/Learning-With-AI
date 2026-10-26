@@ -1,0 +1,35 @@
+{
+  "lab_id": "review-001",
+  "task_variant": "receipt-destination-result-v1",
+  "task_type": "delayed_retrieval",
+  "mode": "independent_retrieval",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.files-and-descriptors"],
+  "target_axes": ["concept", "implementation"],
+  "prerequisites": ["os.processes"],
+  "prerequisite_decision": "Concept 2 and implementation 3 with assessed state evidence; narrowed to function completion and resource result, no signals required.",
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 30,
+  "session_budget_minutes": 45,
+  "closing_reserve_minutes": 5,
+  "review_id": "2026-10-23-s04-r01",
+  "retest_of": ["2026-10-23-s04-e01", "2026-10-23-s04-e02"],
+  "selection_rationale": "Latest checkpoint completed; no active work. October 24 process reviews and October 25 resource/path reviews due on October 26. Prioritize resource result flow after H5 support as fragile relevant evidence; other reviews remain planned pending capacity.",
+  "prior_exposure": "Three calendar days since H5 resource cleanup teaching. Similar mechanism intentionally tested for retention, not transfer. No old solution shown to learner at startup. New destination fixture and existing faulty result assignment, not empty TODO.",
+  "environment": {"required": ["Windows PowerShell", "Go 1.26.0"], "command": "go test -v .", "fixture": "io.WriteCloser simulation with controlled Write and Close results", "limitations": "No actual disk failure, permission or durability coverage."},
+  "constraints": ["Learner owns save.go repair", "Preserve tests", "Write failure takes precedence over close failure", "Close exactly once"],
+  "success_criteria": ["Predict return value and explain causal order before execution", "Learner-authored repair meets four fixture cases", "Explain error precedence and cleanup on a follow-up case"],
+  "verification_plan": [
+    {"axis": "concept", "check_type": "delayed_retrieval", "observable_evidence": "Prediction before execution and causal reasoning on returned error, buffered write and deferred assignment", "assistance_boundary": "No old solution or correction before first response; record any API or mechanism help"},
+    {"axis": "implementation", "check_type": "boundary_case", "observable_evidence": "Learner code passes normal/write/close/both cases and explains one failure combination", "assistance_boundary": "Instructor fixture supplies controllable destination only, never target repair"}
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Previously taught mechanism; retrieval after a three-day gap",
+    "integration_scope": "One function, buffered writer and controlled destination",
+    "failure_complexity": "One faulty result replacement; controlled independent operation failures",
+    "scaffolding": "Complete small faulty function and deterministic tests; no reference repair",
+    "constraints": "Exact content, error precedence and cleanup count",
+    "tooling_familiarity": "Go native verified; io.WriteCloser syntax may need neutral clarification"
+  }
+}
