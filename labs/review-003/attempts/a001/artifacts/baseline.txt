@@ -1,0 +1,13 @@
+Instructor fixture verification; not learner evidence.
+Build PASS, Go 1.26.0 Windows amd64
+Mode: finish
+main: begin
+run: begin
+run: cleanup
+Exit: 6
+PASS
+Mode: stop
+main: begin
+run: begin
+Exit: 6
+PASS

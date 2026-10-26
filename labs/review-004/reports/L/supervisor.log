@@ -1,0 +1,2 @@
+2026-10-26T09:46:06.713367+07:00 case=L launch_requested
+start_failed error=fork/exec D:\learning\Learning-With-AI\labs\review-004\release\worker.exe: The system cannot find the path specified.

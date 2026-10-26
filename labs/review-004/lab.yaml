@@ -1,0 +1,15 @@
+{
+  "lab_id": "review-004", "task_variant": "order-job-investigation-v2",
+  "task_type": "delayed_retrieval", "mode": "independent_debugging_retrieval",
+  "curriculum_version": "1.1.0", "session_id": "2026-10-26-s02",
+  "primary_competency_ids": ["os.processes"], "target_axes": ["debugging"],
+  "prerequisites": [], "difficulty": 1, "initial_hint": "H0", "suggested_minutes": 25,
+  "review_id": "2026-10-22-s04-r01", "retest_of": ["2026-10-22-s04-e02"],
+  "selection_rationale": "Active probe completed; overdue process debugging retrieval after H4 guided diagnosis October 22. Remaining original session time supports bounded evidence investigation; implementation review stays due unless actually assessed.",
+  "prior_exposure": "Prior startup/panic/forced-termination exercises and status ownership; current-day exit/defer concept teaching. New fixture is controlled input rejection versus launch failure, not repeat bounds panic. No cause disclosed in initial learner prompt.",
+  "environment": {"runtime": "Go 1.26.0 Windows amd64", "build": "go build -o lab.exe .", "cases": ["K", "L"], "fixture": "K launches child, JSON decoding rejects truncated fixture and returns 4; L requests absent release/worker.exe and fails to start. Runner maps either failure to 1. Full runtime records per case.", "limits": "No kill, panic, disk failure or external service involved. Baseline generation is instructor infrastructure, not learner evidence."},
+  "constraints": ["State hypothesis and predicted distinguishing evidence before inspection", "Do not modify fixture or overwrite baseline during investigation", "Source available if learner chooses; record any solution-bearing exposure", "No mandatory repair"],
+  "success_criteria": ["Choose evidence and predict a distinguishing observation", "Explain both outcomes using actual runtime records", "Separate launch status, child outcome and runner status", "State limitations of conclusions"],
+  "verification_plan": [{"axis": "debugging", "check_type": "discriminating_experiment", "observable_evidence": "Learner-selected inspection and prediction, followed by source/PID/error correlation and justified diagnosis", "assistance_boundary": "List artifacts without selecting one or naming causes; neutral workflow H1 only if needed", "limitations": "Instrumented fixture supplied; no instrumentation implementation, new language transfer or comprehensive process mastery"}],
+  "difficulty_context": {"concept_novelty": "Previously taught lifecycle/evidence reasoning; new failure details", "integration_scope": "One runner and at most one child per case", "failure_complexity": "Two deterministic failures share runner status; each isolated", "scaffolding": "Executable, fixtures and timestamped reports supplied", "constraints": "Runtime evidence before repair", "tooling_familiarity": "Familiar Go and PowerShell"}
+}

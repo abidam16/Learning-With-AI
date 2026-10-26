@@ -1,0 +1,3 @@
+2026-10-26T09:46:06.2022418+07:00 case=K launch_requested
+started pid=29408
+wait_returned pid=29408 exit_code=4 error=exit status 4

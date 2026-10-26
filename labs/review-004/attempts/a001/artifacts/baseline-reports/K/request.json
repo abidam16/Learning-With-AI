@@ -1,0 +1,9 @@
+{
+  "args": [
+    "--task",
+    "D:\\learning\\Learning-With-AI\\labs\\review-004\\fixtures\\orders.json"
+  ],
+  "case": "K",
+  "executable": "D:\\learning\\Learning-With-AI\\labs\\review-004\\lab.exe",
+  "working_directory": "D:\\learning\\Learning-With-AI\\labs\\review-004"
+}

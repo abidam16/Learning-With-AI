@@ -1,0 +1,21 @@
+{
+  "lab_id": "review-003",
+  "task_variant": "command-completion-v3",
+  "task_type": "concept",
+  "mode": "post-teaching-followup",
+  "curriculum_version": "1.1.0",
+  "primary_competency_ids": ["os.processes"],
+  "target_axes": ["concept"],
+  "prerequisites": [],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 10,
+  "session_id": "2026-10-26-s02",
+  "prior_exposure": "Same-day H4 teaching on os.Exit skipping deferred calls in review-002. Fresh shape but no delayed-retention or meaningful-transfer claim. Initial prompt adds no explanation.",
+  "selection_rationale": "Latest checkpoint completed with active_work null; recommended bounded exit/return uptake check before due process implementation/debugging reviews.",
+  "environment": {"runtime": ".local-tools/go/bin/go.exe", "build": "go build -o lab.exe .", "run_modes": ["finish", "stop"], "assumptions": "Exactly one mode argument; no external interruption; terminal writes succeed"},
+  "constraints": ["Predict before executing or editing", "No implementation requested in this probe"],
+  "success_criteria": ["Predict ordered stdout and shell status for each mode", "Explain causal execution order including deferred calls and function evaluation"],
+  "verification_plan": [{"axis": "concept", "check_type": "prediction", "observable_evidence": "Learner's initial output/status predictions and causal reasoning, then comparison with runtime", "assistance_boundary": "No output or mechanism explanation before attempt; record later hints separately", "limitations": "Same-day teaching exposure; no implementation/debugging/transfer evidence from this reading probe"}],
+  "difficulty_context": {"concept_novelty": "Recently taught lifecycle distinction", "integration_scope": "One process and two functions; nested call evaluation", "failure_complexity": "Deterministic explicit exit; no startup failure", "scaffolding": "Complete program and build supplied", "constraints": "Trace both modes without execution first", "tooling_familiarity": "Previously used Go and PowerShell"}
+}
