@@ -1,0 +1,25 @@
+Learner-reported terminal output, received before instructor verification:
+ok:
+prepare: started
+prepare: done
+publish: started
+publish: done
+Batch: selesai
+0
+
+reject:
+prepare: started
+prepare: input rejected
+prepare: gagal
+1
+
+publish-reject:
+prepare: started
+prepare: done
+publish: started
+publish: gagal
+1
+
+unavailable:
+prepare: gagal
+1

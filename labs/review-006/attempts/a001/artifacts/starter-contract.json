@@ -1,0 +1,46 @@
+{
+  "build_exit": 0,
+  "fixture_only": false,
+  "results": [
+    {
+      "args": [
+        "ok"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "",
+      "expected_exit": 0,
+      "passed": false
+    },
+    {
+      "args": [
+        "reject"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "",
+      "expected_exit": 1,
+      "passed": false
+    },
+    {
+      "args": [
+        "publish-reject"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "",
+      "expected_exit": 1,
+      "passed": false
+    },
+    {
+      "args": [
+        "unavailable"
+      ],
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "",
+      "expected_exit": 1,
+      "passed": false
+    }
+  ]
+}

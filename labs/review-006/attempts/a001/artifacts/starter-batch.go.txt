@@ -1,0 +1,9 @@
+package main
+
+import "os/exec"
+
+// Area implementasi learner. Kontrak lengkap ada di README.md.
+func runBatch(prepare, publish *exec.Cmd) int {
+	// TODO: implementasikan pengendali batch.
+	return 2
+}

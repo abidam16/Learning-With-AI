@@ -1,0 +1,46 @@
+{
+  "build_exit": 0,
+  "fixture_only": false,
+  "results": [
+    {
+      "args": [
+        "ok"
+      ],
+      "exit_code": 0,
+      "stdout": "prepare: started\nprepare: done\npublish: started\npublish: done\nBatch: selesai\n",
+      "stderr": "",
+      "expected_exit": 0,
+      "passed": true
+    },
+    {
+      "args": [
+        "reject"
+      ],
+      "exit_code": 1,
+      "stdout": "prepare: started\n",
+      "stderr": "prepare: input rejected\nprepare: gagal\n",
+      "expected_exit": 1,
+      "passed": true
+    },
+    {
+      "args": [
+        "publish-reject"
+      ],
+      "exit_code": 1,
+      "stdout": "prepare: started\nprepare: done\npublish: started\n",
+      "stderr": "publish: gagal\n",
+      "expected_exit": 1,
+      "passed": true
+    },
+    {
+      "args": [
+        "unavailable"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "prepare: gagal\n",
+      "expected_exit": 1,
+      "passed": true
+    }
+  ]
+}

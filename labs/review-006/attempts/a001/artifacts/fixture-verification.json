@@ -1,0 +1,54 @@
+{
+  "build_exit": 0,
+  "fixture_only": true,
+  "results": [
+    {
+      "args": [
+        "--step",
+        "prepare",
+        "ok"
+      ],
+      "exit_code": 0,
+      "stdout": "prepare: started\nprepare: done\n",
+      "stderr": "",
+      "expected_exit": 0,
+      "passed": true
+    },
+    {
+      "args": [
+        "--step",
+        "publish",
+        "ok"
+      ],
+      "exit_code": 0,
+      "stdout": "publish: started\npublish: done\n",
+      "stderr": "",
+      "expected_exit": 0,
+      "passed": true
+    },
+    {
+      "args": [
+        "--step",
+        "prepare",
+        "reject"
+      ],
+      "exit_code": 7,
+      "stdout": "prepare: started\n",
+      "stderr": "prepare: input rejected\n",
+      "expected_exit": 7,
+      "passed": true
+    },
+    {
+      "args": [
+        "--step",
+        "publish",
+        "publish-reject"
+      ],
+      "exit_code": 9,
+      "stdout": "publish: started\n",
+      "stderr": "",
+      "expected_exit": 9,
+      "passed": true
+    }
+  ]
+}

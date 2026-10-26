@@ -84,9 +84,9 @@ curriculum_file: curriculum/competency-map.yaml
 learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
-updated_on: '2026-10-26'
-last_session_id: 2026-10-26-s03
-last_applied_checkpoint: 2026-10-26-s03-cp01
+updated_on: '2026-10-27'
+last_session_id: 2026-10-27-s01
+last_applied_checkpoint: 2026-10-27-s01-cp01
 active_work: null
 competencies:
   os.processes:
@@ -99,8 +99,8 @@ competencies:
     weighted_score: null
     confidence: low
     proficiency: functional
-    last_assessed_on: '2026-10-26'
-    review_due: true
+    last_assessed_on: '2026-10-27'
+    review_due: false
     evidence:
     - session_id: 2026-10-20-s01
       date: '2026-10-20'
@@ -752,6 +752,71 @@ competencies:
         - Initial hypotheses remain preserved; no automatic penalty.
       retest_of: 2026-10-22-s04-e02
       correction_of: null
+    - session_id: 2026-10-27-s01
+      date: '2026-10-27'
+      lab_id: review-006
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: report-two-stage-controller-v1
+      assessment_status: assessed
+      max_hint: H0
+      correction_of: null
+      evidence_id: 2026-10-27-s01-e01
+      axis: implementation
+      retest_of: 2026-10-20-s02-e02
+      artifact_or_observation: labs/review-006/attempts/a001/artifacts/s01-o02/batch.go.txt; labs/review-006/attempts/a001/artifacts/s01-o02/verification.json;
+        labs/review-006/attempts/a001/notes.md — o01/o02/o03
+      result: 'Learner independently authors sequential Run checks with immediate failure returns and final success
+        only after both stages. Build and four real-process contract cases PASS: success, prepare rejection, silent
+        publish failure, absent prepare executable. Correct final causal prediction.'
+      prompt_context: Directed business contract; command construction/stream wiring, fixtures and checker instructor-provided.
+        Learner independently chose Run and wrote controller. October 20 H4 and October 21 H0 prior implementation,
+        October 26 concept/debugging exposure. No new API/solution hint or instructor source edit.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: 'Prepare prints prepare: done, continues working for five seconds, then exits 7. With current code,
+          does publish run, when does batch return, and what is its final status? Explain.'
+        learner_response: 'Walaupun prepare: done muncul, prepare masih bekerja 5 detik sampai exit 7; publish belum
+          berjalan. Exit nonzero menghasilkan error dari prepare.Run(), cabang error mencetak prepare: gagal dan
+          return 1. Main memakai hasil itu untuk os.Exit(1), sehingga publish tidak berjalan dan status batch 1.'
+        observation_reference: labs/review-006/attempts/a001/notes.md — o03
+        interpretation: 'Correct independent causal chain: printed progress does not complete a child; Run result
+          gates publication and maps child failure to batch status 1.'
+        limitations:
+        - Five-second counterfactual discussed only, not executed.
+        - Known prior process instruction; narrow familiar Go result-handling scope.
+        - No signal handling, controlled shutdown or meaningful transfer observed.
+    - session_id: 2026-10-27-s01
+      date: '2026-10-27'
+      lab_id: review-006
+      attempt_id: a001
+      competency_id: os.processes
+      task_variant: report-two-stage-controller-v1
+      assessment_status: assessed
+      max_hint: H0
+      correction_of: null
+      evidence_id: 2026-10-27-s01-e02
+      axis: concept
+      retest_of: null
+      artifact_or_observation: labs/review-006/attempts/a001/notes.md — o01/o03
+      result: Learner independently explains completion-sensitive sequencing, nonzero child failure, skipped publication
+        and explicit child-7 to parent-1 mapping despite misleading progress text.
+      prompt_context: H0 initial approach and final counterfactual after learner patch; prior-day process instruction
+        known. Same task as implementation record, not a second independent task.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: 'Prepare prints prepare: done, continues working for five seconds, then exits 7. With current code,
+          does publish run, when does batch return, and what is its final status? Explain.'
+        learner_response: 'Walaupun prepare: done muncul, prepare masih bekerja 5 detik sampai exit 7; publish belum
+          berjalan. Exit nonzero menghasilkan error dari prepare.Run(), cabang error mencetak prepare: gagal dan
+          return 1. Main memakai hasil itu untuk os.Exit(1), sehingga publish tidak berjalan dan status batch 1.'
+        observation_reference: labs/review-006/attempts/a001/notes.md — o03
+        interpretation: 'Correct independent causal chain: printed progress does not complete a child; Run result
+          gates publication and maps child failure to batch status 1.'
+        limitations:
+        - Five-second counterfactual discussed only, not executed.
+        - Known prior process instruction; narrow familiar Go result-handling scope.
+        - No signal handling, controlled shutdown or meaningful transfer observed.
     assessment_history:
     - assessment_id: 2026-10-20-s01-as01
       session_id: 2026-10-20-s01
@@ -910,9 +975,11 @@ competencies:
       scheduled_date: '2026-10-24'
       scheduling_reason: Fresh H0/H1 variant after H4 API help; D2 target moved to Saturday availability D4. Can
         accompany existing concept review without replacing it.
-      status: planned
-      completed_at: null
-      result_evidence_ids: []
+      status: completed
+      completed_at: '2026-10-27T06:07:43+07:00'
+      result_evidence_ids:
+      - 2026-10-27-s01-e01
+      - 2026-10-27-s01-e02
       schedule_history: []
     - review_id: 2026-10-22-s04-r01
       anchor_evidence_ids:
@@ -959,6 +1026,24 @@ competencies:
       scheduling_reason: Fresh runtime evidence-selection check after mixed initial prediction and successful H1
         source-supported correction. D2 adapted to Saturday availability D5. Coordinate with existing concept review
         without double-counting one variant.
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
+    - review_id: 2026-10-27-s01-r01
+      anchor_evidence_ids:
+      - 2026-10-27-s01-e01
+      - 2026-10-27-s01-e02
+      anchor_date: '2026-10-27'
+      target_axes:
+      - implementation
+      - concept
+      task_type: delayed_retrieval
+      target_date: '2026-11-03'
+      scheduled_date: '2026-11-07'
+      scheduling_reason: Successful independent narrow retrieval. D7 target November 3 moved to first weekend on/after
+        target, Saturday November 7 (D11), using stated weekend availability. Existing October 31 process concept/debugging
+        reviews retained; avoid repeating the same familiar implementation immediately.
       status: planned
       completed_at: null
       result_evidence_ids: []

@@ -1,0 +1,68 @@
+{
+  "lab_id": "review-006",
+  "task_variant": "report-two-stage-controller-v1",
+  "task_type": "delayed_retrieval",
+  "mode": "independent_implementation_retrieval",
+  "curriculum_version": "1.1.0",
+  "session_id": "2026-10-27-s01",
+  "primary_competency_ids": [
+    "os.processes"
+  ],
+  "target_axes": [
+    "implementation",
+    "concept"
+  ],
+  "prerequisites": [],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 40,
+  "review_id": "2026-10-20-s02-r01",
+  "retest_of": [
+    "2026-10-20-s02-e02",
+    "2026-10-21-s01-e02"
+  ],
+  "selection_rationale": "Latest checkpoint complete; remaining overdue process implementation review. Narrow child completion, sequencing and parent result; signals/shutdown excluded.",
+  "prior_exposure": "Run/result handling October 20 H4 and October 21 H0; process concept/debugging October 26. No old solutions displayed. Sequential second stage is changed constraint, not cross-stack transfer.",
+  "environment": {
+    "runtime": "Go 1.26.0 windows/amd64",
+    "shell": "PowerShell",
+    "build": "go build -o lab.exe .",
+    "fixture_verification": "python verify.py --fixture",
+    "contract_verification": "python verify.py"
+  },
+  "constraints": [
+    "Learner changes batch.go only",
+    "No scenario hardcoding or stdout-based success detection",
+    "runBatch returns status; no os.Exit there",
+    "Prepare once; publish once iff prepare completed successfully"
+  ],
+  "success_criteria": [
+    "Four contract scenarios pass",
+    "Learner authors controller",
+    "Learner explains stage outcome, next-stage decision and batch status"
+  ],
+  "verification_plan": [
+    {
+      "axis": "implementation",
+      "check_type": "delayed_retrieval",
+      "observable_evidence": "Learner patch and four runtime scenarios including absent executable and silent nonzero exit",
+      "assistance_boundary": "Command configuration and streams supplied; controller not supplied; track API hints",
+      "limitations": "Familiar API; no signals or shutdown assessment"
+    },
+    {
+      "axis": "concept",
+      "check_type": "causal_explanation",
+      "observable_evidence": "Initial explanation and targeted post-success counterfactual",
+      "assistance_boundary": "H0 initially; explicit business contract",
+      "limitations": "Prior-day teaching known; no full-domain retention claim"
+    }
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Familiar child result handling",
+    "integration_scope": "Parent and two sequential children",
+    "failure_complexity": "Four isolated deterministic scenarios",
+    "scaffolding": "CLI, commands, stream wiring, fixtures, checker; controller TODO",
+    "constraints": "Second stage gated on first-stage completion and success",
+    "tooling_familiarity": "Go/PowerShell verified"
+  }
+}

@@ -351,3 +351,19 @@ Checkpoint: learner/sessions/2026-10-26-s02/checkpoint.md
 - References: labs/review-005/attempts/a001/notes.md; learner/sessions/2026-10-26-s03/startup.md. No target edits by instructor, memory update, automation, commit or push. Source retains unused os.Executable call and unconditional Getwd; unavailable-CWD/Executable-error behavior was not injected and is outside the verified normal Windows environment.
 
 Checkpoint: learner/sessions/2026-10-26-s03/checkpoint.md
+
+
+### 2026-10-27-s01-cp01
+
+- Status **completed**, session 2026-10-27-s01; saved 2026-10-27T06:07:43+07:00. User budget 60 minutes; first measured startup 05:31:53 WIB, earlier preparation unmeasured; conservative close 06:29, reserve 06:24. Closing began 06:06:14 after objective met. Wall time includes setup and interaction, not measured active work. No reported break; no extra exercise added to fill unused budget.
+- review-006 / report-two-stage-controller-v1 / a001: learner independently proposes Run-based ordered execution, implements early failure returns and success after both stages, and reports four expected outputs/statuses. Instructor independently builds and verifies all four scenarios PASS. Learner code unchanged by instructor; snapshots and verification at labs/review-006/attempts/a001/artifacts/s01-o02/. Failure diagnostics correctly go to stderr.
+- Final hypothetical reasoning: Walaupun prepare: done muncul, prepare masih bekerja 5 detik sampai exit 7; publish belum berjalan. Exit nonzero menghasilkan error dari prepare.Run(), cabang error mencetak prepare: gagal dan return 1. Main memakai hasil itu untuk os.Exit(1), sehingga publish tidak berjalan dan status batch 1. Correct at H0; hypothetical delay variant was not executed. See labs/review-006/attempts/a001/notes.md, observations o01-o03.
+- Evidence 2026-10-27-s01-e01/2026-10-27-s01-e02. Scores unchanged: processes C2/I3/D2/J-null/T-null; files C3/I3/D2/J-null/T-null. Both low confidence and functional unchanged; other competencies untouched. Successful narrow independent implementation retrieval strengthens score 3; full process concept outcome is broader than observed reasoning, so concept 2 retained. No numerical assessment change entry needed.
+- Assistance per assessed axis: implementation H0, concept H0. Instructor supplied commands/streams, fixtures, checker and persistence. Known earlier teaching recorded; no claim of independently constructing launcher, signal handling, controlled shutdown, debugging investigation, judgment or cross-stack transfer.
+- No misconception observed in this task, no new recurring pattern. MP-001 remains improving and was not tested; mistake-patterns unchanged.
+- Completed overdue review 2026-10-20-s02-r01 on October 27 (D7 from anchor, D6 from October 21 independent patch). Next result-handling implementation/concept retrieval November 7 (D11 adjusted from D7 November 3 to weekend availability). Existing October 31 exit/defer and runtime-debugging reviews, and November 1 file reviews, retained. No reviews due as of October 27 after completion; no automation.
+- Calibration maintain difficulty 1; coherent independent proposal, patch, runtime outputs and causal explanation. No reported difficulty/frustration; availability is sole learner feedback. Objective complete early, not a reason for automatic promotion or another mandatory task.
+- Next direction: if next session occurs before October 31, a short baseline for os.threads concept/implementation can broaden evidence; os.processes prerequisite C2/I3 has relevant evidence. Otherwise prioritize due October 31 reviews. Frame thread/goroutine introduction as new learning/probe, not already demonstrated capability. No new lab prepared this session.
+- No unfinished code or environment blocker; active_work null. No commit, push or external reminder. Startup/attempt snapshots preserved. Historical evidence unchanged.
+
+Checkpoint: learner/sessions/2026-10-27-s01/checkpoint.md
