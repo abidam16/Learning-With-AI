@@ -1,0 +1,14 @@
+Learner-supplied transcript, recorded 2026-10-26T13:44:40+07:00.
+Not an instructor rerun.
+
+Set-Location D:\learning\Learning-With-AI\labs\review-005
+> .\lab.exe D:\learning\Learning-With-AI\labs\review-005\jobs\B\orders.txt
+> $LASTEXITCODE
+> .\lab.exe D:\learning\Learning-With-AI\labs\review-005\jobs\A\orders.txt
+> $LASTEXITCODE
+Impor: 2 pesanan [B-201, B-202]
+0
+Impor: 3 pesanan [A-101, A-102, A-103]
+0
+
+Learner interpretation: changing the argument to each folder's absolute file path produces the expected output.

@@ -1,0 +1,38 @@
+{
+  "author": "instructor",
+  "build_exit": 0,
+  "cases": [
+    {
+      "case": "A",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A",
+      "argument": "orders.txt",
+      "stdout": "Impor: 1 pesanan [DEMO-01]\n",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "case": "B",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\B",
+      "argument": "orders.txt",
+      "stdout": "Impor: 1 pesanan [DEMO-01]\n",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "case": "absolute",
+      "cwd": "D:\\learning\\Learning-With-AI",
+      "argument": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A\\orders.txt",
+      "stdout": "Impor: 3 pesanan [A-101, A-102, A-103]\n",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "case": "missing",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A",
+      "argument": "absent.txt",
+      "stdout": "",
+      "stderr": "Impor gagal: open D:\\learning\\Learning-With-AI\\labs\\review-005\\absent.txt: The system cannot find the file specified.\n",
+      "exit": 1
+    }
+  ]
+}

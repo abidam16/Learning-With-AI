@@ -1,0 +1,69 @@
+{
+  "author": "instructor",
+  "time": "2026-10-26T13:56:50+07:00",
+  "build_exit": 0,
+  "source_sha256": "e062786d74a70dcc5d36c79663abc6de504f9f40f60d7129eb4bc9f564c5867a",
+  "source_unchanged": true,
+  "fixtures_unchanged": true,
+  "cases": [
+    {
+      "case": "relative-A",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A",
+      "argument": "orders.txt",
+      "stdout": "Impor: 3 pesanan [A-101, A-102, A-103]\n",
+      "stderr": "",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "case": "relative-B",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\B",
+      "argument": "orders.txt",
+      "stdout": "Impor: 2 pesanan [B-201, B-202]\n",
+      "stderr": "",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "case": "absolute-A-from-B",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\B",
+      "argument": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A\\orders.txt",
+      "stdout": "Impor: 3 pesanan [A-101, A-102, A-103]\n",
+      "stderr": "",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "case": "absolute-B-from-A",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A",
+      "argument": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\B\\orders.txt",
+      "stdout": "Impor: 2 pesanan [B-201, B-202]\n",
+      "stderr": "",
+      "exit": 0,
+      "passed": true
+    },
+    {
+      "case": "missing-relative-no-fallback",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\attempts\\a001\\artifacts\\s03-o04\\empty-workdir",
+      "argument": "orders.txt",
+      "stdout": "",
+      "stderr": "Impor gagal: open D:\\learning\\Learning-With-AI\\labs\\review-005\\attempts\\a001\\artifacts\\s03-o04\\empty-workdir\\orders.txt: The system cannot find the file specified.\n",
+      "exit": 1,
+      "passed": true
+    },
+    {
+      "case": "missing-absolute",
+      "cwd": "D:\\learning\\Learning-With-AI\\labs\\review-005\\jobs\\A",
+      "argument": "D:\\learning\\Learning-With-AI\\labs\\review-005\\attempts\\a001\\artifacts\\s03-o04\\empty-workdir\\orders.txt",
+      "stdout": "",
+      "stderr": "Impor gagal: open D:\\learning\\Learning-With-AI\\labs\\review-005\\attempts\\a001\\artifacts\\s03-o04\\empty-workdir\\orders.txt: The system cannot find the file specified.\n",
+      "exit": 1,
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "No permission fault or unavailable-CWD injection",
+    "Instructor-created verification, not learner test implementation",
+    "No claim of domain mastery"
+  ]
+}

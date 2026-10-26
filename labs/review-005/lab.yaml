@@ -1,0 +1,66 @@
+{
+  "lab_id": "review-005",
+  "task_variant": "operator-input-selection-v1",
+  "task_type": "delayed_retrieval",
+  "mode": "independent_diagnostic",
+  "curriculum_version": "1.1.0",
+  "session_id": "2026-10-26-s03",
+  "primary_competency_ids": [
+    "os.files-and-descriptors"
+  ],
+  "target_axes": [
+    "concept",
+    "debugging"
+  ],
+  "prerequisites": [],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 40,
+  "review_id": "2026-10-23-s01-r01",
+  "retest_of": [
+    "2026-10-23-s01-e02",
+    "2026-10-23-s01-e03"
+  ],
+  "selection_rationale": "No unfinished work. Due path review; vary subject after two process reviews today. Process implementation review remains due.",
+  "prior_exposure": "October 23 package-relative data task with concept H1, diagnostic/API H5, final launch-path explanation H4. New contract is caller-selected input, not package data. Prompt states business contract but does not name fault or API remedy.",
+  "environment": {
+    "runtime": "Go 1.26.0 Windows amd64",
+    "build": "../../.local-tools/go/bin/go.exe build -o lab.exe .",
+    "baseline": "attempts/a001/artifacts/baseline.json",
+    "limits": "Deterministic text files; permissions and descriptors not tested."
+  },
+  "constraints": [
+    "Learner authors target repair",
+    "No fixture changes or hardcoded locations",
+    "Prediction before inspection; one-variable experiment where practical"
+  ],
+  "success_criteria": [
+    "Explain evidence for wrong selected data",
+    "A/B exact IDs correct",
+    "Absolute input works",
+    "Missing selected input returns nonzero without success",
+    "Explain a changed launch condition"
+  ],
+  "verification_plan": [
+    {
+      "axis": "concept",
+      "check_type": "prediction",
+      "observable_evidence": "Predict which input is selected under changed launch conditions and explain causal path",
+      "assistance_boundary": "H0 initially; record exposure and hints per axis"
+    },
+    {
+      "axis": "debugging",
+      "check_type": "discriminating_experiment",
+      "observable_evidence": "Learner chooses one observation with predicted supporting/refuting results then reconciles runtime evidence",
+      "limitations": "Instructor infrastructure is not learner test-design evidence; API help separately recorded"
+    }
+  ],
+  "difficulty_context": {
+    "concept_novelty": "Previously taught path anchors; changed input ownership contract",
+    "integration_scope": "One executable and two operator directories",
+    "failure_complexity": "One deterministic wrong-data fault",
+    "scaffolding": "CLI, fixtures and executable supplied; no repaired reference",
+    "constraints": "Relative and absolute input; missing input must fail",
+    "tooling_familiarity": "Familiar PowerShell/Go; API recall not assumed"
+  }
+}

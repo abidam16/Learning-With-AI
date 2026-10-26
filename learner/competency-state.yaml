@@ -85,8 +85,8 @@ learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
 updated_on: '2026-10-26'
-last_session_id: 2026-10-26-s02
-last_applied_checkpoint: 2026-10-26-s02-cp01
+last_session_id: 2026-10-26-s03
+last_applied_checkpoint: 2026-10-26-s03-cp01
 active_work: null
 competencies:
   os.processes:
@@ -1004,7 +1004,7 @@ competencies:
     confidence: low
     proficiency: functional
     last_assessed_on: '2026-10-26'
-    review_due: true
+    review_due: false
     evidence:
     - session_id: 2026-10-23-s01
       date: '2026-10-23'
@@ -1241,6 +1241,68 @@ competencies:
         - Instructor authored and ran tests; no learner test-design claim.
         - Controlled destination, no actual disk, permission or durability assessment.
         - Short record exercises underlying failure at Flush, not direct Fprintln failure.
+    - session_id: 2026-10-26-s03
+      date: '2026-10-26'
+      lab_id: review-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: operator-input-selection-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/review-005/attempts/a001/notes.md
+      max_hint: H1
+      prompt_context: October 23 path exercise included H5 observation/API help and final H4 launch-path clarification.
+        Fresh retrieval three days later. Current H1 command/output clarification; learner voluntarily inspected
+        source before initial hypothesis. No instructor target edit or remedy supplied.
+      correction_of: null
+      evidence_id: 2026-10-26-s03-e01
+      axis: concept
+      retest_of: 2026-10-23-s01-e02
+      result: Correct source-informed account of executable-relative lookup, absolute-input prediction confirmed
+        by learner transcript, and correct sibling-directory relative-input prediction after learner repair.
+      reasoning_check:
+        check_type: prediction
+        prompt: From jobs/A run ../../lab.exe ../B/orders.txt. Which exact input and IDs are selected, and why?
+        learner_response: '.. goes from A to jobs, then B/orders.txt; output is Impor: 2 pesanan [B-201, B-202].'
+        observation_reference: labs/review-005/attempts/a001/notes.md
+        interpretation: Supports retained independent path/CWD reasoning on changed input ownership contract; concept
+          3 remains.
+        limitations:
+        - Final sibling-path prediction was not executed.
+        - Same language and near path domain; not broad transfer, permissions or descriptor evidence.
+    - session_id: 2026-10-26-s03
+      date: '2026-10-26'
+      lab_id: review-005
+      attempt_id: a001
+      competency_id: os.files-and-descriptors
+      task_variant: operator-input-selection-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/review-005/attempts/a001/notes.md
+      max_hint: H1
+      prompt_context: October 23 path exercise included H5 observation/API help and final H4 launch-path clarification.
+        Fresh retrieval three days later. Current H1 command/output clarification; learner voluntarily inspected
+        source before initial hypothesis. No instructor target edit or remedy supplied.
+      correction_of: null
+      evidence_id: 2026-10-26-s03-e02
+      axis: debugging
+      retest_of: 2026-10-23-s01-e03
+      result: Learner identifies faulty path anchor from source, proposes absolute-input comparison, predicts expected
+        IDs and supplies matching B/A output with exit 0; authors repair which passes six instructor contract checks.
+      reasoning_check:
+        check_type: discriminating_experiment
+        prompt: State a hypothesis for identical DEMO-01 results and choose an experiment with a predicted outcome.
+        learner_response: Relative input is joined to executable directory; supplying absolute paths for B and A
+          should read their respective order IDs. Supplied output confirms two B orders and three A orders, each
+          exit 0.
+        observation_reference: labs/review-005/attempts/a001/artifacts/s03-o03-learner-output.txt
+        interpretation: 'Independent diagnosis of this path-selection fault at H1. Retain broader debugging 2: valid
+          new evidence is narrowly wrong-content selection, while mapped failing-operation diagnosis (file-not-found/permission/descriptor
+          exhaustion) was not independently investigated in this review.'
+        limitations:
+        - Learner ran absolute cases from lab root; relative baseline from operator folders was instructor-generated,
+          so not a fully controlled same-CWD learner experiment.
+        - Instructor selected and executed post-repair missing-file tests; those are artifact validation, not learner
+          diagnosis.
+        - No permission or resource-exhaustion diagnostic, meaningful transfer, or independent test-harness implementation.
     assessment_history:
     - assessment_id: 2026-10-23-s01-as01
       session_id: 2026-10-23-s01
@@ -1314,9 +1376,11 @@ competencies:
       scheduled_date: '2026-10-25'
       scheduling_reason: D2 Sunday available; fresh H0/H1 small variant testing launch command versus data lookup
         and learner-selected observation. Existing process reviews remain October 24.
-      status: planned
-      completed_at: null
-      result_evidence_ids: []
+      status: completed
+      completed_at: '2026-10-26T14:03:23+07:00'
+      result_evidence_ids:
+      - 2026-10-26-s03-e01
+      - 2026-10-26-s03-e02
       schedule_history: []
     - review_id: 2026-10-23-s04-r01
       anchor_evidence_ids:
@@ -1350,6 +1414,24 @@ competencies:
       scheduled_date: '2026-11-01'
       scheduling_reason: D7 target adapted to available Sunday, actual planned D6; use another resource/return shape
         and verify unconditional cleanup without solution cues. No external reminder.
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
+    - review_id: 2026-10-26-s03-r01
+      anchor_evidence_ids:
+      - 2026-10-26-s03-e01
+      - 2026-10-26-s03-e02
+      anchor_date: '2026-10-26'
+      target_axes:
+      - concept
+      - debugging
+      task_type: delayed_retrieval
+      target_date: '2026-11-02'
+      scheduled_date: '2026-11-01'
+      scheduling_reason: Successful narrow path retrieval at H1; D7 adapted to available Sunday D6. Coordinate with
+        existing resource-result review in one bounded session without double-counting variants; include a genuine
+        failing-input case and learner-selected evidence.
       status: planned
       completed_at: null
       result_evidence_ids: []
