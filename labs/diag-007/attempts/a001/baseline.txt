@@ -1,0 +1,10 @@
+Instructor verification; not learner evidence.
+Command: go run .
+Exit code: 0
+A mulai: 0s
+A selesai: 1s
+B mulai: 1.001s
+B selesai: 2.001s
+batch selesai: wall=2.001s
+
+Interpretation: sequential baseline runs successfully. Intended overlap target remains unimplemented. No CPU time measured.

@@ -1,0 +1,22 @@
+{
+  "lab_id": "diag-007",
+  "task_variant": "two-independent-timers-v1",
+  "session_id": "2026-10-29-s01",
+  "curriculum_version": "1.1.0",
+  "task_type": "implementation",
+  "mode": "guided_learning_after_concept_probe",
+  "primary_competency_ids": ["os.threads"],
+  "target_axes": ["concept", "implementation"],
+  "prerequisites": ["os.processes"],
+  "difficulty": 1,
+  "suggested_minutes": 20,
+  "prior_exposure": "probe-004 same-session concept explanation H4; not independent concept retrieval. Concurrent implementation not provided.",
+  "environment": {"runtime": "Go 1.26.0 windows/amd64", "shell": "PowerShell", "command": "go run .", "fixture": "time.Sleep simulates independent waiting; no HTTP", "measurement": "in-process wall-clock only; CPU time not yet measured"},
+  "constraints": ["Edit runner.go only", "Execute each job exactly once", "Return only after every job completes", "Do not use fixed sleeps to guess completion", "Keep GOMAXPROCS(1); not OS affinity"],
+  "success_criteria": ["Baseline output interpreted", "Learner authors overlapping execution and waits for actual completion", "Observed job completion precedes batch completion", "Learner explains waiting versus CPU execution; no claim based on duration alone"],
+  "verification_plan": [
+    {"axis": "concept", "check_type": "causal_explanation", "observable_evidence": "Actual learner explanation of timeline before/after patch", "assistance_boundary": "Prior H4 teaching explicitly limits independence", "limitations": "Timer fixture not network stack; no full OS scheduling or CPU accounting assessment"},
+    {"axis": "implementation", "check_type": "boundary_case", "observable_evidence": "Learner code and actual completion/overlap checks including unequal waits and zero jobs if reached", "assistance_boundary": "Infrastructure supplied, concurrency/join core left to learner; record API help by content", "limitations": "Pending learner attempt; no current success claim"}
+  ],
+  "difficulty_context": {"concept_novelty": "Concurrent waiting newly taught; goroutine syntax familiarity unknown", "integration_scope": "Single process with two local timer jobs", "failure_complexity": "Sequential baseline; no hidden incident", "scaffolding": "Timer jobs, logging, runtime setting and timing supplied; learner owns scheduling/completion", "constraints": "All jobs complete before return", "tooling_familiarity": "Go commands verified; concurrency APIs not yet assessed"}
+}

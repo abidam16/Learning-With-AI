@@ -84,10 +84,18 @@ curriculum_file: curriculum/competency-map.yaml
 learner_profile: learner/profile.md
 timezone: Asia/Jakarta
 initialized_on: '2026-10-06'
-updated_on: '2026-10-27'
-last_session_id: 2026-10-27-s01
-last_applied_checkpoint: 2026-10-27-s01-cp01
-active_work: null
+updated_on: '2026-10-29'
+last_session_id: 2026-10-29-s01
+last_applied_checkpoint: 2026-10-29-s01-cp01
+active_work:
+  lab_id: probe-004
+  task_variant: independent-waits-one-core-v1
+  attempt_id: a001
+  session_id: 2026-10-29-s01
+  checkpoint_id: 2026-10-29-s01-cp01
+  checkpoint_reference: learner/sessions/2026-10-29-s01/checkpoint.md
+  next_step: Fresh brief scheduling/context trace before further teaching; then, if foundation permits, read labs/diag-007/runner.go
+    and run go run . from labs/diag-007. Implementation remains unattempted.
 competencies:
   os.processes:
     scores:
@@ -1050,19 +1058,116 @@ competencies:
       schedule_history: []
   os.threads:
     scores:
-      concept: null
+      concept: 1
       implementation: null
       debugging: null
       judgment: null
       transfer: null
     weighted_score: null
-    confidence: none
-    proficiency: unseen
-    last_assessed_on: null
+    confidence: low
+    proficiency: learning
+    last_assessed_on: '2026-10-29'
     review_due: false
-    evidence: []
-    assessment_history: []
-    review_plan: []
+    evidence:
+    - session_id: 2026-10-29-s01
+      date: '2026-10-29'
+      lab_id: probe-004
+      attempt_id: a001
+      competency_id: os.threads
+      axis: concept
+      task_variant: independent-waits-one-core-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/probe-004/attempts/a001/notes.md
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-29-s01-e01
+      max_hint: H1
+      prompt_context: H0 scenario followed by H1 causal clarification. Later learner explicitly reports guessing.
+        Instructor wording mixed work/process/thread layers; treat that ambiguity as a limitation.
+      result: Predicts possible one-second wait but attributes it to rapid CPU alternation; follow-up assigns different
+        PIDs to threads of the same program and does not distinguish blocked I/O from CPU execution.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: After A/B requests are sent, must their work keep taking CPU turns while waiting for responses?
+        learner_response: Separate threads handle A/B with different PIDs; one core rapidly alternates between PID
+          A and PID B, allowing one second.
+        observation_reference: labs/probe-004/attempts/a001/notes.md
+        interpretation: Numeric answer alone is insufficient; specific identity and waiting-model gaps require teaching.
+          No inference of general inability.
+        limitations:
+        - Self-reported guessing qualifies independence of reasoning.
+        - Instructor wording ambiguity contributed.
+        - No runtime or implementation evidence.
+    - session_id: 2026-10-29-s01
+      date: '2026-10-29'
+      lab_id: probe-004
+      attempt_id: a001
+      competency_id: os.threads
+      axis: concept
+      task_variant: independent-waits-one-core-v1
+      assessment_status: assessed
+      artifact_or_observation: labs/probe-004/attempts/a001/notes.md
+      retest_of: null
+      correction_of: null
+      evidence_id: 2026-10-29-s01-e02
+      max_hint: H4
+      prompt_context: Direct foundation explanation of process/thread/core, scheduling states, context switching,
+        socket wakeup and Go runtime; immediate check after teaching.
+      result: Correctly states T2 uses CPU while T1 remains blocked; T1 becomes ready when waiting condition is satisfied
+        and runs when scheduled. Earlier guided CPU-work prediction correctly totals two seconds but assumed A must
+        finish before B; instructor corrected that.
+      reasoning_check:
+        check_type: causal_explanation
+        prompt: T1 is blocked waiting for network response and T2 ready. Does T2 use thread T1 or CPU, and what happens
+          to T1?
+        learner_response: T2 uses CPU; T1 waits until the blocked condition is fulfilled, then enters ready and resumes
+          when it gets CPU.
+        observation_reference: labs/probe-004/attempts/a001/notes.md
+        interpretation: Immediate guided uptake of a limited mechanism supports concept 1, not independent application
+          or full-outcome score 2/3.
+        limitations:
+        - H4 assistance.
+        - No fresh or delayed reconstruction yet.
+        - OS-thread/goroutine/SMT and response routing not rechecked.
+        - No implementation, debugging, judgment or transfer assessed.
+    assessment_history:
+    - assessment_id: 2026-10-29-s01-a01
+      session_id: 2026-10-29-s01
+      checkpoint_id: 2026-10-29-s01-cp01
+      date: '2026-10-29'
+      evidence_ids:
+      - 2026-10-29-s01-e01
+      - 2026-10-29-s01-e02
+      before:
+        scores:
+          concept: null
+        confidence: none
+        proficiency: unseen
+      after:
+        scores:
+          concept: 1
+        confidence: low
+        proficiency: learning
+      rationale: 'Mapped scale 1: explains specific fragments after substantial conceptual teaching. Initial causal
+        reasoning incomplete/self-reported guesses; final blocked-ready-running answer is immediate H4 uptake, not
+        independent representative application. No penalty for requesting foundations or deferred implementation.'
+    review_plan:
+    - review_id: 2026-10-29-s01-r01
+      anchor_evidence_ids:
+      - 2026-10-29-s01-e02
+      anchor_date: '2026-10-29'
+      target_axes:
+      - concept
+      task_type: delayed_retrieval
+      target_date: '2026-10-31'
+      scheduled_date: '2026-10-31'
+      scheduling_reason: D2 after H4 foundation teaching and narrow immediate uptake; Saturday matches availability.
+        Fresh trace before explanation, coordinated with existing process reviews. Not a claim of independent success
+        today.
+      status: planned
+      completed_at: null
+      result_evidence_ids: []
+      schedule_history: []
   os.memory:
     scores:
       concept: null

@@ -367,3 +367,17 @@ Checkpoint: learner/sessions/2026-10-26-s03/checkpoint.md
 - No unfinished code or environment blocker; active_work null. No commit, push or external reminder. Startup/attempt snapshots preserved. Historical evidence unchanged.
 
 Checkpoint: learner/sessions/2026-10-27-s01/checkpoint.md
+
+### 2026-10-29-s01-cp01
+
+- Status **paused**, session 2026-10-29-s01; saved 2026-10-29T07:23:15+07:00. User budget 60 minutes. Closing began 07:21:30 WIB; first captured startup 06:21:21, earlier setup unmeasured. Conservative 07:16 boundary exceeded while reading/interacting; active work time unknown. No reported break or extension. No additional task added at closing.
+- probe-004 / independent-waits-one-core-v1 / a001: initial correct elapsed-time prediction had incomplete causal reasoning; learner explicitly reported guessing and requested foundations. Instructor acknowledged ambiguous switching between jobs/processes/threads, then provided H4 foundation. Final learner answer correctly distinguishes T2 using CPU from T1 remaining blocked, and T1 becoming ready before it is scheduled. Immediate guided uptake, not independent mastery or retention.
+- Evidence 2026-10-29-s01-e01/e02; os.threads concept null -> 1, confidence none -> low, proficiency unseen -> learning. Rationale: specific fragments demonstrated after significant help, per map scale. All other os.threads axes remain null; every other competency unchanged. No score penalty for help request, time or deferred implementation.
+- Assistance: concept H0 initial/H1 clarification/H4 teaching and guided checks. Implementation/debugging/judgment/transfer not observed. Instructor supplied diag-007 timer scaffold and verified sequential baseline exit 0; learner has not run or edited it. No concurrent solution supplied. Baseline reference: labs/diag-007/attempts/a001/baseline.txt.
+- Misconceptions/uncertainty: PID versus thread identity, CPU versus thread reuse, blocked I/O versus CPU work, exclusivity versus run-to-completion. Latest answer corrects CPU reuse and state sequence; independent retention and other distinctions remain unverified. These observations belong to one attempt; no new recurring pattern, MP-001 unchanged.
+- Calibration: remediate and reduce immediate scope from implementation to foundation at learner request; difficulty remains 1. Feedback is missing foundations and earlier guessing, not inferred frustration. Foundation work remains open; no tooling blocker.
+- Active work points to probe-004 and this checkpoint. Next action: fresh short trace with one logical processor, T1 running/T2 ready and no I/O; ask how T2 can run before T1 finishes and how T1's progress is preserved. Teach gaps as needed, then resume diag-007 baseline from README. Do not immediately claim a fresh check is delayed retrieval unless sufficient interval/context warrants it.
+- Next thread concept retrieval October 31 (D2 after teaching), coordinated with existing process reviews. Existing October 31, November 1 and November 7 reviews retained; no completed review falsely recorded. No automation, commit or push.
+- Detailed observations: labs/probe-004/attempts/a001/notes.md, o01-o05; deferred implementation: labs/diag-007/attempts/a001/notes.md.
+
+Checkpoint: learner/sessions/2026-10-29-s01/checkpoint.md

@@ -1,0 +1,28 @@
+{
+  "lab_id": "probe-004",
+  "task_variant": "independent-waits-one-core-v1",
+  "task_type": "concept",
+  "mode": "independent_baseline",
+  "curriculum_version": "1.1.0",
+  "session_id": "2026-10-29-s01",
+  "primary_competency_ids": ["os.threads"],
+  "target_axes": ["concept"],
+  "prerequisites": ["os.processes"],
+  "prerequisite_evidence": ["2026-10-27-s01-e01", "2026-10-27-s01-e02"],
+  "difficulty": 1,
+  "initial_hint": "H0",
+  "suggested_minutes": 5,
+  "prior_exposure": "Process lifecycle evidence available; thread/goroutine knowledge unassessed. General topic announced, no answer or implementation supplied.",
+  "environment": {"type": "conceptual_scenario", "executable_fixture": null, "verification": "No runtime claim; scenario explicitly stipulates independent external waits and negligible CPU/overhead."},
+  "constraints": ["One CPU core available", "Two independent requests, each external service responds one second after request dispatch", "Both requests may be in flight together", "Neglect dispatch/response CPU work and overhead; no shared service bottleneck"],
+  "success_criteria": ["Learner predicts possible elapsed time and explains the role of the single CPU core", "Learner states a causal model rather than just a number; probe uncertainties before assigning a broad concept score"],
+  "verification_plan": [{"axis": "concept", "check_type": "prediction", "observable_evidence": "Actual learner answer about elapsed time and single-core constraint", "assistance_boundary": "H0 prompt before teaching; explicit stronger help ends independent portion", "limitations": "Concept scenario only; does not demonstrate implementation, runtime measurement, OS-thread/goroutine distinctions, or mastery of the full outcome"}],
+  "difficulty_context": {
+    "concept_novelty": "Concurrent waiting versus CPU execution not previously assessed",
+    "integration_scope": "One program and two independent external responses",
+    "failure_complexity": "No hidden fault; one resource constraint",
+    "scaffolding": "Scenario only, no algorithm or code",
+    "constraints": "One CPU core; independent one-second external waits",
+    "tooling_familiarity": "Go/PowerShell available; concurrency syntax knowledge unknown"
+  }
+}
